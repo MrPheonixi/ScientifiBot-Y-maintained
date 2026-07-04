@@ -4,6 +4,7 @@ import bot_package.data as data
 import bot_package.economy as eco
 from difflib import SequenceMatcher
 import aiofiles
+import time
 
 """
 A module containing utility functions for the bot
@@ -212,6 +213,18 @@ async def manage_cooldown(user_id: int, check_only: bool = False) -> bool:
         json.dump(cooldown_list, f, indent=2)
     return False
 
+
+async def get_midnight():
+    """
+    A function that return the time at midnight
+    """
+    # Get current time and convert to midnight timestamp
+    current_time = time.time()
+    current_day = time.localtime(current_time)
+    midnight = time.mktime((current_day.tm_year, current_day.tm_mon, 
+                            current_day.tm_mday, 0, 0, 0, 0, 0, 0))
+    midnight -= 3600
+    return midnight
 
 ##########################
 ## Data management part ##

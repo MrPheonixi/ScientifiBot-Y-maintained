@@ -129,7 +129,7 @@ class Search(commands.Cog):
             coin_embed.add_field(name="Obtenable via", value="> /bingo-kai", inline=False)
             coin_embed.add_field(name="Comment l'utiliser ?", value=f"Faites `/bingo-kai <{query}>`")
            
-            coin_embed.set_thumbnail(url=f"hhttps://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_data['id']}.png")
+            coin_embed.set_thumbnail(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_data['id']}.png")
             await ctx.send(embed=coin_embed)
             return
 

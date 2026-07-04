@@ -90,11 +90,8 @@ class Bingo_kai(commands.Cog):
 
 
             # Get current time and convert to midnight timestamp
+            midnight = await Cf.get_midnight()
             current_time = time.time()
-            current_day = time.localtime(current_time)
-            midnight = time.mktime((current_day.tm_year, current_day.tm_mon, 
-                                    current_day.tm_mday, 0, 0, 0, 0, 0, 0))
-            midnight -= 3600 #correction cause it's fucked up
             
             # Check if we need to reset daily limits
             last_reset = bag.get("last_daily_reset", 0)
@@ -702,7 +699,7 @@ class Bingo_kai(commands.Cog):
             if equipped_treasure:
                 yokai_embed.set_footer(text=f"{equipped_treasure} utilisé !")
             else:
-                message = random.choice(["La V7 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
+                message = random.choice(["La V8 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
                 yokai_embed.set_footer(text=message)
             await ctx.send(embed=yokai_embed)
             await ctx.send(embed=coin_embed)
@@ -713,7 +710,7 @@ class Bingo_kai(commands.Cog):
             if equipped_treasure:
                 yokai_embed.set_footer(text=f"{equipped_treasure} utilisé !")
             else:
-                message = random.choice(["La V7 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
+                message = random.choice(["La V8 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
                 yokai_embed.set_footer(text=message)
                 
                 
