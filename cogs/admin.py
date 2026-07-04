@@ -268,7 +268,6 @@ class Admin_command(commands.Cog):
     @commands.hybrid_command(name="economie_mod")
     @Check.is_in_dev_team()
     async def economie_mod(self, ctx : commands.context, input_id:discord.User,methode:Literal["add","set","reset","del"],amount=0):
-        input_id = input_id.id
         if not methode in ["add","set","reset","del"]:
             return await ctx.send("Merci d'utiliser une méthode valide ! (add, set, reset, del)", ephemeral=True)
         elif ctx.guild.get_member(int(input_id)):

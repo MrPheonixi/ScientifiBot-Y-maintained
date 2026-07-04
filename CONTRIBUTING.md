@@ -3,7 +3,7 @@ Merci de votre intérêt ! Voici comment contribuer :
 
 1. **Forkez** le dépôt.
 2. **Modifiez** votre fork à votre guise.
-3. Rendez-vous dans l'onglet **"Pull Requests"** du repo : https://github.com/Hubblle/yokai-bot/pulls.
+3. Rendez-vous dans l'onglet **"Pull Requests"** du repo : https://github.com/MrPheonixi/ScientifiBot-Y-maintained/pulls.
 4. Cliquez sur **"New pull request"** puis sur **"Compare across forks"** et choisissez la branch **dev**.
 <img width="1537" height="202" alt="image" src="https://github.com/user-attachments/assets/53660fcf-92e9-4042-9029-085f75d30396" />
 
