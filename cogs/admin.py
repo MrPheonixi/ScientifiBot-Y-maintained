@@ -158,23 +158,25 @@ class Admin_command(commands.Cog):
         Efface les récompenses quotidiennes pour tous les utilisateurs.
         """
         if target == "me":
-            if ctx.Author.id in data.daily_people["people"]:
-                index = data.daily_people.index(ctx.author.id)
+            if ctx.author.id in data.daily_people["people"]:
+                index = data.daily_people["people"].index(ctx.author.id)
                 del data.daily_people["people"][index]
                 return await ctx.send("tu a bien été oubliez de la liste")
             else:
                 return await ctx.send("Vous n'êtes pas dans la liste")
-        elif target == all:
-            data.daily_people["people"].clear
+        elif target == "all":
+            data.daily_people["people"].clear()
             return await ctx.send(" tout les personnes qui on effectuer le daily on été oublié")
         else:
             try:
-                int(target)
+                target_id = int(target)
             except:
                 return await ctx.send(f"Merci de fournir un identifiant corect !\n(me, all ou un id)")
-            index = data.daily_people.index(target)
+            if target_id not in data.daily_people["people"]:
+                return await ctx.send(f"L'id {target_id} n'est pas dans la liste")
+            index = data.daily_people["people"].index(target_id)
             del data.daily_people["people"][index]
-            return await ctx.send(f"l'id {target} a bien été oubliez de la liste")
+            return await ctx.send(f"l'id {target_id} a bien été oubliez de la liste")
             
     @commands.hybrid_command(name="statistique")
     @Check.is_in_dev_team()
