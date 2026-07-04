@@ -436,6 +436,61 @@ class Bingo_kai(commands.Cog):
                     item_embed.set_footer(text=f"{coin} utilisée !")
                     return await ctx.send(embed=item_embed)
             
+            elif item_type == "coin":
+                coin_id = data.coin_data[coin]["id"]
+                coin_color = data.coin_data[coin]["color"]
+
+                #make the embed
+                coin_embed = discord.Embed(
+                   title=f"Oh, vous avez eu une {item}",
+                    description=f"Félicitations, vous pouvez l'utiliser avec `/bingo-kai {item}`.\n-# A savoir: le /bkai avec des pièces n'a pas de cooldown, juste une limite journalière (=>vous pouvez le spam tant que vous avez des pièces)",
+                    color=discord.Color.from_str(coin_color)
+                )
+            
+                #add the image
+                coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_id}.png")
+
+                verification = True
+            
+                #check if the bag is empty
+                if bag == {} :
+                    bag = {
+                        "coin" : 1,
+                        "obj" : 0,
+                        "treasure" : 0,
+                        item : ["coin"]
+                    }
+                    verification = False
+            
+                if verification == True:
+                    #get all the coins
+                    for elements in bag.keys():
+                        if elements == item:
+                            #stack the coin
+                            try:
+                            #stack the Yo-kai
+                                bag[item][1] += 1
+                            except IndexError:
+                                bag[item].append(2)
+                            verification = False
+
+                            #Generate the rest of the embed
+                            coin_embed.add_field(
+                                name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
+                                value="Faites `/bag` pour voir votre sacoche."
+                            )
+
+                    if verification == True:  
+                        bag[item] = ["coin"]
+                        bag["coin"] += 1
+                        coin_embed.add_field(
+                            name="Vous ne l'avez jamais eu !",
+                            value="Elle a été ajoutée à votre sacoche. Faites `/bag` pour la voir."
+                        )
+
+                    coin_embed.set_footer(text=f"{coin} utilisée !")
+                    await Cf.save_bag(bag,ctx.author.id)
+                    return await ctx.send(embed=coin_embed)
 
 
 
