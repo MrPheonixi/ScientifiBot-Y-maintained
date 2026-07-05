@@ -491,7 +491,7 @@ class Bingo_kai(commands.Cog):
         await ctx.send(embed=yokai_embed)
 
         #Choose if they get a coin or not:
-        if random.choices([True, False], weights=[10.1, 0.9])[0] :
+        if random.choices([True, False], weights=[0.1, 0.9])[0] :
             #choose the coin and coin related stuff
             coin = random.choices(data.coin_list, weights=data.coin_proba)[0]
             coin_id = data.coin_data[coin]["id"]
