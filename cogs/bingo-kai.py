@@ -225,7 +225,7 @@ class Bingo_kai(commands.Cog):
 
 
                 
-                if await Cf.hasThing(ctx.author.id, item, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "medallium"):
+                if await Cf.hasThing(ctx.author.id, item, "medallium"):
                     await Cf.add(ctx.author.id, item, class_id, "medallium", rank_orbe = True)
                     inv = await Cf.get_inv(ctx.user.id)
                     yokai_embed.add_field(
@@ -268,7 +268,7 @@ class Bingo_kai(commands.Cog):
                 id = data.item[item]["id"]
                 item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
                 
-                if await Cf.hasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
+                if await Cf.hasThing(ctx.author.id, item, "bag"):
                             
                     item_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
@@ -302,7 +302,7 @@ class Bingo_kai(commands.Cog):
                 id = data.item[item]["id"]
                 item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
 
-                if await Cf.hasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
+                if await Cf.hasThing(ctx.author.id, item, "bag"):
                     item_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
                         value="Faites `/bag` pour voir votre sacoche."
@@ -335,7 +335,7 @@ class Bingo_kai(commands.Cog):
             
                 #add the image
                 coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_id}.png")
-                if await Cf.hasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
+                if await Cf.hasThing(ctx.author.id, item, "bag"):
                     coin_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
                         value="Faites `/bag` pour voir votre sacoche."
@@ -459,7 +459,7 @@ class Bingo_kai(commands.Cog):
             brute_inventory["last_claim"] = time.time()
         await Cf.save_inv(brute_inventory, ctx.author.id)
 
-        if await Cf.hasThing(ctx.author.id, Yokai_choice, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, Yokai_choice, "medallium"):
+        if await Cf.hasThing(ctx.author.id, Yokai_choice, "medallium"):
             await Cf.add(ctx.author.id, Yokai_choice, class_id, "medallium", rank_orbe = True)
 
             brute_inventory = await Cf.get_inv(ctx.user.id)
@@ -522,7 +522,7 @@ class Bingo_kai(commands.Cog):
             
             #get the bag
             bag = await Cf.get_bag(ctx.author.id)
-            if await Cf.hasThing(ctx.author.id, coin, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, coin, "bag"):
+            if await Cf.hasThing(ctx.author.id, coin, "bag"):
                 coin_embed.add_field(
                     name=f"Vous l'avez déjà eu. Vous en avez donc {bag[coin][1]}",
                     value="Faites `/bag` pour voir votre sacoche."
@@ -680,7 +680,7 @@ class Bingo_kai(commands.Cog):
                 )
 
 
-        if await Cf.hasThing(ctx.author.id, Yokai_choice, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, Yokai_choice, "medallium"):
+        if await Cf.hasThing(ctx.author.id, Yokai_choice, "medallium"):
             await Cf.add(ctx.author.id, Yokai_choice, class_id, "medallium", rank_orbe = True)
             
             brute_inventory = await Cf.get_inv(ctx.author.id)
