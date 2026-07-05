@@ -244,6 +244,8 @@ async def generateRandomYokai(ctx, proba: list = data.proba_list.copy(), treasur
         #Check if they have a treasure equiped
         bag = await get_bag(ctx.author.id)
         equipped_treasure = bag.get("equipped_treasure", None)
+    else:
+        equipped_treasure = None
 
 
     #add weight to class depending of the equiped treasure
@@ -322,7 +324,7 @@ async def HasMoreThanOneThing(input_id : int, thing:str, where: str):
     try:
         inv[thing][1]
         return True
-    except KeyError:
+    except (KeyError, IndexError):
         return False
 
 

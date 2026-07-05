@@ -224,8 +224,10 @@ class Bingo_kai(commands.Cog):
                     yokai_embed.add_field(name="Image non disponible ! 😢", inline=False, value="En effet, nous ne possédons pas l'image de tous les Yo-kai, mais l'équipe travaille pour les apporter au complet et au plus vite.")
 
 
-                inv = await Cf.get_inv(ctx.user.id)
-                if await Cf.HasThing(ctx.author.id, item, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "medallium"):
+                
+                if await Cf.hasThing(ctx.author.id, item, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "medallium"):
+                    await Cf.add(ctx.author.id, item, class_id, "medallium", rank_orbe = True)
+                    inv = await Cf.get_inv(ctx.user.id)
                     yokai_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {inv[item][1]}",
                         value="Faites `/medallium` pour voir votre Médallium."
@@ -234,7 +236,6 @@ class Bingo_kai(commands.Cog):
                         name="vous l'avez déjà eu, dommage.",
                         value=f"voici {data.class_to_point[class_id]} orbes oni en cadeau."
                     )
-                    await Cf.add(ctx.author.id, item, class_id, "medallium", rank_orbe = True)                           
                     
 
                 else:
@@ -253,6 +254,7 @@ class Bingo_kai(commands.Cog):
             #Obj part
             elif item_type == "obj":
                 #add the item to the bag
+                await Cf.add(ctx.author.id, item, "obj", "bag")
                 bag = await Cf.get_bag(ctx.author.id)
                 item_desc = data.item[item]["desc"]
 
@@ -266,7 +268,7 @@ class Bingo_kai(commands.Cog):
                 id = data.item[item]["id"]
                 item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
                 
-                if await Cf.HasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
+                if await Cf.hasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                             
                     item_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
@@ -278,7 +280,6 @@ class Bingo_kai(commands.Cog):
                         value="Faites `/bag` pour voir votre sacoche."
                     )
                 
-                await Cf.add(ctx.author.id, item, "obj", "bag")
                 item_embed.add_field(name="Mhh, voici quelques informations 📜", inline=False, value=f"> {item_desc}")
                 item_embed.set_footer(text=f"{coin} utilisée !")
                 await Cf.save_bag(bag, ctx.author.id)
@@ -287,6 +288,9 @@ class Bingo_kai(commands.Cog):
 
 
             elif item_type == "treasure":
+                await Cf.add(ctx.author.id, item, "treasure", "bag")
+                item_desc = data.item[item]["desc"]
+
                 bag = await Cf.get_bag(ctx.author.id)
                 item_embed = discord.Embed(
                     title="Vous avez eu un trésor 🎉 ! ",
@@ -298,7 +302,7 @@ class Bingo_kai(commands.Cog):
                 id = data.item[item]["id"]
                 item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
 
-                if await Cf.HasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
+                if await Cf.hasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                     item_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
                         value="Faites `/bag` pour voir votre sacoche."
@@ -311,12 +315,14 @@ class Bingo_kai(commands.Cog):
                     
                 item_embed.add_field(name="Mhh, voici quelques informations 📜", inline=False, value=f"> {item_desc}\nFaites `/equip {item}` pour l'équiper, par la suite, faites /bkai pour qu'il s'applique.\n-# '/help equip' pour plus d'info.")
                 item_embed.set_footer(text=f"{coin} utilisée !")
-                await Cf.add(ctx.author.id, item, "treasure", "bag")
                 return await ctx.send(embed=item_embed)
             
 
 
             elif item_type == "coin":
+                await Cf.add(ctx.author.id, item, "coin", "bag")
+
+                bag = await Cf.get_bag(ctx.author.id)
                 coin_id = data.coin_data[coin]["id"]
                 coin_color = data.coin_data[coin]["color"]
 
@@ -329,7 +335,7 @@ class Bingo_kai(commands.Cog):
             
                 #add the image
                 coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_id}.png")
-                if await Cf.HasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
+                if await Cf.hasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                     coin_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
                         value="Faites `/bag` pour voir votre sacoche."
@@ -341,8 +347,7 @@ class Bingo_kai(commands.Cog):
                     )
 
                 coin_embed.set_footer(text=f"{coin} utilisée !")
-                await Cf.save_bag(bag,ctx.author.id)
-                await Cf.add(ctx.author.id, item, "coin", "bag")
+                
                 return await ctx.send(embed=coin_embed)
 
 
@@ -452,18 +457,17 @@ class Bingo_kai(commands.Cog):
         else:
             #Set last claim
             brute_inventory["last_claim"] = time.time()
-        await Cf.save_inv(ctx.author.id, brute_inventory)
+        await Cf.save_inv(brute_inventory, ctx.author.id)
 
-        if await Cf.HasThing(ctx.author.id, Yokai_choice, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, Yokai_choice, "medallium"):
+        if await Cf.hasThing(ctx.author.id, Yokai_choice, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, Yokai_choice, "medallium"):
+            await Cf.add(ctx.author.id, Yokai_choice, class_id, "medallium", rank_orbe = True)
+
+            brute_inventory = await Cf.get_inv(ctx.user.id)
             #Generate the embed
             yokai_embed.add_field(
                 name=f"Vous l'avez déjà eu. Vous en avez donc {brute_inventory[Yokai_choice][1]}",
                 value="Faites `/medallium` pour voir votre Médallium."
             )
-                    
-                    
-            await Cf.add(ctx.author.id, Yokai_choice, class_id, "medallium", rank_orbe = True)
-
             yokai_embed.add_field(
                 name="vous l'avez déjà eu, dommage.",
                 value=f"voici {data.class_to_point[class_id]} orbes oni en cadeau."
@@ -477,10 +481,17 @@ class Bingo_kai(commands.Cog):
                 value="Il a été ajouté à votre Médallium. Faites `/medallium` pour le voir."
             )
 
+        if equipped_treasure:
+            yokai_embed.set_footer(text=f"{equipped_treasure} utilisé !")
+        else:
+            message = random.choice(["La V8 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
+            yokai_embed.set_footer(text=message)
+                
         
+        await ctx.send(embed=yokai_embed)
 
         #Choose if they get a coin or not:
-        if random.choices([True, False], weights=[0.1, 0.9])[0] :
+        if random.choices([True, False], weights=[10.1, 0.9])[0] :
             #choose the coin and coin related stuff
             coin = random.choices(data.coin_list, weights=data.coin_proba)[0]
             coin_id = data.coin_data[coin]["id"]
@@ -505,13 +516,15 @@ class Bingo_kai(commands.Cog):
             
             #add the image
             coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_id}.png")
-            
+
+
+            await Cf.add(ctx.author.id, coin, "coin", "bag")
             
             #get the bag
             bag = await Cf.get_bag(ctx.author.id)
-            if await Cf.HasThing(ctx.author.id, item, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
+            if await Cf.hasThing(ctx.author.id, coin, "bag") and await Cf.HasMoreThanOneThing(ctx.author.id, coin, "bag"):
                 coin_embed.add_field(
-                    name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
+                    name=f"Vous l'avez déjà eu. Vous en avez donc {bag[coin][1]}",
                     value="Faites `/bag` pour voir votre sacoche."
                 )
             else:
@@ -519,20 +532,10 @@ class Bingo_kai(commands.Cog):
                     name="Vous ne l'avez jamais eu !",
                     value="Elle a été ajoutée à votre sacoche. Faites `/bag` pour la voir."
                 )
-            
-        await Cf.save_bag(bag, ctx.author.id)
+            await ctx.send(embed=coin_embed)
             
 
-        if equipped_treasure:
-            yokai_embed.set_footer(text=f"{equipped_treasure} utilisé !")
-        else:
-            message = random.choice(["La V8 est là !", "Tips: tu peux maintenant trade des objets et trésors, fait `/help Trade`", "/bkai-gagnant, mais où peut-on bien obtenir cette pièce 👀"])
-            yokai_embed.set_footer(text=message)
-                
-        
-        await ctx.send(embed=yokai_embed)
-        if coin_embed:
-            await ctx.send(embed=coin_embed)
+        await Cf.save_bag(bag, ctx.author.id)
 
 
 
@@ -677,7 +680,11 @@ class Bingo_kai(commands.Cog):
                 )
 
 
-        if await Cf.HasThing(ctx.author.id, Yokai_choice, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, Yokai_choice, "medallium"):
+        if await Cf.hasThing(ctx.author.id, Yokai_choice, "medallium") and await Cf.HasMoreThanOneThing(ctx.author.id, Yokai_choice, "medallium"):
+            await Cf.add(ctx.author.id, Yokai_choice, class_id, "medallium", rank_orbe = True)
+            
+            brute_inventory = await Cf.get_inv(ctx.author.id)
+
             #Generate the embed
             yokai_embed.add_field(
                 name=f"Vous l'avez déjà eu. Vous en avez donc {brute_inventory[Yokai_choice][1]}",
@@ -685,7 +692,7 @@ class Bingo_kai(commands.Cog):
             )
                     
                     
-            await Cf.add(ctx.author.id, Yokai_choice, class_id, "medallium", rank_orbe = True)
+           
 
             yokai_embed.add_field(
                 name="vous l'avez déjà eu, dommage.",
