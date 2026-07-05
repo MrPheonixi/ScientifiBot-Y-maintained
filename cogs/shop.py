@@ -138,7 +138,7 @@ class shop(commands.Cog):
                 class_name = await Cf.classid_to_class(bag["daily_shop_data"][6])
                 embed.add_field(name=f"Item du jour:\n{item}, yo-kai de rang {class_name}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
             else:
-                embed.add_field(name=f"Iem du jour\n{item}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
+                embed.add_field(name=f"Item du jour\n{item}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
             embed.set_footer(text=f"Page {page}/{len(actual_shop.keys())}")
 
         for item in actual_shop[f"page {page}"]:
