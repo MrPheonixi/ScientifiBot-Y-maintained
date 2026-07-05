@@ -2,9 +2,11 @@ import os
 import json
 import bot_package.data as data
 import bot_package.economy as eco
+import bot_package.treasure_tool as tt
 from difflib import SequenceMatcher
 import aiofiles
 import time
+import random
 
 """
 A module containing utility functions for the bot
@@ -225,6 +227,104 @@ async def get_midnight():
                             current_day.tm_mday, 0, 0, 0, 0, 0, 0))
     midnight -= 3600
     return midnight
+
+
+async def generateRandomYokai(ctx, proba: list = data.proba_list.copy(), treasure: bool = False):
+    """
+    A function to generate a random yo-kai
+    proba: The probabilities for the yo-kai (in order) -> If not specified, uses the default bingo kai proba
+    treasure : If treasure should count for the probabilities
+    return (in this order): The yo-kai, the class name and the class id
+    """
+    
+    classlist = data.class_list
+
+    if treasure == True:
+        await tt.check_t(ctx.author)
+        #Check if they have a treasure equiped
+        bag = await get_bag(ctx.author.id)
+        equipped_treasure = bag.get("equipped_treasure", None)
+
+
+    #add weight to class depending of the equiped treasure
+    if not equipped_treasure == None:
+        if equipped_treasure in ["Trésor du feu", "Trésor de l'amour", "Trésor du ciel", "Trésor de la forêt", "Trésor légendaire"]:
+            pourcent = data.item[equipped_treasure].get("value1", 0)
+            class_boost = data.item[equipped_treasure].get("value2")
+            print(class_boost)
+            proba[classlist.index(class_boost)] += pourcent
+            proba[0] -= pourcent
+
+    #choose the class of the yokai
+    if equipped_treasure == "Trésor du poison":
+        class_choice = data.yokai_data.get("E") 
+    else:
+        class_choice = data.yokai_data[random.choices(data.class_list, weights=proba, k=1)[0]]
+        while class_choice["class_name"] in data.blacklist["rang"]:
+            class_choice = data.yokai_data[random.choices(data.class_list, weights=proba, k=1)[0]]
+
+    #get the good name of the class and his id
+    class_name = class_choice.get("class_name")
+    class_id = class_choice.get("class_id")
+    #choose the Yo-kai in the class
+    Yokai_choice = random.choice(class_choice["yokai_list"])
+        
+    while Yokai_choice in data.blacklist.get("yokai") :
+        Yokai_choice = random.choice(class_choice["yokai_list"])
+    Yokai_choice = Yokai_choice
+
+    return Yokai_choice, class_name, class_id
+
+
+async def hasThing(input_id : int, thing:str, where: str):
+    """
+    A function that return True is the item is in the medallium/bag of the id
+    Args:
+        input id: the id you want to check
+        thing: The yo-kai,object,coin,treasure you want to check
+        where: where the thing should be
+    """
+
+    #get the inv or the bag:
+    if where == "bag":
+        inv = await get_bag(input_id)
+        
+    elif where == "medallium":
+        inv = await get_inv(input_id)
+
+    if inv == {}:
+        return False
+
+    try:
+        inv[thing]
+        return True
+    except KeyError:
+        return False
+    
+
+async def HasMoreThanOneThing(input_id : int, thing:str, where: str):
+    """
+    A function that return true if the id has more than one of the thing in his inventory
+    Args:
+        input id: the id you want to check
+        thing: The yo-kai,object,coin,treasure you want to check
+        where: where the thing should be
+    """
+    if where == "bag":
+        inv = await get_bag(input_id)
+        
+    elif where == "medallium":
+        inv = await get_inv(input_id)
+
+    if inv == {}:
+        return False
+
+    try:
+        inv[thing][1]
+        return True
+    except KeyError:
+        return False
+
 
 ##########################
 ## Data management part ##
