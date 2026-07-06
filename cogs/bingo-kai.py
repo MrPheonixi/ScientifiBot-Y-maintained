@@ -268,7 +268,7 @@ class Bingo_kai(commands.Cog):
                 id = data.item[item]["id"]
                 item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
                 
-                if await Cf.hasThing(ctx.author.id, item, "bag"):
+                if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                             
                     item_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
@@ -302,7 +302,7 @@ class Bingo_kai(commands.Cog):
                 id = data.item[item]["id"]
                 item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
 
-                if await Cf.hasThing(ctx.author.id, item, "bag"):
+                if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                     item_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
                         value="Faites `/bag` pour voir votre sacoche."
@@ -335,7 +335,7 @@ class Bingo_kai(commands.Cog):
             
                 #add the image
                 coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_id}.png")
-                if await Cf.hasThing(ctx.author.id, item, "bag"):
+                if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                     coin_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
                         value="Faites `/bag` pour voir votre sacoche."
@@ -522,7 +522,7 @@ class Bingo_kai(commands.Cog):
             
             #get the bag
             bag = await Cf.get_bag(ctx.author.id)
-            if await Cf.hasThing(ctx.author.id, coin, "bag"):
+            if await Cf.HasMoreThanOneThing(ctx.author.id, coin, "bag"):
                 coin_embed.add_field(
                     name=f"Vous l'avez déjà eu. Vous en avez donc {bag[coin][1]}",
                     value="Faites `/bag` pour voir votre sacoche."
