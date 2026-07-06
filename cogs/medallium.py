@@ -357,7 +357,7 @@ class Medallium(commands.Cog) :
         #sort the content by categorie
         for elements in brute_bag:
             #Don't take any numbers
-            if not elements in ["coin", "obj", "treasure", "equipped_treasure", "last_daily_reset", "amount"]:
+            if not elements in ["coin", "obj", "treasure", "equipped_treasure", "last_daily_reset", "amount", "daily_shop_data"]:
                 categorie = brute_bag[elements]
 
                 #Check if it's stack
