@@ -1,0 +1,16 @@
+{
+    "Jibanyan,Malmidal":{
+        "Jibanyan" : ["yokai","D"],
+        "Malmidal" : ["yokai","E"],
+        "Result" : {
+            "Épynian" : ["yokai","B"]
+        }
+    },
+    "Jibanyan,Loubarbar":{
+        "Jibanyan" : ["yokai","D"],
+        "Loubarbar" : ["yokai","E"],
+        "Result" : {
+            "Banditnyan" : ["yokai","B"]
+        }
+    }
+}

@@ -1,0 +1,152 @@
+{
+    "Halloween": {
+        "class_name": "Halloween",
+        "class_id": "Halloween",
+        "color": "#2aff00",
+        "yokai_list": [
+            "Jibanyan halloween",
+            "Kuroi Corniot",
+            "Kuroi Kyubi",
+            "Kuroi Octorgone",
+            "Octorgone Effrayant (Horror Orochi)",
+            "Shogunyan Halloween (Goku Bushinyan)"
+        ]
+    },
+    "Noël":{
+        "class_name": "Noël",
+        "class_id": "Noël",
+        "color": "#2aff00",
+        "yokai_list":[
+
+            "Alpinella hivernale",
+            "Blizzaria de Noël",
+            "Christmas tree",
+            "Jibanyan cadeau",
+            "Jibanyan de Noël",
+            "Komajiro de Noël",
+            "Komami de Noël",
+            "Komasan de Noël",
+            "Komastar de Noël",
+            "Kyodai Santa",
+            "N J W Noël",
+            "Robonyan de Noël",
+            "Scientifibot Y Noël",
+            "Shogunyan Hivernal"
+        ]
+    },
+    "St-Valentin":{
+        "class_name": "St-Valentin",
+        "class_id": "St-Valentin",
+        "color": "#2aff00",
+        "yokai_list":[
+            "Abyssinyan St-Valentin",
+            "Angélik St-Valentin",
+            "Baku St-Valentin",
+            "Blizzaria St-Valentin", 
+            "Camélia St-Valentin",
+            "Chocolina",
+            "Choubidou St-Valentin",
+            "Cupistol St-Valentin",
+            "Dr Néant St-Valentin",
+            "Entout' Hâtila St-Valentin",
+            "Faustille St-Valentin",
+            "Frérosse St-Valentin",
+            "Insomnelle St-Valentin",
+            "Jibanyan St-Valentin",
+            "Kay Mandeuse St-Valentin",
+            "Komajiro St-Valentin",
+            "Komami St-Valentin",
+            "Komaous St-Valentin",
+            "Komasan St-Valentin",
+            "Komashura St-Valentin",
+            "Komistigri St-Valentin",
+            "Nimpégase St-Valentin",
+            "Papilla St-Valentin",
+            "Parantonn St-Valentin",
+            "Pitou St-Valentin",
+            "Robonyan St-Valentin",
+            "Rugis St-Valentin",
+            "Sailornyan St-Valentin",
+            "Taupe Modèle St-Valentin",
+            "Whisper Cupidon"
+        ]
+    },
+    "Printemps":{
+        "class_name": "Printemps",
+        "class_id": "Printemps",
+        "color": "#2aff00",
+        "yokai_list": [
+            "Angélik (Parapluie)",
+            "Barakabo Printanier",
+            "Blizzaria Printanière",
+            "Dracounet (Saison des pluies)",
+            "Dragô Printanier",
+            "Gorgouille Printanier",
+            "Insomnelle Printanière",
+            "Jibanyan (Parapluie)",
+            "Komajiro (Parapluie)",
+            "Komajiro Printanier",
+            "Komasan (Parapluie)",
+            "Komasan Printanier",
+            "Kyubi (Saison des pluies)",
+            "Octorgone Printanier",
+            "Sailornyan Printanière",
+            "Sakuranyan",
+            "Shogunyan Printanier",
+            "Sirènité Printanière",
+            "Wibblekoma Printanier",
+            "Wobblenyan Printanier"
+        ]
+    },
+    "Pâques": {
+        "class_name": "Pâques",
+        "class_id": "Pâques",
+        "color": "#2aff00",
+        "yokai_list": [
+            "Feulion de Pâques",
+            "Jibanyan de Pâques",
+            "Komasan de Pâques",
+            "Kœud de Pâques",
+            "Mata Hase de Pâques",
+            "Pitou de Pâques",
+            "Usapyon de Pâques",
+            "Œuxcellence de Pâques"
+        ]
+    },
+    "Estival": {
+        "class_name": "Estival",
+        "class_id": "Estival",
+        "color": "#2aff00",
+        "yokai_list": [
+            "Alpinella Estivale",
+            "Blanche Hase Estivale",
+            "Blizzaria (Shadowside) Estivale",
+            "Blizzaria Estivale",
+            "Blizzaria Hula",
+            "Blizzaria Tournesol",
+            "Camaïeul réincarné Estival",
+            "Deadcool Estival",
+            "Dracounet Estival",
+            "Insomnelle Estivale",
+            "Jibanyan (Surf)",
+            "Jibanyan (Voyage)",
+            "Jibanyan Estival",
+            "Komak Estival",
+            "Komasan (Voyage)",
+            "Nyansès II Estival",
+            "Raton glandeur Estival",
+            "Sailornyan Estivale",
+            "Shogunyan réincarné Estival",
+            "Shutendoji Estival"
+        ]
+    },
+    "Autre": {
+        "class_name": "Autre",
+        "class_id": "Autre",
+        "color": "#2aff00",
+        "yokai_list": [
+            "Poisson pané",
+            "Seigneur des patates"
+    ]
+}
+}

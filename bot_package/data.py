@@ -156,6 +156,23 @@ daily_people= open_json("./files/daily.json")
 
 daily_shop = open_json("./files/daily_shop.json")
 
+fusion = open_json("./files/fusion.json")
+
+yokai_event_list = open_json("./files/yokai_event.json")
+
+with open("./files/yokai_event.json") as yokai_event_list:
+    yokai_event_data = fix_encoding(json.load(yokai_event_list))
+    event_list_len = {
+        "Halloween" : len(yokai_event_data["Halloween"]["yokai_list"]),
+        "Noël" : len(yokai_event_data["Noël"]["yokai_list"]),
+        "St-Valentin" : len(yokai_event_data["St-Valentin"]["yokai_list"]),
+        "Printemps" : len(yokai_event_data["Printemps"]["yokai_list"]),
+        "Pâques" : len(yokai_event_data["Pâques"]["yokai_list"]),
+        "Estival" : len(yokai_event_data["Estival"]["yokai_list"]),
+        "Autre" : len(yokai_event_data["Autre"]["yokai_list"])
+    }
+
+yokai_event_list = open_json("./files/yokai_event_list.json")
 
 default_medallium  = {
                         "last_claim" : 10000,
@@ -175,7 +192,14 @@ default_medallium  = {
                         "SpecialS" : 0,
                         "DivinityS" : 0,
                         "Boss" : 0,
-                        "Shiny" : 0
+                        "Shiny" : 0,
+                        "Halloween" : 0,
+                        "Noël" : 0,
+                        "St-Valentin" : 0,
+                        "Printemps" : 0,
+                        "Pâques" : 0,
+                        "Estival" : 0,
+                        "Autre" : 0
                     }
 
 default_bag = {

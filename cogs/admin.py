@@ -686,7 +686,45 @@ class Admin_command(commands.Cog):
             await ctx.send(embed=sucess_embed)
         except Exception as e:
             await ctx.send(f"Erreur: {e}", ephemeral=True)
-                
+
+    @commands.hybrid_command(name="recalc_event_yokai")
+    @Check.is_in_dev_team()
+    async def recalc_event_yokai(self, ctx:commands.Context):
+        """
+        A command that will change the class of all the event yo-kai
+        """
+        files = []
+        for file in os.listdir("./files/inventory"):
+            if file != ".gitignore":
+                file = file.removesuffix(".json")
+                int(file)
+                files.append(file)
+        for id in files:
+            inventory = await Cf.get_inv(id)
+            try:
+                inventory["Halloween"]
+            except KeyError:
+                inventory["Halloween"] = 0
+                inventory["Noël"] = 0
+                inventory["St-Valentin"] = 0
+                inventory["Printemps"] = 0
+                inventory["Pâques"] = 0
+                inventory["Estival"] = 0
+                inventory["Autre"] = 0
+            for yokai in inventory:
+                if not type(inventory[yokai]) == int and not type(inventory[yokai]) == float and inventory[yokai][0] == "SpecialS":
+                    if yokai in data.yokai_event_list:
+                        class_id = data.yokai_event_list[yokai]
+                        inventory[yokai][0] = class_id
+                    
+                        inventory["SpecialS"] -= 1
+                        inventory[class_id] += 1
+            await Cf.save_inv(inventory, id)
+        embed=discord.Embed(
+            title = "Tâche terminé",
+            description= ""
+        )
+        return await ctx.send(embed=embed)
 
 async def setup(bot : commands.Bot ) -> None:
     await bot.add_cog(Admin_command(bot))
