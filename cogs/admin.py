@@ -13,7 +13,7 @@ import time
 
 
 async def class_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
-    choices = ["Shiny", "Boss", "Divinité / Enma", "Légendaire", "Spécial", "S", "A", "B", "C", "D", "E", "objet", "pièce", "json-mod", "claim"]
+    choices = ["Shiny", "Boss", "Divinité / Enma", "Légendaire", "Spécial", "S", "A", "B", "C", "D", "E", "objet", "pièce", "json-mod", "claim", "Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival", "Autre"]
     list = [
         app_commands.Choice(name=choices, value=choices)
         for choices in choices if current.lower() in choices.lower()
