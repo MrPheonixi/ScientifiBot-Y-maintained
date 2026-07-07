@@ -604,7 +604,7 @@ class Medallium(commands.Cog) :
             def __init__(self):
                 options = [
                     discord.SelectOption(label="Tout !", description="Affiche tout le Médallium si possible.", emoji="🌐"),
-                    discord.SelectOption(label="Halloween", emoji=emoji["Haloween"]),
+                    discord.SelectOption(label="Halloween", emoji=emoji["Halloween"]),
                     discord.SelectOption(label="Noël", emoji=emoji["Noël"]),
                     discord.SelectOption(label="St-Valentin", emoji=emoji["St-Valentin"]),
                     discord.SelectOption(label="Printemps", emoji=emoji["Printemps"]),
