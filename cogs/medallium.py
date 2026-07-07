@@ -107,6 +107,7 @@ class Medallium(commands.Cog) :
                     discord.SelectOption(label="Spécial", emoji=emoji["SpecialS"]),
                     discord.SelectOption(label="Divinité / Enma", emoji=emoji["DivinityS"]),
                     discord.SelectOption(label="Boss", emoji=emoji["Boss"]),
+                    discord.SelectOption(label="Shiny", emojie="✨")
                 ]
 
                 super().__init__(placeholder='Choisissez le rang que vous voulez...', min_values=1, max_values=1, options=options)
