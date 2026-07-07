@@ -83,7 +83,10 @@ async def classid_to_class(id:str, reverse : bool = False)->str:
         try:
             return data.yokai_data[id]["class_name"]
         except KeyError:
-            return asset_for_class_id_to_class[id]
+            try:
+                return data.yokay_event_data[id]["class_name"]
+            except KeyError:
+                return asset_for_class_id_to_class[id]
         
     else :
         for classes in data.yokai_data :
@@ -93,6 +96,9 @@ async def classid_to_class(id:str, reverse : bool = False)->str:
         for item in asset_for_class_id_to_class :
             if asset_for_class_id_to_class[item] == id :
                 return item
+        for classes in data.yokai_event_data :
+            if data.yokai_event_data[classes]["class_name"] == id:
+                return classes
     #return nothing if the id or the name was not fund    
     return ""
 
