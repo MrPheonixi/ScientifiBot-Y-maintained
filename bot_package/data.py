@@ -174,6 +174,11 @@ with open("./files/yokai_event.json") as yokai_event_list:
 
 yokai_event_list = open_json("./files/yokai_event_list.json")
 
+current_event = open_json("./files/current_event.json")["current_event"]
+
+if current_event != None:
+    list_len["SpecialS"] -= len(yokai_event_data[current_event]["yokai_list"])
+
 default_medallium  = {
                         "last_claim" : 10000,
                         "streak": [

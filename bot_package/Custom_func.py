@@ -281,6 +281,10 @@ async def generateRandomYokai(ctx, proba: list = data.proba_list.copy(), treasur
         Yokai_choice = random.choice(class_choice["yokai_list"])
     Yokai_choice = Yokai_choice
 
+    if Yokai_choice in data.yokai_event_list:
+        class_id = data.yokai_event_list[Yokai_choice]
+        class_name = data.yokai_event_list[Yokai_choice]
+
     return Yokai_choice, class_name, class_id
 
 

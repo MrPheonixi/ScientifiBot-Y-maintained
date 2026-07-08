@@ -431,12 +431,18 @@ class Bingo_kai(commands.Cog):
                 f"Executed bingo-kai command by {ctx.author} (ID: {ctx.author.id}) in DMs // He had '{Yokai_choice}' / Rank: {class_name}"
             )
 
-
-        yokai_embed = discord.Embed(
-            title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
-            description=f"Félicitations il est de rang **{class_name}**",
-            color=discord.Color.from_str(data.yokai_data[class_id]["color"])
-        )
+        if Yokai_choice in data.event_yokai_list:
+            yokai_embed = discord.Embed(
+                title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
+                description=f"Félicitations il est de rang **{class_name}**",
+                color=discord.Color.from_str(data.yokai_event_data[class_id]["color"])
+            )
+        else:
+            yokai_embed = discord.Embed(
+                title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
+                description=f"Félicitations il est de rang **{class_name}**",
+                color=discord.Color.from_str(data.yokai_data[class_id]["color"])
+            )
         yokai_embed.set_thumbnail(url=data.image_link[class_id])
         
         #define the id and so the api request to the image
