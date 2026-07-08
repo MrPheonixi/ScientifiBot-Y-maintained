@@ -75,29 +75,7 @@ if True: #flemme of removing all this tab
             
             data_daily_shop.insert(0, False)
             bag["daily_shop_data"] = data_daily_shop
-            embed = discord.Embed(
-                title="Votre item du jour dans la boutique:",
-                description="",
-                color=discord.Color.from_str("#674202")
-            )
-
-            description = bag["daily_shop_data"][4]
-            price = bag["daily_shop_data"][3]
-            daily_item = bag["daily_shop_data"][5]
-
-            if bag["daily_shop_data"][2] == "yokai":       #make the embed for the yokai
-                class_id = bag["daily_shop_data"][6]
-                class_name = await Cf.classid_to_class(class_id)
-
-                embed.add_field(name = f"{daily_item}",value = f"Rang: {class_name} \nDescription: {description} \nPrix: {price} orbes")
-                embed.set_thumbnail(url=data.image_link[class_id])
-                id = data.yokai_list_full.get(daily_item, {}).get("id", None)
-                embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
-
-            else:      #make the embed for object or coin
-                embed.add_field(name = f"{daily_item}",value = f"Description: {description} \nPrix: {price} orbes")
-
-
+            
             await Cf.save_bag(bag,ctx.author.id)
 
 class shop(commands.Cog):
