@@ -50,15 +50,15 @@ class economy(commands.Cog):
             succes_embed = discord.Embed(
                 title = "Payement réussie",
                 description = f"Vous venez de donner {amount} à {user.display_name}",
-                color = discord.color.Color.yellow()
+                color = discord.Color.yellow()
             )
-            succes_embed.set_footer(f"Il vous reste {balance-amount} orbes.")
+            succes_embed.set_footer(text=f"Il vous reste {balance-amount} orbes.")
             return await ctx.send(embed=succes_embed)
         else:
             fail_embed = discord.Embed(
                 title = "Payement refusé",
                 description = f"Vous n'avez pas asser d'orbes pour donner {amount} à {user.display_name}\nVous n'en avez que {balance}",
-                color = discord.color.Color.yellow()
+                color = discord.Color.yellow()
             )
             return await ctx.send(embed=fail_embed)
     
