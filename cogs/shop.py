@@ -118,8 +118,11 @@ class shop(commands.Cog):
             page = int(page)
         except ValueError:
             return await ctx.send(embed=discord.Embed(title="Erreur", description="Veuillez entrer un numéro de page valide.", color=discord.Color.red()))
-        if page < 1 or page > len(actual_shop):
-            return await ctx.send(embed=discord.Embed(title="Erreur", description=f"Veuillez entrer un numéro de page valide.", color=discord.Color.red()))
+
+        page_key = f"page {page}"
+        if page < 1 or page_key not in actual_shop:
+            return await ctx.send(embed=discord.Embed(title="Erreur", description="Veuillez entrer un numéro de page valide.", color=discord.Color.red()))
+
         print("Shop command executed")
 
 
@@ -136,9 +139,15 @@ class shop(commands.Cog):
             item = bag["daily_shop_data"][5]
             if item_type == "yokai":
                 class_name = await Cf.classid_to_class(bag["daily_shop_data"][6])
-                embed.add_field(name=f"Item du jour:\n{item}, yo-kai de rang {class_name}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
+                embed.add_field(
+                    name=f"Item du jour:\n{item}, yo-kai de rang {class_name}",
+                    value=f"Prix: {price} orbes\nDescription: {description}",
+                    inline=False
+                )
             else:
-                embed.add_field(name=f"Item du jour\n{item}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
+                embed.add_field(name=f"Item du jour\n{item}", 
+                                value=f"Prix: {price} orbes\nDescription: {description}",
+                                inline=False)
             embed.set_footer(text=f"Page {page}/{len(actual_shop.keys())}")
 
         for item in actual_shop[f"page {page}"]:
@@ -146,7 +155,9 @@ class shop(commands.Cog):
             price = item_data.get("price")
             description = item_data.get("description", "")
             amount = item_data.get("quantity")
-            embed.add_field(name=f"{item} X{amount}", value=f"Prix: {price} orbes\nDescription: {description}", inline=False)
+            embed.add_field(name=f"{item} X{amount}", 
+                            value=f"Prix: {price} orbes\nDescription: {description}", 
+                            inline=False)
             embed.set_footer(text=f"Page {page}/{len(actual_shop.keys())}")
         return await ctx.send(embed=embed)
 
@@ -165,23 +176,23 @@ class shop(commands.Cog):
                 break
         if not item_found:
             return await ctx.send(embed=discord.Embed(title="Erreur", description=f"L'item {item} n'est pas disponible dans le shop.\nMerci de rentrer un item valide.", color=discord.Color.red()))
-        else:
-            user_balance = await eco.get_balance(ctx.author.id)
-            item_info = page[item]
-            price = item_info.get("price", 0)
-            rang = item_info.get("rang", "obj")
-            print(rang)
-            quantity = item_info.get("quantity", 1)
 
-            if user_balance < price:
-                embed_poor = discord.Embed(title="Erreur", description=f"Vous n'avez pas assez d'orbes pour acheter {item}.", color=discord.Color.red())
-                embed_poor.set_footer(text=f"vous avez {user_balance}/{price} orbes") 
-                return await ctx.send(embed=embed_poor)
-            else:
-                await eco.add(ctx.author.id, -price)
-                await Cf.add(ctx.author.id, item, rang, "bag", number=quantity)
-                embed = discord.Embed(title="Achat réussi", description=f"Vous avez acheté {item} pour {price} orbes.", color=discord.Color.green())
-                return await ctx.send(embed=embed)
+        user_balance = await eco.get_balance(ctx.author.id)
+        item_info = page[item]
+        price = item_info.get("price", 0)
+        rang = item_info.get("rang", "obj")
+        print(rang)
+        quantity = item_info.get("quantity", 1)
+
+        if user_balance < price:
+            embed_poor = discord.Embed(title="Erreur", description=f"Vous n'avez pas assez d'orbes pour acheter {item}.", color=discord.Color.red())
+            embed_poor.set_footer(text=f"vous avez {user_balance}/{price} orbes") 
+            return await ctx.send(embed=embed_poor)
+        else:
+            await eco.add(ctx.author.id, -price)
+            await Cf.add(ctx.author.id, item, rang, "bag", number=quantity)
+            embed = discord.Embed(title="Achat réussi", description=f"Vous avez acheté {item} pour {price} orbes.", color=discord.Color.green())
+            return await ctx.send(embed=embed)
             
 
     @commands.hybrid_command(name="daily_shop")

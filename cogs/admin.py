@@ -307,7 +307,21 @@ class Admin_command(commands.Cog):
         `.give <id de l'utilisateur> <Valeur> json-mod <bag/medallium> <valeur de la clée>`
         ⚠️ ** N'utilisez ce mode qui si vous savez ce que vous faites !**
         """
-    
+        if input_id.startswith("m"):
+            input_id = input_id[1:]
+            try:
+                message = await ctx.channel.fetch_message(input_id)
+            except discord.NotFound:
+                return await ctx.send("Message introuvable dans ce salon.", ephemeral=True)
+            except discord.Forbidden:
+                return await ctx.send("Je n'ai pas la permission de lire ce message.", ephemeral=True)
+            except discord.HTTPException:
+                return await ctx.send("Erreur lors de la récupération du message.", ephemeral=True)
+
+            mentions = message.mentions
+            for user in mentions:
+                input_id = ",".join(str(user.id))
+            
         input_id_c = input_id.split(", ")
         del input_id
         input_ids = []
