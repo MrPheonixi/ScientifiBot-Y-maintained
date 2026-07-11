@@ -27,12 +27,14 @@ class economy(commands.Cog):
         if not user == None and not str(user.id) in data.MONEY_DATA.keys():
             return await ctx.send("Cet utilisateur n'a pas encore gagné d'orbes oni.")
         else:
-            await eco.create_user_info(ctx.author.id)
+            if user == None:
+                user = ctx.author
+            await eco.create_user_info(user.id)
             embed = discord.Embed(title="Solde d'orbes oni",
                                   color=discord.Color.orange()   
                                   )
-            embed.set_author(name=ctx.author.name, icon_url=ctx.author.display_avatar.url)
-            embed.add_field(name="Orbes oni :", value=f"{ecof[str(ctx.author.id)]} orbes oni")
+            embed.set_author(name=user.name, icon_url=user.display_avatar.url)
+            embed.add_field(name="Orbes oni :", value=f"{ecof[str(user.id)]} orbes oni")
             embed.set_footer(text="pas d’inquiétude cher utilisateur, elles serviront plus tard soit dans un shop soit dans un classement ou les 2 qui sait?")
             return await ctx.send(embed=embed)
     
