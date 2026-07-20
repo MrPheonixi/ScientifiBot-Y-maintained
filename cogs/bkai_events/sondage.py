@@ -1,5 +1,3 @@
-import asyncio
-
 import discord
 import bot_package.data as data
 import bot_package.Custom_func as cf
@@ -7,6 +5,8 @@ from PIL import image as pil
 import time
 import requests
 import random
+import asyncio
+import io
 
 async def sondage(ctx,bot, user_id):
     #get the sondage data
@@ -16,7 +16,7 @@ async def sondage(ctx,bot, user_id):
     #get the last day of poll
     last_day = sondage_data["last_day"]
     #get the current day
-    current_day = time.datetime.date
+    current_day = time.datetime.date.today().strftime("%Y-%m-%d")
     if last_day != current_day:
         sondage_data["last_day"] = current_day
         need_reset = True
@@ -32,13 +32,24 @@ async def sondage(ctx,bot, user_id):
             sondage_data["choice2"] = temp
             
         poll_embed = discord.Embed(title="Résultat du sondage d'hier !",
-                                   description=f"Le sondage d'hier a été remporté par {sondage_data['last_selection1']} avec {sondage_data['choice1']} votes contre {sondage_data['last_selection2']} avec {sondage_data['choice2']} votes !",
-                                   color=discord.Color.green())
+                                description=f"Le sondage d'hier a été remporté par {sondage_data['last_selection1']} avec {sondage_data['choice1']} votes contre {sondage_data['last_selection2']} avec {sondage_data['choice2']} votes !",
+                                color=discord.Color.green())
         
         #crée la liste suivante si non existante
+        try:
+            sondage_data[cs+1]
+        except KeyError:
+            sondage_data[cs+1] = []
         #mettre le gagnant dans la list
+        sondage_data[cs+1].append(sondage_data["last_selection1"])
         #si il reste que un yk dans la current list, le faire passer ainsi que le notifier
-        #et si c'est le cas changer le current stage
+        if len(sondage_data[cs]) == 1:
+            sondage_data[cs+1].append(sondage_data[cs][0])
+            poll_embed.add_field(name=f"le tour numéro {cs} est fini!", value=f"de manière exceptionnelle, le yokai {sondage_data[cs][0]} est passé au tour suivant car il était le dernier restant dans la liste!")
+            sondage_data[cs] = []
+        if len(sondage_data[cs]) == 0:
+            sondage_data["current_stage"] += 1
+            poll_embed.add_field(name=f"le tour numéro {cs} est fini!", value=f"Le stage {cs} est terminé, le tour n°{cs+1} commence !")
         last_day_img = pil.open(f"./files/poll_image/{last_day}.png")
         poll_embed.set_image(last_day_img)
         await poll_channel.send(embed=poll_embed)
@@ -59,22 +70,29 @@ async def sondage(ctx,bot, user_id):
         id1 = id_list[yk1]["id"]
         id2 = id_list[yk2]["id"]
         imgyk1 = requests.get(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id1}.png")
+        imgyk1 = pil.open(io.BytesIO(imgyk1.content))
         imgyk2 = requests.get(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id2}.png")
-        im = pil.image.new("rgba",(1024,512))
-        im.paste(imgyk1, (0,0))
-        im.paste(imgyk2, (512,0))
-        vs = pil.open("./files/poll_image/vs.png")
-        im.paste(vs, (256,0))
-        im.save(f"./files/poll_image/{current_day}.png")
+        imgyk2 = pil.open(io.BytesIO(imgyk2.content))
+        if imgyk1.size() != (512,512):
+            imgyk1 = imgyk1.resize((512,512))
+        if imgyk2.size() != (512,512):
+            imgyk2 = imgyk2.resize((512,512))
+    im = pil.new("rgba",(1024,512))
+    im.paste(imgyk1, (0,0))
+    im.paste(imgyk2, (512,0))
+    vs = pil.open("./files/poll_image/vs.png")
+    im.paste(vs, (256,0))
+    im.save(f"./files/poll_image/{current_day}.png")
+
     if str(user_id) in sondage_data["today_user"]:
         embed = discord.Embed(title="Vous avez déjà participé au sondage aujourd'hui !", color=discord.Color.red())
         return await ctx.send(embed=embed, ephemeral=True)
     else:
         sondage_data["today_user"].append(str(user_id))
-        data.save_json("./files/sondage.json", sondage_data)
+        cf.save_json("./files/sondage.json", sondage_data)
         poll_embed = discord.Embed(title="Sondage du jour !",
-                                   description=f"Votez pour ton yokai préféré !\n\n{sondage_data['last_selection1']} ou {sondage_data['last_selection2']} ?",
-                                   color=discord.Color.blue())
+                                description=f"Votez pour ton yokai préféré !\n\n{sondage_data['last_selection1']} ou {sondage_data['last_selection2']} ?",
+                                color=discord.Color.blue())
         im = pil.open(f"./files/poll_image/{current_day}.png")
         poll_embed.set_image(im)
         msg = await ctx.send(embed=poll_embed, ephemeral=True)
@@ -107,5 +125,4 @@ async def sondage(ctx,bot, user_id):
         except asyncio.TimeoutError:
             await ctx.send("Temps écoulé, aucun choix.")
 
-    
-    
+
