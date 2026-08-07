@@ -97,7 +97,6 @@ class Fusion(commands.Cog):
                     name="Vous ne l'avez jamais eu ! 🆕",
                     value="Il a été ajouté à votre Médallium. Faites `/medallium` pour le voir."
                 )
-                await Cf.add(ctx.author.id, result, class_id, "medallium")
                 
             yokai_embed.set_footer(text=f"Fusion réussie !")
             return await ctx.send(embed=yokai_embed)
