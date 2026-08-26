@@ -61,11 +61,18 @@ class Fusion(commands.Cog):
         if result_type == "yokai":
             class_id = data.fusion[fusion]["Result"][result][1]
             class_name = await Cf.classid_to_class(class_id)
-            yokai_embed = discord.Embed(
-                title=f"Vous avez eu le Yo-kai **{result}** ✨ ",
-                description=f"Félicitations il est de rang **{class_name}**",
-                color=discord.Color.from_str(data.yokai_data[class_id]["color"])
-            )
+            try:
+                yokai_embed = discord.Embed(
+                    title=f"Vous avez eu le Yo-kai **{result}** ✨ ",
+                    description=f"Félicitations il est de rang **{class_name}**",
+                    color=discord.Color.from_str(data.yokai_data[class_id]["color"])
+                )
+            except KeyError:
+                yokai_embed = discord.Embed(
+                    title=f"Vous avez eu le Yo-kai **{result}** ✨ ",
+                    description=f"Félicitations il est de rang **{class_name}**",
+                    color=discord.Color.from_str(data.yokai_event_data[class_id]["color"])
+                )
             yokai_embed.set_thumbnail(url=data.image_link[class_id])
         
 

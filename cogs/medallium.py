@@ -107,7 +107,7 @@ class Medallium(commands.Cog) :
                     discord.SelectOption(label="Spécial", emoji=emoji["SpecialS"]),
                     discord.SelectOption(label="Divinité / Enma", emoji=emoji["DivinityS"]),
                     discord.SelectOption(label="Boss", emoji=emoji["Boss"]),
-                    discord.SelectOption(label="Shiny", emojie="✨")
+                    discord.SelectOption(label="Shiny", emoji="✨")
                 ]
 
                 super().__init__(placeholder='Choisissez le rang que vous voulez...', min_values=1, max_values=1, options=options)
@@ -533,10 +533,7 @@ class Medallium(commands.Cog) :
         """
         Permet de voir votre médallium de yo-kai évènements!
         """
-    
-    
-        def __init__(self, bot:commands.Bot):
-            self.bot = bot
+
 
         #define the user
         if user == None:
@@ -548,9 +545,9 @@ class Medallium(commands.Cog) :
         #try if the inv is empty
         if brute_inventory == {}:
             if user.id == ctx.author.id:
-                inv_embed = discord.Embed(title="Oops, votre Médallium est vide 😢!")
+                inv_embed = discord.Embed(title="Oops, votre Médallium event est vide 😢!")
             else:
-                inv_embed = discord.Embed(title=f"Oops, le Médallium de {user.name} est vide 😢!")
+                inv_embed = discord.Embed(title=f"Oops, le Médallium event de {user.name} est vide 😢!")
             return await ctx.send(embed=inv_embed)
 
         #create the list :  
@@ -604,7 +601,7 @@ class Medallium(commands.Cog) :
         class Inv_dropdown(discord.ui.Select):
             def __init__(self):
                 options = [
-                    discord.SelectOption(label="Tout !", description="Affiche tout le Médallium si possible.", emoji="🌐"),
+                    discord.SelectOption(label="Tout !", description="Affiche tout le Médallium event si possible.", emoji="🌐"),
                     discord.SelectOption(label="Halloween", emoji=emoji["Halloween"]),
                     discord.SelectOption(label="Noël", emoji=emoji["Noël"]),
                     discord.SelectOption(label="St-Valentin", emoji=emoji["St-Valentin"]),
@@ -619,9 +616,9 @@ class Medallium(commands.Cog) :
             async def callback(self, interaction, ctx=ctx):
                 if self.values[0] == "Tout !":
                     if user.id == ctx.author.id:
-                        inv_embed = discord.Embed(title="Voici votre Médallium :")
+                        inv_embed = discord.Embed(title="Voici votre Médallium event :")
                     else:
-                        inv_embed = discord.Embed(title=f"Voici le Médallium de {user.name} :")
+                        inv_embed = discord.Embed(title=f"Voici le Médallium event de {user.name} :")
 
                     try:
                         for classes in yokai_per_class:

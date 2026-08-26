@@ -431,7 +431,7 @@ class Bingo_kai(commands.Cog):
                 f"Executed bingo-kai command by {ctx.author} (ID: {ctx.author.id}) in DMs // He had '{Yokai_choice}' / Rank: {class_name}"
             )
 
-        if Yokai_choice in data.event_yokai_list:
+        if Yokai_choice in data.yokai_event_list:
             yokai_embed = discord.Embed(
                 title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
                 description=f"Félicitations il est de rang **{class_name}**",

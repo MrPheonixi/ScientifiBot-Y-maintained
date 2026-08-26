@@ -84,7 +84,7 @@ async def classid_to_class(id:str, reverse : bool = False)->str:
             return data.yokai_data[id]["class_name"]
         except KeyError:
             try:
-                return data.yokay_event_data[id]["class_name"]
+                return data.yokai_event_data[id]["class_name"]
             except KeyError:
                 return asset_for_class_id_to_class[id]
         

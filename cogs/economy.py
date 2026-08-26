@@ -39,7 +39,7 @@ class economy(commands.Cog):
             return await ctx.send(embed=embed)
 
     @commands.hybrid_command(name="pay")
-    async def orbe(self, ctx, user: discord.Member, amount: int):
+    async def pay(self, ctx, user: discord.Member, amount: int):
         """
         New ✨!  Permet de donner des orbes à un utilisateur!
         """
