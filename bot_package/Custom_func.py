@@ -7,6 +7,10 @@ from difflib import SequenceMatcher
 import aiofiles
 import time
 import random
+import discord
+from discord.ext import commands
+from discord.ext.commands import Context
+from discord import app_commands
 
 """
 A module containing utility functions for the bot
@@ -337,6 +341,46 @@ async def HasMoreThanOneThing(input_id : int, thing:str, where: str):
     except (KeyError, IndexError):
         return False
 
+async def trophe_check(user : int, ctx: commands.Context):
+    bag = await get_bag(user)
+
+    trophe_user_data = bag["trophe_data"]
+
+    for trophe in data.trophe_data:
+        try:
+            if trophe_user_data["data"][data.trophe_data[trophe]["condition"]] >= data.trophe_data[trophe]["value"] and trophe not in trophe_user_data["list"]:
+                trophe_user_data["list"].append(trophe)
+                trophe_obtained = trophe
+                trophe_type_obtained = data.trophe_data[trophe]["type"]
+        
+
+                bag["trophe_data"] = trophe_user_data
+                await save_bag(bag, user)
+
+                trophe_embed = discord.Embed(
+                    title=f"Vous avez eu le trophée **{trophe_obtained}** ✨ ",
+                    description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe]["obtention"]}",
+                    color=discord.Color.from_str(data.trophe_color[trophe_type_obtained])                
+                )
+                #trophe_embed.set_thumbnail(url=)
+    
+                return await ctx.send(embed=trophe_embed)
+
+        except KeyError:
+                    pass
+
+async def update_trophe_data(user : int, condition : str, value : int, mode: str):
+    bag = await get_bag(user)
+
+    if mode == "set":
+        bag["trophe_data"]["data"][condition] = value
+    elif mode == "add":
+        try : 
+            bag["trophe_data"]["data"][condition] += value
+        except KeyError:
+            bag["trophe_data"]["data"][condition] = value
+
+    await save_bag(bag, user)
 
 ##########################
 ## Data management part ##

@@ -151,6 +151,8 @@ class shop(commands.Cog):
             print(rang)
             quantity = item_info.get("quantity", 1)
 
+            
+
             if user_balance < price:
                 embed_poor = discord.Embed(title="Erreur", description=f"Vous n'avez pas assez d'orbes pour acheter {item}.", color=discord.Color.red())
                 embed_poor.set_footer(text=f"vous avez {user_balance}/{price} orbes") 
@@ -159,6 +161,9 @@ class shop(commands.Cog):
                 await eco.add(ctx.author.id, -price)
                 await Cf.add(ctx.author.id, item, rang, "bag", number=quantity)
                 embed = discord.Embed(title="Achat réussi", description=f"Vous avez acheté {item} pour {price} orbes.", color=discord.Color.green())
+                await Cf.update_trophe_data(ctx.author.id, "buy", 1, "add")
+                await Cf.update_trophe_data(ctx.author.id, "depense", price, "add")
+                await Cf.trophe_check(ctx.author.id, ctx)
                 return await ctx.send(embed=embed)
             
 
@@ -229,6 +234,9 @@ class shop(commands.Cog):
         
 
         elif balance >= price:
+            await Cf.update_trophe_data(ctx.author.id, "buy", 1, "add")
+            await Cf.update_trophe_data(ctx.author.id, "depense", price, "add")
+            await Cf.trophe_check(ctx.author.id, ctx)
             if bag["daily_shop_data"][2] == "object":
                 item = bag["daily_shop_data"][5]
                 item_type = data.item[item]["type"]

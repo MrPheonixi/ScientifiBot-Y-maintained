@@ -179,6 +179,15 @@ current_event = open_json("./files/current_event.json")["current_event"]
 if current_event != None:
     list_len["SpecialS"] -= len(yokai_event_data[current_event]["yokai_list"])
 
+
+trophe_data = open_json("./files/trophe.json")
+
+trophe_color = {
+    "bronze" : "#4e3609",
+    "argent" : "#5d5f5d",
+    "or" : "#fffb00"
+}
+
 default_medallium  = {
                         "last_claim" : 10000,
                         "streak": [

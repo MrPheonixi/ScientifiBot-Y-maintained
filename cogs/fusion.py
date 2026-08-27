@@ -52,6 +52,14 @@ class Fusion(commands.Cog):
                 description=f"Vous n'avez l'objet/yokai {item_or_yokai_b} dans votre {where_type_B}"
             )
             return await ctx.send(embed=not_has)
+
+        bag = await Cf.get_bag(ctx.author.id)
+        if fusion not in bag["trophe_data"]["fusion"]:
+            bag["trophe_data"]["fusion"].append(fusion)
+            bag["trophe_data"]["data"]["fusion"] = len(bag["trophe_data"]["fusion"])
+            await Cf.save_bag(bag, ctx.author.id)
+            await Cf.check_trophe(ctx.author.id, ctx)
+        
         
         await Cf.remove(ctx.author.id, item_or_yokai_a, rang_item_A ,where_type_A)
         await Cf.remove(ctx.author.id, item_or_yokai_b, rang_item_B ,where_type_B)

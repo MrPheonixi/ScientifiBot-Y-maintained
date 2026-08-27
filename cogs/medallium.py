@@ -324,6 +324,11 @@ class Medallium(commands.Cog) :
 
         Dropdown.message = await ctx.send(embed=main_embed, view=Dropdown)
 
+        if user.id == ctx.author.id:
+            bag = await Cf.get_bag(user.id)
+            bag["trophe_data"]["data"]["medallium completion"] = completion
+            await Cf.trophe_check(user.id)
+
     
     #the bag command
     @commands.hybrid_command(name="bag")
@@ -357,7 +362,7 @@ class Medallium(commands.Cog) :
         #sort the content by categorie
         for elements in brute_bag:
             #Don't take any numbers
-            if not elements in ["coin", "obj", "treasure", "equipped_treasure", "last_daily_reset", "amount", "daily_shop_data"]:
+            if not elements in ["coin", "obj", "treasure", "equipped_treasure", "last_daily_reset", "amount", "daily_shop_data", "trophe_data"]:
                 categorie = brute_bag[elements]
 
                 #Check if it's stack
@@ -377,7 +382,9 @@ class Medallium(commands.Cog) :
             sorted_dict = {i: item_per_class[non_sorted_dicts][i] for i in list_key}
             item_per_class[non_sorted_dicts] = sorted_dict
 
-
+        await Cf.update_trophe_data(ctx.author.id, "treasure", brute_bag["treasure"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "objects", brute_bag["obj"], "set")
+        await Cf.trophe_check(ctx.author.id, ctx)
 
         #Inv dropdown class
         class Inv_dropdown(discord.ui.Select):
@@ -734,6 +741,39 @@ class Medallium(commands.Cog) :
 
         Dropdown.message = await ctx.send(embed=main_embed, view=Dropdown)
 
+
+    #the commande to see all yours trophes
+    @commands.hybrid_command(name="trophe")
+    async def trophe(self, ctx = commands.Context, user : discord.User = None):
+        """"
+        New ✨ ! Permet de voir la liste des trophées!
+        """
+        if user == None:
+            user = ctx.author
+        
+        bag = await Cf.get_bag(user.id)
+
+        trophe_embed = discord.Embed(
+            title = f"Liste des trophées de {user.name}",
+            color = discord.colour.Color.yellow()
+        )
+
+        trophe_list = ""
+
+        for trophe in data.trophe_data:
+            if trophe in bag["trophe_data"]["list"]:
+                trophe_list += (f"🏆**{trophe}** ✅\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+                
+            else:
+                trophe_list += (f"🏆**{trophe}** ❌\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+
+        trophe_embed = discord.Embed(
+                    title = f"Liste des trophées de {user.name}",
+                    description = trophe_list,
+                    color = discord.colour.Color.yellow()
+                )
+
+        return await ctx.send(embed = trophe_embed)
 
 
 

@@ -1,5 +1,6 @@
 import json
 import bot_package.data as data
+import bot_package.Custom_func as Cf
 
 # this function is call to see if the user already have any data
 # and if he don't have info calculate he number of orbe
@@ -53,4 +54,4 @@ async def add_rank_orbe(user_id: int, rank) -> None:
     p = data.class_to_point[rank]
     data.MONEY_DATA[str(user_id)] += p
     data.save_json("./files/monnaie.json", data.MONEY_DATA)
-
+    await Cf.update_trophe_data(user_id, "orbes", p, "add")
