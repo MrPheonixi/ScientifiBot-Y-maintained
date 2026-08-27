@@ -362,7 +362,7 @@ async def trophe_check(user : int, ctx: commands.Context):
                     description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe]["obtention"]}",
                     color=discord.Color.from_str(data.trophe_color[trophe_type_obtained])                
                 )
-                #trophe_embed.set_thumbnail(url=)
+                #trophe_embed.set_thumbnail(url=data.image_link[trophe_type_obtained])
     
                 return await ctx.send(embed=trophe_embed)
 

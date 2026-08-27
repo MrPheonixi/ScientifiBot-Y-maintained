@@ -745,7 +745,7 @@ class Medallium(commands.Cog) :
     #the commande to see all yours trophes
     @commands.hybrid_command(name="trophe")
     async def trophe(self, ctx = commands.Context, user : discord.User = None):
-        """"
+        """
         New ✨ ! Permet de voir la liste des trophées!
         """
         if user == None:
@@ -753,27 +753,85 @@ class Medallium(commands.Cog) :
         
         bag = await Cf.get_bag(user.id)
 
-        trophe_embed = discord.Embed(
-            title = f"Liste des trophées de {user.name}",
-            color = discord.colour.Color.yellow()
-        )
+        class Inv_dropdown(discord.ui.Select):
+            def __init__(self):
+                options = [
+                    discord.SelectOption(label="Tout !", description="Affiche tout les trophées.", emoji="🌐"),
+                    discord.SelectOption(label="medallium", description="Affiche tout les trophées de la catégorie médallium.", emoji="🌐"),
+                    discord.SelectOption(label="cadeau", description="Affiche tout les trophées de la catégorie cadeau.", emoji="🎁"),
+                    discord.SelectOption(label="trade", description="Affiche tout les trophées de la catégorie trade.", emoji="🌐"),
+                    discord.SelectOption(label="fusion", description="Affiche tout les trophées de la catégorie fusion.", emoji="🌐"),
+                    discord.SelectOption(label="top", description="Affiche tout les trophées de la catégorie top.", emoji="🌐"),
+                    discord.SelectOption(label="shop", description="Affiche tout les trophées de la catégorie shop.", emoji="🌐"),
+                    discord.SelectOption(label="terrheure", description="Affiche tout les trophées de la catégorie terrheure.", emoji="🌐"),
+                    discord.SelectOption(label="bag", description="Affiche tout les trophées de la catégorie bag.", emoji="🌐"),
+                    discord.SelectOption(label="orbes", description="Affiche tout les trophées de la catégorie orbes.", emoji="🌐"),
+                    discord.SelectOption(label="search", description="Affiche tout les trophées de la catégorie search.", emoji="🌐"),
+                    discord.SelectOption(label="bingo-kai", description="Affiche tout les trophées de la catégorie bingo-kai.", emoji="🌐")
+                ]
 
-        trophe_list = ""
+                super().__init__(placeholder='Choisissez la catégorie que vous voulez...', min_values=1, max_values=1, options=options)
 
-        for trophe in data.trophe_data:
-            if trophe in bag["trophe_data"]["list"]:
-                trophe_list += (f"🏆**{trophe}** ✅\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+            async def callback(self, interaction, ctx=ctx):
+                if self.values[0] == "Tout !":
+                    trophe_list = ""
+
+                    for trophe in data.trophe_data:
+                        if trophe in bag["trophe_data"]["list"]:
+                            trophe_list += (f"🏆**{trophe}** ✅\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+
+                        else:
+                            trophe_list += (f"🏆**{trophe}** ❌\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+
+                    trophe_embed = discord.Embed(
+                                title = f"Liste des trophées de {user.name}",
+                                description = trophe_list,
+                                color = discord.colour.Color.yellow()
+                            )
+                else:
+                    trophe_list = ""
+
+                    for trophe in data.trophe_data:
+                        if data.trophe_data[trophe]["categorie"] == self.values[0]:
+                            if trophe in bag["trophe_data"]["list"]:
+                                trophe_list += (f"{data.emoji[data.trophe_data[trophe]["type"]]} **{trophe}** ✅\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+                            
+                            else:
+                                trophe_list += (f"{data.emoji[data.trophe_data[trophe]["type"]]} **{trophe}** ❌\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+
+                    trophe_embed = discord.Embed(
+                        title = f"Liste des trophées de {user.name} dans la catégorie {self.values[0]}:",
+                        description = trophe_list,
+                        color = discord.colour.Color.yellow()
+                    )
+                return await interaction.response.send_message(embed=trophe_embed)
                 
-            else:
-                trophe_list += (f"🏆**{trophe}** ❌\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+        class Inv_dropdown_view(discord.ui.View):
+            def __init__(self):
+                super().__init__(timeout=300)
+                self.add_item(Inv_dropdown())
+                
+            async def on_timeout(self):
+                for item in self.children:
+                    item.disabled = True
+                try:
+                    await self.message.edit( embed=self.message.embeds[0], view=self)
+                except discord.NotFound:
+                    pass
 
-        trophe_embed = discord.Embed(
-                    title = f"Liste des trophées de {user.name}",
-                    description = trophe_list,
-                    color = discord.colour.Color.yellow()
-                )
+        Dropdown = Inv_dropdown_view()
 
-        return await ctx.send(embed = trophe_embed)
+        #Create the main embed
+        main_embed = discord.Embed(title="__Trophées -- Menu.__", colour=0xf58f00)
+
+        main_embed.add_field(name="Voici vos statistiques :", value= f"Vous avez {len(bag["trophe_data"]["list"])} / 56 trophées.", inline=False)
+        if not user == None and user.id != ctx.author.id:
+            main_embed.set_footer(text=f"Merci de choisir parmi les propositions ci-dessous pour afficher les trophées de {user.display_name}.")
+        
+        else:
+            main_embed.set_footer(text="Merci de choisir parmi les propositions ci-dessous pour afficher vos trophées.")
+
+        Dropdown.message = await ctx.send(embed=main_embed, view=Dropdown)
 
 
 
