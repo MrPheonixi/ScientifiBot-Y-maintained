@@ -11,7 +11,17 @@
         "SpecialS" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/static/rare.png",
         "DivinityS" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/static/divinite.png",
         "Boss" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/static/boss.png",
-        "Shiny" : "https://example.com/"
+        "Shiny" : "https://example.com/",
+        "Halloween" : "https://example.com/",
+        "Noël" : "https://example.com/",
+        "St-Valentin" : "https://example.com/",
+        "Printemps" : "https://example.com/",
+        "Pâques" : "https://example.com/",
+        "Estival" : "https://example.com/",
+        "Autre" : "https://example.com/",
+        "bronze" : "https://example.com/",
+        "argent" : "https://example.com/",
+        "or" : "https://example.com/"
 
     },
     "emoji" : {
@@ -25,6 +35,16 @@
     "DivinityS": "Emoji markdown for Divinity",
     "LegendaryS": "Emoji markdown for Legendary",
     "SpecialS": "Emoji markdown for Special",
-    "Boss": "Emoji markdown for Boss"
+    "Boss": "Emoji markdown for Boss",
+    "Halloween" : "Emoji markdown for Halloween",
+    "Noël" : "Emoji markdown for Noël",
+    "St-Valentin" : "Emoji markdown for St-Valentin",
+    "Printemps" : "Emoji markdown for Printemps",
+    "Pâques" : "Emoji markdown for Pâques",
+    "Estival" : "Emoji markdown for Estival",
+    "Autre" : "Emoji markdown for Autre",
+    "bronze" : "Emoji markdown for bronze trophe",
+    "argent" : "Emoji markdown for argent trophe",
+    "or" : "Emoji markdown for gold trophe"
  }
 }

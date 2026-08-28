@@ -37,6 +37,10 @@ class Search(commands.Cog):
         if (query is None and tag is None) or (query is not None and tag is not None):
             return await ctx.send("❌ Veuillez remplir seulement une **option**.", ephemeral=True)
 
+        await Cf.update_trophe_data(ctx.author.id, "search", 1, "add")
+                            
+        await Cf.trophe_check(ctx.author.id, ctx)
+
         if tag is not None:
             return await self.tag_process(ctx, tag)
 

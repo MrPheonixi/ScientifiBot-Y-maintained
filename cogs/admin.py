@@ -13,13 +13,21 @@ import time
 
 
 async def class_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
-    choices = ["Shiny", "Boss", "Divinité / Enma", "Légendaire", "Spécial", "S", "A", "B", "C", "D", "E", "objet", "pièce", "json-mod", "claim"]
+    choices = ["Shiny", "Boss", "Divinité / Enma", "Légendaire", "Spécial", "S", "A", "B", "C", "D", "E", "objet", "pièce", "json-mod", "claim", "Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival", "Autre"]
     list = [
         app_commands.Choice(name=choices, value=choices)
         for choices in choices if current.lower() in choices.lower()
     ]
     list.append(app_commands.Choice(name="Trésor (yokai)", value="Trésor"))
     list.append(app_commands.Choice(name="Trésor (objet)", value="trésor"))
+    return list
+
+async def event_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
+    choices = ["Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival"]
+    list = [
+        app_commands.Choice(name=choices, value=choices)
+        for choices in choices if current.lower() in choices.lower()
+    ]
     return list
 
 #Bot admin commands
@@ -700,7 +708,97 @@ class Admin_command(commands.Cog):
             await ctx.send(embed=sucess_embed)
         except Exception as e:
             await ctx.send(f"Erreur: {e}", ephemeral=True)
-                
+
+    @commands.hybrid_command(name="recalc_event_yokai")
+    @Check.is_in_dev_team()
+    async def recalc_event_yokai(self, ctx:commands.Context):
+        """
+        A command that will change the class of all the event yo-kai
+        """
+        files = []
+        for file in os.listdir("./files/inventory"):
+            if file != ".gitignore":
+                file = file.removesuffix(".json")
+                int(file)
+                files.append(file)
+        for id in files:
+            inventory = await Cf.get_inv(id)
+            try:
+                inventory["Halloween"]
+            except KeyError:
+                inventory["Halloween"] = 0
+                inventory["Noël"] = 0
+                inventory["St-Valentin"] = 0
+                inventory["Printemps"] = 0
+                inventory["Pâques"] = 0
+                inventory["Estival"] = 0
+                inventory["Autre"] = 0
+            for yokai in inventory:
+                if not type(inventory[yokai]) == int and not type(inventory[yokai]) == float and inventory[yokai][0] == "SpecialS":
+                    if yokai in data.yokai_event_list:
+                        class_id = data.yokai_event_list[yokai]
+                        inventory[yokai][0] = class_id
+                    
+                        inventory["SpecialS"] -= 1
+                        inventory[class_id] += 1
+            await Cf.save_inv(inventory, id)
+        embed=discord.Embed(
+            title = "Tâche terminé",
+            description= ""
+        )
+        return await ctx.send(embed=embed)
+    
+    @commands.hybrid_command(name="start_event")
+    @Check.is_in_dev_team()
+    @app_commands.autocomplete(event=event_autcomplete)
+    async def start_event(self, ctx:commands.Context, event: str):
+        """
+        Permet de commencer l'évènement spécifié
+        """
+        data.current_event = event
+        current_event = data.open_json("./files/current_event.json")
+        current_event["current_event"] = event
+        data.save_json("./files/current_event.json",current_event)
+        embed = discord.Embed(
+            title = f"Évènement {event} commencé."
+        )
+        yokai_list = data.open_json("./files/yokai_list.json")
+        for yokai in data.yokai_event_data[event]["yokai_list"]:
+            yokai_list["SpecialS"]["yokai_list"].append(yokai)
+            data.yokai_data["SpecialS"]["yokai_list"].append(yokai)
+        data.save_json("./files/yokai_list.json", yokai_list)
+        
+        return await ctx.send(embed=embed)
+    
+    @commands.hybrid_command(name="end_event")
+    @Check.is_in_dev_team()
+    async def end_event(self, ctx:commands.Context):
+        """
+        Permet de terminer l'évènement en cour.
+        """
+        event = data.current_event
+        data.current_event = None
+        current_event = data.open_json("./files/current_event.json")
+        current_event["current_event"] = None
+        data.save_json("./files/current_event.json",current_event)
+        embed = discord.Embed(
+            title = f"Évènement {event} terminé."
+        )
+        yokai_list = data.open_json("./files/yokai_list.json")
+        for yokai in data.yokai_event_data[event]["yokai_list"]:
+            yokai_list["SpecialS"]["yokai_list"].remove(yokai)
+            data.yokai_data["SpecialS"]["yokai_list"].remove(yokai)
+        data.save_json("./files/yokai_list.json", yokai_list)
+
+        return await ctx.send(embed=embed)
+    
+    @commands.hybrid_command(name="event")
+    async def event(self, ctx : commands.Context):
+        """
+        Permet de savoir quel évènement est en cours
+        """
+        embed = discord.Embed(title = f"Event: {data.current_event}")
+        return await ctx.send(embed=embed)
 
 async def setup(bot : commands.Bot ) -> None:
     await bot.add_cog(Admin_command(bot))
