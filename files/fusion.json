@@ -1,0 +1,216 @@
+{
+    "Jibanyan,Malmidal":{
+        "Jibanyan" : ["yokai","D"],
+        "Malmidal" : ["yokai","E"],
+        "Result" : {
+            "Épynian" : ["yokai","B"]
+        }
+    },
+    "Jibanyan,Loubarbare":{
+        "Jibanyan" : ["yokai","D"],
+        "Loubarbare" : ["yokai","E"],
+        "Result" : {
+            "Bandinyan" : ["yokai","B"]
+        }
+    },
+    "Darabajoie,Sumochi":{
+        "Darabajoie" : ["yokai","E"],
+        "Sumochi" : ["yokai","D"],
+        "Result" : {
+            "Darumastar" : ["yokai","B"]
+        }
+    },
+    "Corniot,Corniot":{
+        "Corniot" : ["yokai","E"],
+        "Result" : {
+            "Bicorniot" : ["yokai","B"]
+        }
+    },
+    "Heaumer,Hauber":{
+        "Heaumer" : ["yokai","D"],
+        "Hauber" : ["yokai","D"],
+        "Result" : {
+            "Bushidos" : ["yokai","A"]
+        }
+    },
+    "Toutouïe,Marra":{
+        "Toutouïe" : ["yokai","D"],
+        "Marra" : ["yokai","D"],
+        "Result" : {
+            "Babalance" : ["yokai","B"]
+        }
+    },
+    "Jojojoyeux,Lulugubre":{
+        "Jojojoyeux" : ["yokai","C"],
+        "Lulugubre" : ["yokai","D"],
+        "Result" : {
+            "Paradoxa" : ["yokai","A"]
+        }
+    },
+    "Squarlett,Cupistol":{
+        "Squarlett" : ["yokai","E"],
+        "Cupistol" : ["yokai","D"],
+        "Result" : {
+            "Margoth" : ["yokai","C"]
+        }
+    },
+    "Papiltation,Papiltension":{
+        "Papiltation" : ["yokai","D"],
+        "Papiltension" : ["yokai","D"],
+        "Result" : {
+            "Hyprapillon" : ["yokai","A"]
+        }
+    },
+    "Castelius III,Castelius III":{
+        "Castelius III" : ["yokai","C"],
+        "Result" : {
+            "Castelius II" : ["yokai","B"]
+        }
+    },
+    "Castelius II,Castelius II":{
+        "Castelius II" : ["yokai","B"],
+        "Result" : {
+            "Castelius I" : ["yokai","A"]
+        }
+    },
+    "Chauvekipeut,Tengubre":{
+        "Chauvekipeut" : ["yokai","D"],
+        "Tengubre" : ["yokai","C"],
+        "Result" : {
+            "Chauv'coucou" : ["yokai","A"]
+        }
+    },
+    "Parasolal,Lama Laya":{
+        "Parasolal" : ["yokai","E"],
+        "Lama Laya" : ["yokai","C"],
+        "Result" : {
+            "Scarasol" : ["yokai","A"]
+        }
+    },
+    "Pachycoul,Persévéfant":{
+        "Pachycoul" : ["yokai","D"],
+        "Persévéfant" : ["yokai","C"],
+        "Result" : {
+            "Pachypipi" : ["yokai","A"]
+        }
+    },
+    "Jalouseriz,Pépésbrouf":{
+        "Jalouseriz" : ["yokai","E"],
+        "Pépésbrouf" : ["yokai","C"],
+        "Result" : {
+            "Fanfanfaron" : ["yokai","B"]
+        }
+    },
+    "Égare-dare,Bouldacier":{
+        "Égare-dare" : ["yokai","E"],
+        "Bouldacier" : ["yokai","D"],
+        "Result" : {
+            "Charivari" : ["yokai","B"]
+        }
+    },
+    "Papilla,Pitou":{
+        "Papilla" : ["yokai","E"],
+        "Pitou" : ["yokai","C"],
+        "Result" : {
+            "Mme Papilla" : ["yokai","B"]
+        }
+    },
+    "Couchtar,Chauvekipeut":{
+        "Couchtar" : ["yokai","E"],
+        "Chauvekipeut" : ["yokai","D"],
+        "Result" : {
+            "Noctambill" : ["yokai","B"]
+        }
+    },
+    "Herbert,Feulion":{
+        "Herbert" : ["yokai","E"],
+        "Feulion" : ["yokai","C"],
+        "Result" : {
+            "Carnanova" : ["yokai","B"]
+        }
+    },
+    "Télémir,Espi":{
+        "Télémir" : ["yokai","C"],
+        "Espi" : ["yokai","B"],
+        "Result" : {
+            "Triptic-tac" : ["yokai","A"]
+        }
+    },
+    "Curryeux,M. Felipaix":{
+        "Curryeux" : ["yokai","E"],
+        "M. Felipaix" : ["yokai","B"],
+        "Result" : {
+            "Curryogi" : ["yokai","A"]
+        }
+    },
+    "Ficheline,Maudieuse":{
+        "Ficheline" : ["yokai","D"],
+        "Maudieuse" : ["yokai","E"],
+        "Result" : {
+            "Kay Mandeuse" : ["yokai","B"]
+        }
+    },
+    "Indexter,Couchtar":{
+        "Indexter" : ["yokai","D"],
+        "Couchtar" : ["yokai","E"],
+        "Result" : {
+            "Hacksel" : ["yokai","A"]
+        }
+    },
+    "Outransss,Jacquasseur":{
+        "Outransss" : ["yokai","E"],
+        "Jacquasseur" : ["yokai","C"],
+        "Result" : {
+            "Carnanova" : ["yokai","B"]
+        }
+    },
+    "Jibanyan,Whisper":{
+        "Jibanyan" : ["yokai","D"],
+        "Whisper" : ["yokai","C"],
+        "Result" : {
+            "Buchinyan" : ["yokai","A"]
+        }
+    },
+    "Jibanyan,Komasan":{
+        "Jibanyan" : ["yokai","D"],
+        "Komasan" : ["yokai","D"],
+        "Result" : {
+            "Jibakoma" : ["yokai","A"]
+        }
+    },
+    "Noruka,Soruka":{
+        "Noruka" : ["yokai","S"],
+        "Soruka" : ["yokai","S"],
+        "Result" : {
+            "Norukasoruka" : ["yokai","Divinité"]
+        }
+    },
+    "Enma (Shadowside),Baron Ananta(Jaou Kaira)":{
+        "Enma (Shadowside)" : ["yokai","Divinité"],
+        "Baron Ananta(Jaou Kaira)" : ["yokai","Divinité"],
+        "Result" : {
+            "Yami Enma" : ["yokai","Divinité"]
+        }
+    },
+    "Shogunyan,Whisper":{
+        "Jibanyan" : ["yokai","Légendaire"],
+        "Whisper" : ["yokai","C"],
+        "Result" : {
+            "Whisshogun" : ["yokai","Légendaire"]
+        }
+    },
+    "Octorgone,Kyubi":{
+        "Octorgone" : ["yokai","S"],
+        "Kyubi" : ["yokai","S"],
+        "Result" : {
+            "Oubi" : ["yokai","Spécial"]
+        }
+    },
+    "Le dernier Nyanmuraï,Komastar":{
+        "Le dernier Nyanmuraï" : ["yokai","Légendaire"],
+        "Komastar" : ["yokai","Légendaire"],
+        "Result" : {
+            "Le dernier Komuraï" : ["yokai","Légendaire"]
+        }
+    }
+}

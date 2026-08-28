@@ -25,6 +25,16 @@
     "DivinityS": "Emoji markdown for Divinity",
     "LegendaryS": "Emoji markdown for Legendary",
     "SpecialS": "Emoji markdown for Special",
-    "Boss": "Emoji markdown for Boss"
+    "Boss": "Emoji markdown for Boss",
+    "Halloween" : "Emoji markdown for Halloween",
+    "Noël" : "Emoji markdown for Noël",
+    "St-Valentin" : "Emoji markdown for St-Valentin",
+    "Printemps" : "Emoji markdown for Printemps",
+    "Pâques" : "Emoji markdown for Pâques",
+    "Estival" : "Emoji markdown for Estival",
+    "Autre" : "Emoji markdown for Autre",
+    "bronze" : "Emoji markdown for bronze trophe",
+    "argent" : "Emoji markdown for argent trophe",
+    "or" : "Emoji markdown for gold trophe"
  }
 }

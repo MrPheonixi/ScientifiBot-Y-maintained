@@ -7,6 +7,10 @@ from difflib import SequenceMatcher
 import aiofiles
 import time
 import random
+import discord
+from discord.ext import commands
+from discord.ext.commands import Context
+from discord import app_commands
 
 """
 A module containing utility functions for the bot
@@ -83,7 +87,10 @@ async def classid_to_class(id:str, reverse : bool = False)->str:
         try:
             return data.yokai_data[id]["class_name"]
         except KeyError:
-            return asset_for_class_id_to_class[id]
+            try:
+                return data.yokai_event_data[id]["class_name"]
+            except KeyError:
+                return asset_for_class_id_to_class[id]
         
     else :
         for classes in data.yokai_data :
@@ -93,6 +100,9 @@ async def classid_to_class(id:str, reverse : bool = False)->str:
         for item in asset_for_class_id_to_class :
             if asset_for_class_id_to_class[item] == id :
                 return item
+        for classes in data.yokai_event_data :
+            if data.yokai_event_data[classes]["class_name"] == id:
+                return classes
     #return nothing if the id or the name was not fund    
     return ""
 
@@ -275,6 +285,10 @@ async def generateRandomYokai(ctx, proba: list = data.proba_list.copy(), treasur
         Yokai_choice = random.choice(class_choice["yokai_list"])
     Yokai_choice = Yokai_choice
 
+    if Yokai_choice in data.yokai_event_list:
+        class_id = data.yokai_event_list[Yokai_choice]
+        class_name = data.yokai_event_list[Yokai_choice]
+
     return Yokai_choice, class_name, class_id
 
 
@@ -327,6 +341,46 @@ async def HasMoreThanOneThing(input_id : int, thing:str, where: str):
     except (KeyError, IndexError):
         return False
 
+async def trophe_check(user : int, ctx: commands.Context):
+    bag = await get_bag(user)
+
+    trophe_user_data = bag["trophe_data"]
+
+    for trophe in data.trophe_data:
+        try:
+            if trophe_user_data["data"][data.trophe_data[trophe]["condition"]] >= data.trophe_data[trophe]["value"] and trophe not in trophe_user_data["list"]:
+                trophe_user_data["list"].append(trophe)
+                trophe_obtained = trophe
+                trophe_type_obtained = data.trophe_data[trophe]["type"]
+        
+
+                bag["trophe_data"] = trophe_user_data
+                await save_bag(bag, user)
+
+                trophe_embed = discord.Embed(
+                    title=f"Vous avez eu le trophée **{trophe_obtained}** ✨ ",
+                    description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe]["obtention"]}",
+                    color=discord.Color.from_str(data.trophe_color[trophe_type_obtained])                
+                )
+                #trophe_embed.set_thumbnail(url=data.image_link[trophe_type_obtained])
+    
+                return await ctx.send(embed=trophe_embed)
+
+        except KeyError:
+                    pass
+
+async def update_trophe_data(user : int, condition : str, value : int, mode: str):
+    bag = await get_bag(user)
+
+    if mode == "set":
+        bag["trophe_data"]["data"][condition] = value
+    elif mode == "add":
+        try : 
+            bag["trophe_data"]["data"][condition] += value
+        except KeyError:
+            bag["trophe_data"]["data"][condition] = value
+
+    await save_bag(bag, user)
 
 ##########################
 ## Data management part ##

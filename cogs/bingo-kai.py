@@ -202,6 +202,11 @@ class Bingo_kai(commands.Cog):
                 
             #get rid of the coin they used
             await Cf.remove(ctx.author.id, coin, "coin", "bag")
+
+
+            await Cf.update_trophe_data(ctx.author.id, "piece", 1, "add")
+            
+            await Cf.trophe_check(ctx.author.id, ctx)
             
             #now make the embed and add it to the inv
             if item_type == "yokai":
@@ -435,12 +440,18 @@ class Bingo_kai(commands.Cog):
                 f"Executed bingo-kai command by {ctx.author} (ID: {ctx.author.id}) in DMs // He had '{Yokai_choice}' / Rank: {class_name}"
             )
 
-
-        yokai_embed = discord.Embed(
-            title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
-            description=f"Félicitations il est de rang **{class_name}**",
-            color=discord.Color.from_str(data.yokai_data[class_id]["color"])
-        )
+        if Yokai_choice in data.yokai_event_list:
+            yokai_embed = discord.Embed(
+                title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
+                description=f"Félicitations il est de rang **{class_name}**",
+                color=discord.Color.from_str(data.yokai_event_data[class_id]["color"])
+            )
+        else:
+            yokai_embed = discord.Embed(
+                title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
+                description=f"Félicitations il est de rang **{class_name}**",
+                color=discord.Color.from_str(data.yokai_data[class_id]["color"])
+            )
         yokai_embed.set_thumbnail(url=data.image_link[class_id])
         
         #define the id and so the api request to the image
@@ -621,7 +632,27 @@ class Bingo_kai(commands.Cog):
             winning_bkai_embed.set_image(url="https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/bkai-gagnant.png")
 
             await ctx.send(embed=winning_bkai_embed)
-            
+
+        inventory = await Cf.get_inv(ctx.author.id)
+        value = inventory["E"] + inventory["D"] + inventory["C"] + inventory["B"] + inventory["A"] + inventory["S"] + inventory["LegendaryS"] + inventory["treasureS"] + inventory["SpecialS"] + inventory["DivinityS"]
+        await Cf.update_trophe_data(ctx.author.id, "E a divinite", value, "set")
+        await Cf.update_trophe_data(ctx.author.id, "boss", inventory["Boss"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "shiny", inventory["Shiny"], "set")
+
+        value = value + inventory["Boss"] + inventory["Shiny"]
+        await Cf.update_trophe_data(ctx.author.id, "yokai total", value, "set")
+
+        await Cf.update_trophe_data(ctx.author.id, "Halloween", inventory["Halloween"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "Noel", inventory["Noël"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "Printemps", inventory["St-Valentin"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "Valentin", inventory["Printemps"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "Paques", inventory["Pâques"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "Estival", inventory["Estival"], "set")
+
+        await Cf.update_trophe_data(ctx.author.id, "bingo-kai", 1, "add")
+
+        await Cf.trophe_check(ctx.author.id, ctx)
+
             
 
 
@@ -719,6 +750,11 @@ class Bingo_kai(commands.Cog):
         yokai_embed.set_footer(text="Tu as utilisé un tirage du bingo-kai gagnant!")
                 
         await Cf.save_bag(brute_bag, ctx.author.id)
+
+        await Cf.update_trophe_data(ctx.author.id, "bingo-kai gagnant", 1, "add")
+                    
+        await Cf.trophe_check(ctx.author.id, ctx)
+
         return await ctx.send(embed=yokai_embed)
 
 

@@ -137,3 +137,13 @@ class Terrheure():
             pass
         
         self.bot.logger.info(f"Terrheure stopped in server {ctx.guild.id}/{ctx.guild.name}, started by {ctx.author.id}/{ctx.author.name}, {users_len} users")
+
+        for id in view.users_in:
+            await Cf.update_trophe_data(id, "terrheure", 1, "add")
+            if users_len >= 5:
+                await Cf.update_trophe_data(id, "terrheure 5", 1, "add")
+            if users_len >= 15:
+                await Cf.update_trophe_data(id, "terrheure 15", 1, "add")
+            if users_len >= 45:
+                await Cf.update_trophe_data(id, "terrheure 45", 1, "add")
+            await Cf.trophe_check(id, ctx)

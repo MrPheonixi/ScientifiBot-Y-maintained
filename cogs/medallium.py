@@ -62,7 +62,7 @@ class Medallium(commands.Cog) :
         #sort the Yo-kai by class
         for elements in brute_inventory:
             #Don't take any numbers
-            if not type(brute_inventory[elements]) == int and not type(brute_inventory[elements]) == float and not elements in blacklist:
+            if not type(brute_inventory[elements]) == int and not type(brute_inventory[elements]) == float and not elements in blacklist and elements not in data.yokai_event_list:
                 categorie = brute_inventory[elements]
 
                 #Check if it's stack
@@ -96,17 +96,17 @@ class Medallium(commands.Cog) :
             def __init__(self):
                 options = [
                     discord.SelectOption(label="Tout !", description="Affiche tout le Médallium si possible.", emoji="🌐"),
-                    discord.SelectOption(label="E", emoji="✨"),
-                    discord.SelectOption(label="D", emoji="✨"),
-                    discord.SelectOption(label="C", emoji="✨"),
-                    discord.SelectOption(label="B", emoji="✨"),
-                    discord.SelectOption(label="A", emoji="✨"),
-                    discord.SelectOption(label="S", emoji="✨"),
-                    discord.SelectOption(label="Légendaire", emoji="✨"),
-                    discord.SelectOption(label="Trésor", emoji="✨"),
-                    discord.SelectOption(label="Spécial", emoji="✨"),
-                    discord.SelectOption(label="Divinité / Enma", emoji="✨"),
-                    discord.SelectOption(label="Boss", emoji="✨"),
+                    discord.SelectOption(label="E", emoji=emoji["E"]),
+                    discord.SelectOption(label="D", emoji=emoji["D"]),
+                    discord.SelectOption(label="C", emoji=emoji["C"]),
+                    discord.SelectOption(label="B", emoji=emoji["B"]),
+                    discord.SelectOption(label="A", emoji=emoji["A"]),
+                    discord.SelectOption(label="S", emoji=emoji["S"]),
+                    discord.SelectOption(label="Légendaire", emoji=emoji["LegendaryS"]),
+                    discord.SelectOption(label="Trésor", emoji=emoji["treasureS"]),
+                    discord.SelectOption(label="Spécial", emoji=emoji["SpecialS"]),
+                    discord.SelectOption(label="Divinité / Enma", emoji=emoji["DivinityS"]),
+                    discord.SelectOption(label="Boss", emoji=emoji["Boss"]),
                     discord.SelectOption(label="Shiny", emoji="✨")
                 ]
 
@@ -324,6 +324,11 @@ class Medallium(commands.Cog) :
 
         Dropdown.message = await ctx.send(embed=main_embed, view=Dropdown)
 
+        if user.id == ctx.author.id:
+            bag = await Cf.get_bag(user.id)
+            bag["trophe_data"]["data"]["medallium completion"] = completion
+            await Cf.trophe_check(user.id)
+
     
     #the bag command
     @commands.hybrid_command(name="bag")
@@ -357,7 +362,7 @@ class Medallium(commands.Cog) :
         #sort the content by categorie
         for elements in brute_bag:
             #Don't take any numbers
-            if not elements in ["coin", "obj", "treasure", "equipped_treasure", "last_daily_reset", "amount", "daily_shop_data"]:
+            if not elements in ["coin", "obj", "treasure", "equipped_treasure", "last_daily_reset", "amount", "daily_shop_data", "trophe_data"]:
                 categorie = brute_bag[elements]
 
                 #Check if it's stack
@@ -377,7 +382,9 @@ class Medallium(commands.Cog) :
             sorted_dict = {i: item_per_class[non_sorted_dicts][i] for i in list_key}
             item_per_class[non_sorted_dicts] = sorted_dict
 
-
+        await Cf.update_trophe_data(ctx.author.id, "treasure", brute_bag["treasure"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "objects", brute_bag["obj"], "set")
+        await Cf.trophe_check(ctx.author.id, ctx)
 
         #Inv dropdown class
         class Inv_dropdown(discord.ui.Select):
@@ -528,8 +535,303 @@ class Medallium(commands.Cog) :
         return await ctx.send(embed=stats_embed)
         
 
-        
+    @commands.hybrid_command(name="medallium_event")
+    async def medallium_event(self, ctx = commands.Context, user : discord.User = None ):
+        """
+        Permet de voir votre médallium de yo-kai évènements!
+        """
 
+
+        #define the user
+        if user == None:
+            user = ctx.author
+
+        #Get inventory
+        brute_inventory = await Cf.get_inv(user.id)
+
+        #try if the inv is empty
+        if brute_inventory == {}:
+            if user.id == ctx.author.id:
+                inv_embed = discord.Embed(title="Oops, votre Médallium event est vide 😢!")
+            else:
+                inv_embed = discord.Embed(title=f"Oops, le Médallium event de {user.name} est vide 😢!")
+            return await ctx.send(embed=inv_embed)
+
+        #create the list :  
+        yokai_per_class = {
+            "Halloween": {},
+            "Noël": {},
+            "St-Valentin": {},
+            "Printemps": {},
+            "Pâques": {},
+            "Estival": {},
+            "Autre": {}
+        }
+
+        #sort the Yo-kai by class
+        for elements in brute_inventory:
+            if not type(brute_inventory[elements]) == int and not type(brute_inventory[elements]) == float:
+            #Don't take any numbers
+                try:
+                    categorie = brute_inventory[elements][0]
+
+                    #Check if it's stack
+                    try:
+                        count = brute_inventory[elements][1]
+                    except:
+                        count = 1
+
+                    #add it to the right list
+                    yokai_per_class[categorie][elements] = count
+                except KeyError:
+                    pass
+
+        #sort the list alphabeticaly :
+        for non_sorted_dicts in yokai_per_class:
+            list_key = list(yokai_per_class[non_sorted_dicts].keys())
+            list_key.sort()
+
+            sorted_dict = {i: yokai_per_class[non_sorted_dicts][i] for i in list_key}
+            yokai_per_class[non_sorted_dicts] = sorted_dict
+
+
+        #define the emoji list
+        emoji = data.emoji
+        yokai_data = data.yokai_event_data
+        list_len = data.event_list_len
+        image_link = data.image_link
+
+
+
+
+        #Inv dropdown class
+        class Inv_dropdown(discord.ui.Select):
+            def __init__(self):
+                options = [
+                    discord.SelectOption(label="Tout !", description="Affiche tout le Médallium event si possible.", emoji="🌐"),
+                    discord.SelectOption(label="Halloween", emoji=emoji["Halloween"]),
+                    discord.SelectOption(label="Noël", emoji=emoji["Noël"]),
+                    discord.SelectOption(label="St-Valentin", emoji=emoji["St-Valentin"]),
+                    discord.SelectOption(label="Printemps", emoji=emoji["Printemps"]),
+                    discord.SelectOption(label="Pâques", emoji=emoji["Pâques"]),
+                    discord.SelectOption(label="Estival", emoji=emoji["Estival"]),
+                    discord.SelectOption(label="Autre", emoji=emoji["Autre"])
+                ]
+
+                super().__init__(placeholder='Choisissez le rang que vous voulez...', min_values=1, max_values=1, options=options)
+
+            async def callback(self, interaction, ctx=ctx):
+                if self.values[0] == "Tout !":
+                    if user.id == ctx.author.id:
+                        inv_embed = discord.Embed(title="Voici votre Médallium event :")
+                    else:
+                        inv_embed = discord.Embed(title=f"Voici le Médallium event de {user.name} :")
+
+                    try:
+                        for classes in yokai_per_class:
+                            yokai_list_brute = yokai_per_class[classes]
+                            classes_name = classes
+                            class_id = classes
+
+                            yokai_list_formated = ""
+
+                            if yokai_list_brute != {}:
+                                for elements in yokai_list_brute:
+                                    if yokai_list_brute[elements] > 1:
+                                        yokai_list_formated += f"> {elements} **`(x{str(yokai_list_brute[elements])})`**\n"
+                                    else:
+                                        yokai_list_formated += f"> {elements}\n"
+
+                                inv_embed.add_field(name=f"Rang {classes_name} `{brute_inventory[class_id]}/{list_len[class_id]}`",
+                                                    value=yokai_list_formated)
+                                inv_embed.set_author(name=f"Médallium de {user.name}")
+                        return await interaction.response.send_message(embed=inv_embed)
+                    #if the medallium is to big to be in one message
+                    except discord.errors.HTTPException as e:
+                        error_embed = discord.Embed(color=discord.Color.red(),
+                                                    title="Oh non, une erreur s'est produite !",
+                                                    description="> Un bug sur cette commande se produit quand la sacoche est trop grande pour être affichée. (C'est un peu un flex quand même 🙃)")
+                        error_embed.add_field(name="Vous devez donc spécifier un type pour que cela marche.",
+                                            value="Vous pouvez utiliser le message ci-dessus.")
+                        return await interaction.response.send_message(embed=error_embed)
+
+                else:
+                    asked_class = self.values[0]
+                    classes = asked_class
+                    yokai_list_brute = yokai_per_class[asked_class]
+                    classes_name = asked_class
+                    class_id = asked_class
+
+                    yokai_list_formated = ""
+
+                    if yokai_list_brute != {}:
+                        for elements in yokai_list_brute:
+                            if yokai_list_brute[elements] > 1:
+                                yokai_list_formated += f"> {elements} **(x{str(yokai_list_brute[elements])})**\n"
+                            else:
+                                yokai_list_formated += f"> {elements}\n"
+
+                        inv_embed = discord.Embed(
+                            title=f"Yo-kai de Rang {classes_name} `{brute_inventory[class_id]}/{list_len[class_id]}`",
+                            description=yokai_list_formated,
+                            color=discord.Color.from_str(yokai_data[class_id]["color"])
+                        )
+                        #inv_embed.set_thumbnail(url=image_link[class_id])
+                        inv_embed.set_author(name=f"Médallium de {user.name}")
+                        return await interaction.response.send_message(embed=inv_embed)
+                    else:
+                        if user.id == ctx.author.id:
+                            inv_embed = discord.Embed(
+                                title="Oops, votre Médallium évènement ne contient pas de Yo-kai de ce rang 😢!")
+                        else:
+                            inv_embed = discord.Embed(
+                                title=f"Oops, le Médallium évènement de {user.name} ne contient pas de Yo-kai de ce rang 😢!")
+                        return await interaction.response.send_message(embed=inv_embed)
+
+
+        class Inv_dropdown_view(discord.ui.View):
+            def __init__(self):
+                super().__init__(timeout=300)
+                self.add_item(Inv_dropdown())
+                
+            async def on_timeout(self):
+                for item in self.children:
+                    item.disabled = True
+                try:
+                    await self.message.edit( embed=self.message.embeds[0], view=self)
+                except discord.NotFound:
+                    pass
+
+        Dropdown = Inv_dropdown_view()
+
+        #Create the main embed
+        main_embed = discord.Embed(title="__Médallium évènement -- Menu.__", colour=0xf58f00)
+
+        #Make the nerdy stats :
+        
+        #the total and the actual for the completion of the medallium
+        total = 0
+        actual = 0
+        total_point = 0
+        
+        yokai_claimed_count = ""
+        for classes in yokai_per_class:     
+            total += list_len[classes]
+            
+            actual += brute_inventory[classes]
+            
+            if brute_inventory[classes] == 0:
+                pass
+            elif len(classes) == 1:
+                yokai_claimed_count += f"Yo-kai de rang **{classes}**: `{brute_inventory[classes]}/{list_len[classes]}`\n"
+            else:
+                yokai_claimed_count += f"Yo-kai **{classes}**: `{brute_inventory[classes]}/{list_len[classes]}`\n"
+                
+        #process the completion of the medallium
+        completion = actual/total*100
+        completion = round(completion, 2)
+
+        main_embed.add_field(name="Voici vos statistiques :", value=yokai_claimed_count, inline=False)
+        main_embed.add_field(name="Pourcentage de complétion:", value=f"> Médallium complété à **{completion}%** !\n-# faites /stats pour plus d'info sur les points.")
+        if not user == None and user.id != ctx.author.id:
+            main_embed.set_footer(text=f"Merci de choisir parmi les propositions ci-dessous pour afficher les Yo-kai de {user.display_name}.")
+        
+        else:
+            main_embed.set_footer(text="Merci de choisir parmi les propositions ci-dessous pour afficher vos Yo-kai.")
+
+        Dropdown.message = await ctx.send(embed=main_embed, view=Dropdown)
+
+
+    #the commande to see all yours trophes
+    @commands.hybrid_command(name="trophe")
+    async def trophe(self, ctx = commands.Context, user : discord.User = None):
+        """
+        New ✨ ! Permet de voir la liste des trophées!
+        """
+        if user == None:
+            user = ctx.author
+        
+        bag = await Cf.get_bag(user.id)
+
+        class Inv_dropdown(discord.ui.Select):
+            def __init__(self):
+                options = [
+                    discord.SelectOption(label="Tout !", description="Affiche tout les trophées.", emoji="🌐"),
+                    discord.SelectOption(label="medallium", description="Affiche tout les trophées de la catégorie médallium.", emoji="🌐"),
+                    discord.SelectOption(label="cadeau", description="Affiche tout les trophées de la catégorie cadeau.", emoji="🎁"),
+                    discord.SelectOption(label="trade", description="Affiche tout les trophées de la catégorie trade.", emoji="🌐"),
+                    discord.SelectOption(label="fusion", description="Affiche tout les trophées de la catégorie fusion.", emoji="🌐"),
+                    discord.SelectOption(label="top", description="Affiche tout les trophées de la catégorie top.", emoji="🌐"),
+                    discord.SelectOption(label="shop", description="Affiche tout les trophées de la catégorie shop.", emoji="🌐"),
+                    discord.SelectOption(label="terrheure", description="Affiche tout les trophées de la catégorie terrheure.", emoji="🌐"),
+                    discord.SelectOption(label="bag", description="Affiche tout les trophées de la catégorie bag.", emoji="🌐"),
+                    discord.SelectOption(label="orbes", description="Affiche tout les trophées de la catégorie orbes.", emoji="🌐"),
+                    discord.SelectOption(label="search", description="Affiche tout les trophées de la catégorie search.", emoji="🌐"),
+                    discord.SelectOption(label="bingo-kai", description="Affiche tout les trophées de la catégorie bingo-kai.", emoji="🌐")
+                ]
+
+                super().__init__(placeholder='Choisissez la catégorie que vous voulez...', min_values=1, max_values=1, options=options)
+
+            async def callback(self, interaction, ctx=ctx):
+                if self.values[0] == "Tout !":
+                    trophe_list = ""
+
+                    for trophe in data.trophe_data:
+                        if trophe in bag["trophe_data"]["list"]:
+                            trophe_list += (f"🏆**{trophe}** ✅\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+
+                        else:
+                            trophe_list += (f"🏆**{trophe}** ❌\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+
+                    trophe_embed = discord.Embed(
+                                title = f"Liste des trophées de {user.name}",
+                                description = trophe_list,
+                                color = discord.colour.Color.yellow()
+                            )
+                else:
+                    trophe_list = ""
+
+                    for trophe in data.trophe_data:
+                        if data.trophe_data[trophe]["categorie"] == self.values[0]:
+                            if trophe in bag["trophe_data"]["list"]:
+                                trophe_list += (f"{data.emoji[data.trophe_data[trophe]["type"]]} **{trophe}** ✅\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+                            
+                            else:
+                                trophe_list += (f"{data.emoji[data.trophe_data[trophe]["type"]]} **{trophe}** ❌\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+
+                    trophe_embed = discord.Embed(
+                        title = f"Liste des trophées de {user.name} dans la catégorie {self.values[0]}:",
+                        description = trophe_list,
+                        color = discord.colour.Color.yellow()
+                    )
+                return await interaction.response.send_message(embed=trophe_embed)
+                
+        class Inv_dropdown_view(discord.ui.View):
+            def __init__(self):
+                super().__init__(timeout=300)
+                self.add_item(Inv_dropdown())
+                
+            async def on_timeout(self):
+                for item in self.children:
+                    item.disabled = True
+                try:
+                    await self.message.edit( embed=self.message.embeds[0], view=self)
+                except discord.NotFound:
+                    pass
+
+        Dropdown = Inv_dropdown_view()
+
+        #Create the main embed
+        main_embed = discord.Embed(title="__Trophées -- Menu.__", colour=0xf58f00)
+
+        main_embed.add_field(name="Voici vos statistiques :", value= f"Vous avez {len(bag["trophe_data"]["list"])} / 56 trophées.", inline=False)
+        if not user == None and user.id != ctx.author.id:
+            main_embed.set_footer(text=f"Merci de choisir parmi les propositions ci-dessous pour afficher les trophées de {user.display_name}.")
+        
+        else:
+            main_embed.set_footer(text="Merci de choisir parmi les propositions ci-dessous pour afficher vos trophées.")
+
+        Dropdown.message = await ctx.send(embed=main_embed, view=Dropdown)
 
 
 
