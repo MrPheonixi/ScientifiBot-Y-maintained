@@ -1,10 +1,9 @@
 {
   "today_user": [
-    "971809937338544259"
   ],
-  "last_day": "2026-07-25",
-  "last_selection1": "Navigarmateur",
-  "last_selection2": "No-bot",
+  "last_day": "O",
+  "last_selection1": "",
+  "last_selection2": "",
   "choice1": 0,
   "choice2": 0,
   "current_stage": 1,
@@ -458,6 +457,7 @@
     "Eddylapid",
     "Faustille",
     "Faux Kappa",
+    "Feuildechou",
     "Flopito",
     "Fou Kappa",
     "Froahuahua",
@@ -508,6 +508,7 @@
     "Mog-nyan",
     "Momonyan",
     "Méphito",
+    "Navigarmateur",
     "Nihilo",
     "Nimpégase",
     "Nonjuan",
@@ -912,6 +913,7 @@
     "Didgéophyte",
     "Dodorothée",
     "Domniscian",
+    "Don Dorleone",
     "Don Morleone",
     "Don Spiration",
     "Dr.Jobard",
@@ -953,6 +955,7 @@
     "Morquis",
     "Mécagolem",
     "Méganyan",
+    "No-bot",
     "Nébulor",
     "Ogralos",
     "Omai Tourbillonnant",
@@ -1017,8 +1020,5 @@
     "Hubble",
     "Mart1max"
   ],
-  "2": [
-    "Enma Infini",
-    "Feuildechou"
-  ]
+  "2": []
 }

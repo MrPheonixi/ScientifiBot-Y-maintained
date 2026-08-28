@@ -8,6 +8,7 @@ import bot_package.Custom_func as Cf
 import bot_package.data as data
 import bot_package.economy as eco
 import cogs.bkai_events.event_bkai as event
+import cogs.bkai_events.sondage as sondage
 import bot_package.treasure_tool as tt
 
 
@@ -56,6 +57,9 @@ class Bingo_kai(commands.Cog):
         La commande possède un cooldown de 1h30 (1h sur le serveur de support ;) )
         """
 
+        interaction = getattr(ctx, "interaction", None)
+        if interaction is not None:
+            await interaction.response.defer(ephemeral=False)
         
         #Secure equipped treasure
         await tt.check_t(ctx.author)
@@ -219,7 +223,7 @@ class Bingo_kai(commands.Cog):
                 #define the id and so the api request to the image
         
                 id = data.yokai_list_full.get(item, {}).get("id", None)
-                yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+                yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
                 if id == None :
                     yokai_embed.add_field(name="Image non disponible ! 😢", inline=False, value="En effet, nous ne possédons pas l'image de tous les Yo-kai, mais l'équipe travaille pour les apporter au complet et au plus vite.")
 
@@ -227,7 +231,7 @@ class Bingo_kai(commands.Cog):
                 
                 if await Cf.hasThing(ctx.author.id, item, "medallium"):
                     await Cf.add(ctx.author.id, item, class_id, "medallium", rank_orbe = True)
-                    inv = await Cf.get_inv(ctx.user.id)
+                    inv = await Cf.get_inv(ctx.author.id)
                     yokai_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {inv[item][1]}",
                         value="Faites `/medallium` pour voir votre Médallium."
@@ -266,7 +270,7 @@ class Bingo_kai(commands.Cog):
                 #get the image
 
                 id = data.item[item]["id"]
-                item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+                item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
                 
                 if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                             
@@ -300,7 +304,7 @@ class Bingo_kai(commands.Cog):
                 #get the image
 
                 id = data.item[item]["id"]
-                item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+                item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
 
                 if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                     item_embed.add_field(
@@ -334,7 +338,7 @@ class Bingo_kai(commands.Cog):
                 )
             
                 #add the image
-                coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_id}.png")
+                coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{coin_id}.png")
                 if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                     coin_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
@@ -443,7 +447,7 @@ class Bingo_kai(commands.Cog):
         
 
         id = data.yokai_list_full.get(Yokai_choice, {}).get("id", None) #I feel ashamed of what I did here
-        yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+        yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
 
         if id == None :
             yokai_embed.add_field(name="Image non disponible ! 😢", inline=False, value="En effet, nous ne possédons pas l'image de tous les Yo-kai, mais l'équipe travaille pour les apporter au complet et au plus vite.")
@@ -462,7 +466,7 @@ class Bingo_kai(commands.Cog):
         if await Cf.hasThing(ctx.author.id, Yokai_choice, "medallium"):
             await Cf.add(ctx.author.id, Yokai_choice, class_id, "medallium", rank_orbe = True)
 
-            brute_inventory = await Cf.get_inv(ctx.user.id)
+            brute_inventory = await Cf.get_inv(ctx.author.id)
             #Generate the embed
             yokai_embed.add_field(
                 name=f"Vous l'avez déjà eu. Vous en avez donc {brute_inventory[Yokai_choice][1]}",
@@ -515,7 +519,7 @@ class Bingo_kai(commands.Cog):
             )
             
             #add the image
-            coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_id}.png")
+            coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{coin_id}.png")
 
 
             await Cf.add(ctx.author.id, coin, "coin", "bag")
@@ -546,6 +550,11 @@ class Bingo_kai(commands.Cog):
         if random.choices([True, False], weights=[chance, 100-chance])[0] :
             evenement = event.Terrheure(self.bot)
             await evenement.terrheure(ctx)
+        
+
+        #activate the sondage systeme
+        poll_helper = sondage.sondage(self.bot)
+        await poll_helper.sondage(ctx, ctx.author.id)
             
    
 
@@ -609,7 +618,7 @@ class Bingo_kai(commands.Cog):
             
             await Cf.add(ctx.author.id, "Pièce gagnante", "coin", "bag")
             
-            winning_bkai_embed.set_image(url="https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bkai-gagnant.png")
+            winning_bkai_embed.set_image(url="https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/bkai-gagnant.png")
 
             await ctx.send(embed=winning_bkai_embed)
             
@@ -664,7 +673,7 @@ class Bingo_kai(commands.Cog):
         
 
         id = data.yokai_list_full.get(Yokai_choice, {}).get("id", None)
-        yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+        yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
 
         if id == None :
             yokai_embed.add_field(name="Image non disponible ! 😢", inline=False, value="En effet, nous ne possédons pas l'image de tous les Yo-kai, mais l'équipe travaille pour les apporter au complet et au plus vite.")

@@ -202,7 +202,7 @@ class shop(commands.Cog):
             embed.add_field(name = f"{daily_item}",value = f"Rang: {class_name} \nDescription: {description} \nPrix: {price} orbes")
             embed.set_thumbnail(url=data.image_link[class_id])
             id = data.yokai_list_full.get(Yokai_choice, {}).get("id", None)
-            embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+            embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
 
         else:
             embed.add_field(name = f"{daily_item}",value = f"Description: {description} \nPrix: {price} orbes")
@@ -263,7 +263,7 @@ class shop(commands.Cog):
                             #get the image
 
                             id = data.item[item]["id"]
-                            item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+                            item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
                             
                             item_embed.add_field(
                                 name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
@@ -290,7 +290,7 @@ class shop(commands.Cog):
                     #get the image
 
                     id = data.item[item]["id"]
-                    item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+                    item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
                     
                     item_embed.add_field(
                         name=f"Vous ne l'avez jamais eu !",
@@ -316,7 +316,7 @@ class shop(commands.Cog):
                 )
             
                 #add the image
-                coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{coin_id}.png")
+                coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{coin_id}.png")
 
             
                 if verification == True:
@@ -363,7 +363,7 @@ class shop(commands.Cog):
                 )
                 yokai_embed.set_thumbnail(url=data.image_link[class_id])
                 id = data.yokai_list_full.get(Yokai_choice, {}).get("id", None) #I feel ashamed of what I did here
-                yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+                yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
 
                 #is the Yo-kai in the inventory
                 #try the inv

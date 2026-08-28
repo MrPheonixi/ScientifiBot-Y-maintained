@@ -9,6 +9,7 @@ import bot_package.data as data
 import bot_package.economy as eco
 from typing import Literal
 import time
+import io
 
 
 
@@ -701,6 +702,43 @@ class Admin_command(commands.Cog):
         except Exception as e:
             await ctx.send(f"Erreur: {e}", ephemeral=True)
                 
+    @commands.hybrid_command(name="log")
+    @Check.is_in_dev_team()
+    async def log(self, ctx : commands.Context, contenu1:str, contenu2:str = None):
+        """
+        Log un message dans le fichier de log du bot.
+        """
+        logfile = "./discord.log"
+        results = []
+        try:
+            with data.open_json("./discord.log") as f:
+                for line in f:
+                    l = line.rstrip("\n")
+                    if contenu2:
+                        if contenu1 in l and contenu2 in l:
+                            results.append(l)
+                    else:
+                        if contenu1 in l:
+                            results.append(l)
+        except FileNotFoundError:
+            await ctx.send(f"Fichier de log introuvable: {logfile}")
+            return
+        except Exception as e:
+            await ctx.send(f"Erreur lors de la lecture du fichier de log: {e}")
+            return
+
+        if not results:
+            await ctx.send("Aucun résultat trouvé.")
+            return
+
+        content = "\n".join(results)
+        # Discord message length limit ~2000, send as file if too long
+        if len(content) > 1900:
+            bio = io.BytesIO(content.encode("utf-8"))
+            bio.seek(0)
+            await ctx.send(file=discord.File(fp=bio, filename="results.txt"))
+        else:
+            await ctx.send(f"{content}")
 
 async def setup(bot : commands.Bot ) -> None:
     await bot.add_cog(Admin_command(bot))
