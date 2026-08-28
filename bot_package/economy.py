@@ -22,14 +22,18 @@ async def create_user_info(user_id: int) -> None:
                     point = data.class_to_point[info[0]]
                     bonus_copies = int(info[1]) - 1
                     data.MONEY_DATA[str(user_id)] += point * bonus_copies
-                    
-    data.save_json("./files/monnaie.json", data.MONEY_DATA)
+        data.save_json("./files/monnaie.json", data.MONEY_DATA)
+    if not f"{user_id}_tt" in data.MONEY_DATA.keys():
+        data.MONEY_DATA[f"{user_id}_tt"] = data.MONEY_DATA[str(user_id)]
+        data.save_json("./files/monnaie.json", data.MONEY_DATA)
 
 
 # used to add orbe to a specific user
 async def add(user_id: int, amount: int) -> None:
     await create_user_info(user_id)
     data.MONEY_DATA[str(user_id)] += amount
+    if amount > 0:
+        data.MONEY_DATA[f"{user_id}_tt"] += amount
     data.save_json("./files/monnaie.json", data.MONEY_DATA)
 
 # used in the code to get the balance of a specific user
@@ -38,14 +42,18 @@ async def get_balance(user_id: int) -> int:
     return data.MONEY_DATA.get(str(user_id), 0)
         
 # use to set at 0 the wallet of a specific user
-async def reset(user_id: int) -> None:
+async def reset(user_id: int, tt: bool =False) -> None:
     data.MONEY_DATA[str(user_id)] = 0
+    if tt:
+        data.MONEY_DATA[f"{user_id}_tt"] = 0
     data.save_json("./files/monnaie.json", data.MONEY_DATA)
 
 # del the wallet of a specific user
 async def del_info(user_id: int) -> None:
     if str(user_id) in data.MONEY_DATA.keys():
         del data.MONEY_DATA[str(user_id)]
+    if f"{user_id}_tt" in data.MONEY_DATA.keys():
+        del data.MONEY_DATA[f"{user_id}_tt"]
     data.save_json("./files/monnaie.json", data.MONEY_DATA)
 
 #add the orbs corresponding to a certain rank
@@ -53,5 +61,6 @@ async def add_rank_orbe(user_id: int, rank) -> None:
     await create_user_info(user_id)
     p = data.class_to_point[rank]
     data.MONEY_DATA[str(user_id)] += p
+    data.MONEY_DATA[f"{user_id}_tt"] += p
     data.save_json("./files/monnaie.json", data.MONEY_DATA)
     await Cf.update_trophe_data(user_id, "orbes", p, "add")
