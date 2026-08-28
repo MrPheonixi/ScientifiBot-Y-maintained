@@ -757,17 +757,17 @@ class Medallium(commands.Cog) :
             def __init__(self):
                 options = [
                     discord.SelectOption(label="Tout !", description="Affiche tout les trophées.", emoji="🌐"),
-                    discord.SelectOption(label="medallium", description="Affiche tout les trophées de la catégorie médallium.", emoji="🌐"),
-                    discord.SelectOption(label="cadeau", description="Affiche tout les trophées de la catégorie cadeau.", emoji="🎁"),
-                    discord.SelectOption(label="trade", description="Affiche tout les trophées de la catégorie trade.", emoji="🌐"),
-                    discord.SelectOption(label="fusion", description="Affiche tout les trophées de la catégorie fusion.", emoji="🌐"),
-                    discord.SelectOption(label="top", description="Affiche tout les trophées de la catégorie top.", emoji="🌐"),
-                    discord.SelectOption(label="shop", description="Affiche tout les trophées de la catégorie shop.", emoji="🌐"),
-                    discord.SelectOption(label="terrheure", description="Affiche tout les trophées de la catégorie terrheure.", emoji="🌐"),
-                    discord.SelectOption(label="bag", description="Affiche tout les trophées de la catégorie bag.", emoji="🌐"),
-                    discord.SelectOption(label="orbes", description="Affiche tout les trophées de la catégorie orbes.", emoji="🌐"),
-                    discord.SelectOption(label="search", description="Affiche tout les trophées de la catégorie search.", emoji="🌐"),
-                    discord.SelectOption(label="bingo-kai", description="Affiche tout les trophées de la catégorie bingo-kai.", emoji="🌐")
+                    discord.SelectOption(label="Médallium", description="Affiche tout les trophées de la catégorie médallium.", emoji="🌐"),
+                    discord.SelectOption(label="Cadeau", description="Affiche tout les trophées de la catégorie cadeau.", emoji="🎁"),
+                    discord.SelectOption(label="Trade", description="Affiche tout les trophées de la catégorie trade.", emoji="🌐"),
+                    discord.SelectOption(label="Fusion", description="Affiche tout les trophées de la catégorie fusion.", emoji="🌐"),
+                    discord.SelectOption(label="Top", description="Affiche tout les trophées de la catégorie top.", emoji="🌐"),
+                    discord.SelectOption(label="Shop", description="Affiche tout les trophées de la catégorie shop.", emoji="🌐"),
+                    discord.SelectOption(label="Terr'heure", description="Affiche tout les trophées de la catégorie terrheure.", emoji="👺"),
+                    discord.SelectOption(label="Bag", description="Affiche tout les trophées de la catégorie bag.", emoji="🎒"),
+                    discord.SelectOption(label="Orbes", description="Affiche tout les trophées de la catégorie orbes.", emoji="🌐"),
+                    discord.SelectOption(label="Search", description="Affiche tout les trophées de la catégorie search.", emoji="🌐"),
+                    discord.SelectOption(label="Bingo-kai", description="Affiche tout les trophées de la catégorie bingo-kai.", emoji="🌐")
                 ]
 
                 super().__init__(placeholder='Choisissez la catégorie que vous voulez...', min_values=1, max_values=1, options=options)
@@ -778,10 +778,10 @@ class Medallium(commands.Cog) :
 
                     for trophe in data.trophe_data:
                         if trophe in bag["trophe_data"]["list"]:
-                            trophe_list += (f"🏆**{trophe}** ✅\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+                            trophe_list += (f"🏆 **{trophe}** ✅\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
 
                         else:
-                            trophe_list += (f"🏆**{trophe}** ❌\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
+                            trophe_list += (f"🏆 **{trophe}** ❌\nObtention: {data.trophe_data[trophe]["obtention"]}\n\n")
 
                     trophe_embed = discord.Embed(
                                 title = f"Liste des trophées de {user.name}",
