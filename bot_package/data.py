@@ -154,6 +154,7 @@ shop_item = open_json("./files/shop.json")
 #list of people who use daily command today
 daily_people= open_json("./files/daily.json")
 
+#information about the daily shop
 daily_shop = open_json("./files/daily_shop.json")
 
 fusion = open_json("./files/fusion.json")
@@ -187,6 +188,11 @@ trophe_color = {
     "argent" : "#5d5f5d",
     "or" : "#fffb00"
 }
+#information about the flex command
+flex = open_json("./files/flex.json")
+
+#yokai sondage info
+sondage = open_json("./files/sondage.json")
 
 default_medallium  = {
                         "last_claim" : 10000,

@@ -39,6 +39,7 @@ class daily(commands.Cog):
         #on défini quelque liste pour bien choisir l'objet
         prize = ["Pièce Journalière","color coin","rare coin"]
         weights = [75,20,5]
+        
 
         color_coin=["Pièce rouge","Pièce jaune","Pièce orange","Pièce rose","Pièce verte","Pièce bleue","Pièce mauve","Pièce bleue ciel"]
         rare_coin=["Pièce 5 étoiles","Pièce spéciale","Pièce noire","Pièce démoniaque","Pièce scellée","Pièce légendaire","Pièce monstrueuse"]
