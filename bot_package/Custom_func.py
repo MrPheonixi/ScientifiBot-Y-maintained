@@ -342,6 +342,9 @@ async def HasMoreThanOneThing(input_id : int, thing:str, where: str):
         return False
 
 async def trophe_check(user : int, ctx: commands.Context):
+    if not await create_trophe_data(user):
+        return
+
     bag = await get_bag(user)
 
     trophe_user_data = bag["trophe_data"]
@@ -367,9 +370,11 @@ async def trophe_check(user : int, ctx: commands.Context):
                 return await ctx.send(embed=trophe_embed)
 
         except KeyError:
-                    pass
+            pass
 
 async def update_trophe_data(user : int, condition : str, value : int, mode: str):
+    await create_trophe_data(user)
+
     bag = await get_bag(user)
 
     if mode == "set":
@@ -381,6 +386,31 @@ async def update_trophe_data(user : int, condition : str, value : int, mode: str
             bag["trophe_data"]["data"][condition] = value
 
     await save_bag(bag, user)
+
+async def create_trophe_data(user: int):
+    bag = await get_bag(user)
+    if bag == {}:
+        bag = data.default_bag.copy()
+        bag["trophe_data"] = {
+            "list" : [],
+            "data" : {},
+            "fusion" : []
+        }
+        await save_bag(bag, user)
+        return True
+        
+    try:
+        bag["trophe_data"]
+        return False
+    except KeyError:
+        bag["trophe_data"] = {
+            "list" : [],
+            "data" : {},
+            "fusion" : []
+        }
+        await save_bag(bag, user)
+        return True
+        
 
 ##########################
 ## Data management part ##
