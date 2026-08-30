@@ -1,380 +1,380 @@
 {
-    "Trophée de Bronze": {
+    "Trophée de bronze": {
         "condition" : "medallium completion",
         "value" : 25,
         "type" : "bronze",
         "obtention" : "Avoir complété 25% du médallium.",
-        "categorie" : "medallium"
+        "categorie" : "Médallium"
     },
-    "Trophée d'Argent": {
+    "Trophée d'argent": {
         "condition" : "medallium completion",
         "value" : 50,
         "type" : "argent",
         "obtention" : "Avoir complété 50% du médallium.",
-        "categorie" : "medallium"
+        "categorie" : "Médallium"
     },
     "Trophée d'or": {
         "condition" : "medallium completion",
         "value" : 75,
         "type" : "or",
         "obtention" : "Avoir complété 75% du médallium.",
-        "categorie" : "medallium"
+        "categorie" : "Médallium"
     },
     "Trophée d'émeraude": {
         "condition" : "E a divinite",
         "value" : 829,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai de rang E à divinité",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai de rang E à divinité.",
+        "categorie" : "Médallium"
     },
-    "Trophée du Boss" : {
+    "Trophée du boss" : {
         "condition" : "boss",
         "value" : 102,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai de rang boss",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai de rang boss.",
+        "categorie" : "Médallium"
     },
-    "Trophée Differents" : {
+    "Trophée différents" : {
         "condition" : "shiny",
         "value" : 26,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai de rang shiny",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai de rang shiny.",
+        "categorie" : "Médallium"
     },
-    "Trophée de Rubis" : {
+    "Trophée de rubis" : {
         "condition" : "yokai total",
         "value" : 957,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai.",
+        "categorie" : "Médallium"
     },
     "Trophée Halloween" : {
         "condition" : "Halloween",
         "value" : 6,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai d'Halloween",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai d'Halloween.",
+        "categorie" : "Médallium"
     },
-    "Trophée du Sapin" : {
+    "Trophée de Noël" : {
         "condition" : "Noel",
         "value" : 14,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai de Noël",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai de Noël.",
+        "categorie" : "Médallium"
     },
-    "Trophée du Printemps" : {
+    "Trophée printanier" : {
         "condition" : "Printemps",
         "value" : 20,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai de printemps",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai printaniers.",
+        "categorie" : "Médallium"
     },
-    "Trophée de l'amour" : {
+    "Trophée de Saint-Valentin" : {
         "condition" : "Valentin",
         "value" : 30,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai de Saint-Valentin",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai de Saint-Valentin.",
+        "categorie" : "Médallium"
     },
     "Trophée de Pâques" : {
         "condition" : "Paques",
         "value" : 8,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai de Pâques",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai de Pâques.",
+        "categorie" : "Médallium"
     },
-    "Trophée de la plage" : {
+    "Trophée estival" : {
         "condition" : "Estival",
         "value" : 20,
         "type" : "or",
-        "obtention" : "Avoir tous les yokai Estival",
-        "categorie" : "medallium"
+        "obtention" : "Avoir tous les yokai estivaux.",
+        "categorie" : "Médallium"
     },
-    "Trophée Gentil" : {
+    "Trophée gentil" : {
         "condition" : "cadeau",
         "value" : 1,
         "type" : "bronze",
-        "obtention" : "Offrir 1 cadeau",
-        "categorie" : "cadeau"
+        "obtention" : "Offrir 1 cadeau.",
+        "categorie" : "Cadeau"
     },
-    "Trophée très Gentil" : {
+    "Trophée très gentil" : {
         "condition" : "cadeau",
         "value" : 10,
         "type" : "argent",
-        "obtention" : "Offrir 10 cadeaux",
-        "categorie" : "cadeau"
+        "obtention" : "Offrir 10 cadeaux.",
+        "categorie" : "Cadeau"
     },
-    "Trophée de Super bienveillance" : {
+    "Trophée de super bienveillance" : {
         "condition" : "cadeau",
         "value" : 100,
         "type" : "or",
-        "obtention" : "Offrir 100 cadeaux",
-        "categorie" : "cadeau"
+        "obtention" : "Offrir 100 cadeaux.",
+        "categorie" : "Cadeau"
     },
     "Trophée du fan d'échange" : {
         "condition" : "trade un yokai",
         "value" : 1,
         "type" : "bronze",
-        "obtention" : "Recevoir un nouveau yokai grâce à un trade",
-        "categorie" : "trade"
+        "obtention" : "Recevoir un nouveau yokai grâce à un trade.",
+        "categorie" : "Trade"
     },
     "Trophée de découverte d'objets" : {
         "condition" : "trade un objet",
         "value" : 1,
         "type" : "bronze",
-        "obtention" : "Recevoir un nouvel objet grâce à un trade",
-        "categorie" : "trade"
+        "obtention" : "Recevoir un nouvel objet grâce à un trade.",
+        "categorie" : "Trade"
     },
     "Trophée du super fan d'échange" : {
         "condition" : "trade",
         "value" : 100,
         "type" : "argent",
-        "obtention" : "Recevoir 100 objet/yokai grâce à des trades",
-        "categorie" : "trade"
+        "obtention" : "Recevoir 100 objet/yokai grâce à des trades.",
+        "categorie" : "Trade"
     },
     "Trophée du fan absolu d'échange" : {
         "condition" : "trade",
         "value" : 1000,
         "type" : "or",
-        "obtention" : "Recevoir 1000 objet/yokai grâce à des trades",
-        "categorie" : "trade"
+        "obtention" : "Recevoir 1000 objet/yokai grâce à des trades.",
+        "categorie" : "Trade"
     },
     "Trophée fan de fusion" : {
         "condition" : "fusion",
         "value" : 1,
         "type" : "bronze",
-        "obtention" : "Faire 1 fusion",
-        "categorie" : "fusion"
+        "obtention" : "Faire 1 fusion.",
+        "categorie" : "Fusion"
     },
     "Trophée super fan de fusion" : {
         "condition" : "fusion",
         "value" : 10,
         "type" : "argent",
-        "obtention" : "Faire 10 fusion",
-        "categorie" : "fusion"
+        "obtention" : "Faire 10 fusion.",
+        "categorie" : "Fusion"
     },
     "Trophée fous des fusion" : {
-        "condition" : "fusion différentes",
+        "condition" : "fusion différentes.",
         "value" : 31,
         "type" : "or",
-        "obtention" : "Faire 31 fusion différentes",
-        "categorie" : "fusion"
+        "obtention" : "Faire 31 fusions différentes.",
+        "categorie" : "Fusion"
     },
     "Trophée du tryhard" : {
         "condition" : "rank",
         "value" : 1,
         "type" : "or",
-        "obtention" : "Arriver dans le top 100 du /rank",
-        "categorie" : "top"
+        "obtention" : "Arriver dans le top 100 du /rank.",
+        "categorie" : "Top"
     },
     "Trophée du petit dépenseur" : {
         "condition" : "buy",
         "value" : 1,
         "type" : "bronze",
-        "obtention" : "Acheter 1 item dans le shop",
-        "categorie" : "shop"
+        "obtention" : "Acheter 1 item dans le shop.",
+        "categorie" : "Shop"
     },
     "Trophée du super dépenseur" : {
         "condition" : "buy",
         "value" : 10,
         "type" : "argent",
-        "obtention" : "Acheter 100 item dans le shop",
-        "categorie" : "shop"
+        "obtention" : "Acheter 10 items dans le shop.",
+        "categorie" : "Shop"
     },
     "Trophée du dépenseur fou" : {
         "condition" : "buy",
         "value" : 100,
         "type" : "or",
-        "obtention" : "Acheter 100 item dans le shop",
-        "categorie" : "shop"
+        "obtention" : "Acheter 100 items dans le shop.",
+        "categorie" : "Shop"
     },
     "Trophée fan d'achat" : {
         "condition" : "depense",
         "value" : 500,
         "type" : "bronze",
-        "obtention" : "Dépenser 500 orbes",
-        "categorie" : "shop"
+        "obtention" : "Dépenser 500 orbes.",
+        "categorie" : "Shop"
     },
     "Trophée super fan d'achat" : {
         "condition" : "depense",
         "value" : 2000,
         "type" : "argent",
-        "obtention" : "Dépenser 2 000 orbes",
-        "categorie" : "shop"
+        "obtention" : "Dépenser 2 000 orbes.",
+        "categorie" : "Shop"
     },
     "Trophée du dépenseur ultime" : {
         "condition" : "depense",
         "value" : 500,
         "type" : "bronze",
-        "obtention" : "Dépenser 10 000 orbes",
-        "categorie" : "shop"
+        "obtention" : "Dépenser 10 000 orbes.",
+        "categorie" : "Shop"
     },
     "Trophée Gargaros" : {
         "condition" : "terrheure",
         "value" : 1,
         "type" : "bronze",
-        "obtention" : "Réaliser 1 terrheure",
-        "categorie" : "terrheure"
+        "obtention" : "Réaliser 1 Terr'heure.",
+        "categorie" : "Terr'heure"
     },
     "Trophée Ogralos" : {
         "condition" : "terrheure 5",
         "value" : 5,
         "type" : "argent",
-        "obtention" : "Réaliser 5 terrheure avec au moins 5 personnes",
-        "categorie" : "terrheure"
+        "obtention" : "Réaliser 5 Terr'heure avec au moins 5 personnes.",
+        "categorie" : "Terr'heure"
     },
     "Trophée Orquanos" : {
         "condition" : "terrheure 15",
         "value" : 30,
         "type" : "or",
-        "obtention" : "Réaliser 15 terrheure avec au moins 15 personnes",
-        "categorie" : "terrheure"
+        "obtention" : "Réaliser 15 Terr'heure avec au moins 15 personnes.",
+        "categorie" : "Terr'heure"
     },
     "Trophée Orqéophyte" : {
         "condition" : "terrheure",
         "value" : 100,
         "type" : "or",
-        "obtention" : "Réaliser 100 terrheure",
-        "categorie" : "terrheure"
+        "obtention" : "Réaliser 100 Terr'heure.",
+        "categorie" : "Terr'heure"
     },
     "Trophée super Orqéophyte" : {
         "condition" : "terrheure 45",
         "value" : 1,
         "type" : "or",
-        "obtention" : "Réaliser 1 terrheure avec au moins 45 personnes",
-        "categorie" : "terrheure"
+        "obtention" : "Réaliser 1 Terr'heure avec au moins 45 personnes.",
+        "categorie" : "Terr'heure"
     },
     "Trophée du modificateur de %" : {
         "condition" : "treasure",
         "value" : 1,
         "type" : "argent",
-        "obtention" : "Récupérer 1 trésor",
-        "categorie" : "bag"
+        "obtention" : "Récupérer 1 trésor.",
+        "categorie" : "Bag"
     },
     "Trophée du fou des trésors" : {
         "condition" : "treasure",
         "value" : 9,
         "type" : "or",
-        "obtention" : "Récupérer les 9 trésors",
-        "categorie" : "bag"
+        "obtention" : "Récupérer les 9 trésors.",
+        "categorie" : "Bag"
     },
     "Trophée du collectionneur" : {
         "condition" : "objets",
         "value" : 20,
         "type" : "bronze",
-        "obtention" : "Récupérer 20 objets",
-        "categorie" : "bag"
+        "obtention" : "Récupérer 20 objets.",
+        "categorie" : "Bag"
     },
     "Trophée du super collectionneur" : {
         "condition" : "objets",
         "value" : 100,
         "type" : "argent",
-        "obtention" : "Récupérer 100 objets",
-        "categorie" : "bag"
+        "obtention" : "Récupérer 100 objets.",
+        "categorie" : "Bag"
     },
     "Trophée du méga collectionneur" : {
         "condition" : "objets",
         "value" : 250,
         "type" : "or",
-        "obtention" : "Récupérer 250 objets",
-        "categorie" : "bag"
+        "obtention" : "Récupérer 250 objets.",
+        "categorie" : "Bag"
     },
     "Trophée du collectionneur fou" : {
         "condition" : "objets",
         "value" : 387,
         "type" : "or",
-        "obtention" : "Récupérer les 387 objets",
-        "categorie" : "bag"
+        "obtention" : "Récupérer les 387 objets.",
+        "categorie" : "Bag"
     },
     "Trophée du fan des orbes" : {
         "condition" : "orbes",
         "value" : 1000,
         "type" : "bronze",
-        "obtention" : "Récupérer 1 000 orbes",
-        "categorie" : "orbes"
+        "obtention" : "Récupérer 1 000 orbes.",
+        "categorie" : "Orbes"
     },
     "Trophée du super fan des orbes" : {
         "condition" : "orbes",
         "value" : 10000,
         "type" : "argent",
-        "obtention" : "Récupérer 1 0000 orbes",
-        "categorie" : "orbes"
+        "obtention" : "Récupérer 10 000 orbes.",
+        "categorie" : "Orbes"
     },
     "Trophée du fou des orbes" : {
         "condition" : "orbes",
         "value" : 25000,
         "type" : "or",
-        "obtention" : "Récupérer 25 000 orbes",
-        "categorie" : "orbes"
+        "obtention" : "Récupérer 25 000 orbes.",
+        "categorie" : "Orbes"
     },
     "Trophée du curieux" : {
         "condition" : "search",
         "value" : 1000,
         "type" : "or",
-        "obtention" : "Faire 1000 /search",
-        "categorie" : "search"
+        "obtention" : "Faire 1000 /search.",
+        "categorie" : "Search"
     },
     "Trophée du débutant" : {
         "condition" : "bingo-kai",
         "value" : 100,
         "type" : "bronze",
-        "obtention" : "Faire 100 tirages de bingo-kai",
-        "categorie" : "bingo-kai"
+        "obtention" : "Faire 100 tirages de bingo-kai.",
+        "categorie" : "Bingo-kai"
     },
     "Trophée du vétérent" : {
         "condition" : "bingo-kai",
         "value" : 1000,
         "type" : "argent",
-        "obtention" : "Faire 1000 tirages de bingo-kai",
-        "categorie" : "bingo-kai"
+        "obtention" : "Faire 1000 tirages de bingo-kai.",
+        "categorie" : "Bingo-kai"
     },
     "Trophée du joueur régulier" : {
         "condition" : "bingo-kai",
         "value" : 2000,
         "type" : "or",
-        "obtention" : "Faire 2000 tirages de bingo-kai",
-        "categorie" : "bingo-kai"
+        "obtention" : "Faire 2000 tirages de bingo-kai.",
+        "categorie" : "Bingo-kai"
     },
     "Trophée de découverte" : {
         "condition" : "piece",
         "value" : 1,
         "type" : "bronze",
-        "obtention" : "Utiliser 1 pièce au bingo-kai",
-        "categorie" : "bingo-kai"
+        "obtention" : "Utiliser 1 pièce au bingo-kai.",
+        "categorie" : "Bingo-kai"
     },
     "Trophée de fan de pièce" : {
         "condition" : "piece",
         "value" : 10,
         "type" : "argent",
-        "obtention" : "Utiliser 10 pièces au bingo-kai",
-        "categorie" : "bingo-kai"
+        "obtention" : "Utiliser 10 pièces au bingo-kai.",
+        "categorie" : "Bingo-kai"
     },
     "Trophée du fou des pièces" : {
         "condition" : "piece",
         "value" : 100,
         "type" : "or",
-        "obtention" : "Utiliser 100 pièce au bingo-kai",
-        "categorie" : "bingo-kai"
+        "obtention" : "Utiliser 100 pièce au bingo-kai.",
+        "categorie" : "Bingo-kai"
     },
     "Trophée du petit chanceux" : {
         "condition" : "bingo-kai gagnant",
         "value" : 1,
         "type" : "bronze",
-        "obtention" : "Faire 1 tirage du bingo-kai gagnant",
-        "categorie" : "bingo-kai"
+        "obtention" : "Faire 1 tirage du bingo-kai gagnant.",
+        "categorie" : "Bingo-kai"
     },
     "Trophée du super chanceux" : {
         "condition" : "bingo-kai gagnant",
         "value" : 10,
         "type" : "argent",
-        "obtention" : "Faire 10 tirage du bingo-kai gagnant",
-        "categorie" : "bingo-kai"
+        "obtention" : "Faire 10 tirages du bingo-kai gagnant.",
+        "categorie" : "Bingo-kai"
     },
     "Trophée du chanceux fou" : {
         "condition" : "bingo-kai gagnant",
         "value" : 100,
         "type" : "or",
-        "obtention" : "Faire 100 tirage du bingo-kai gagnant",
-        "categorie" : "bingo-kai"
+        "obtention" : "Faire 100 tirages du bingo-kai gagnant.",
+        "categorie" : "Bingo-kai"
     }
 }
