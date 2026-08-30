@@ -370,7 +370,7 @@ async def trophe_check(user : int, ctx: commands.Context):
                 return await ctx.send(embed=trophe_embed)
 
         except KeyError:
-                    pass
+            pass
 
 async def update_trophe_data(user : int, condition : str, value : int, mode: str):
     await create_trophe_data(user)
@@ -391,17 +391,26 @@ async def create_trophe_data(user: int):
     bag = await get_bag(user)
     if bag == {}:
         bag = data.default_bag.copy()
+        bag["trophe_data"] = {
+            "list" : [],
+            "data" : [],
+            "fusion" : []
+        }
+        await save_bag(bag, user)
         return True
+        
     try:
         bag["trophe_data"]
         return False
     except KeyError:
         bag["trophe_data"] = {
             "list" : [],
-            "data" : [],
+            "data" : {},
             "fusion" : []
         }
+        await save_bag(bag, user)
         return True
+        
 
 ##########################
 ## Data management part ##
