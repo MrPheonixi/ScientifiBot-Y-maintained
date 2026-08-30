@@ -1,6 +1,8 @@
 import os
 import asyncio
 import json
+import sqlite3
+from pathlib import Path
 
 
 """
@@ -9,6 +11,8 @@ This module provide the data imported for various json in a python usable format
 Also some assets like default inv or bag.
 """
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = Path(os.getenv("DATABASE_PATH", str(BASE_DIR / "data" / "scientibot.db")))
 
 
 #func to fix a bug, on windows only ofc ;)
@@ -30,8 +34,9 @@ if os.name == "nt":  # Only execute on Windows
                 return obj
 
 else:
-    def fix_encoding(obj):            
+    def fix_encoding(obj):
         return obj
+
 
 # Function to open JSON data
 def open_json(file_path: str):
@@ -40,159 +45,184 @@ def open_json(file_path: str):
             return fix_encoding(json.load(f))
     return {}
 
+
 # Function to save JSON data
 def save_json(file_path: str, data: dict, ):
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
+def _catalog_key_from_path(file_path: str) -> str | None:
+    normalized = str(file_path).replace('\\', '/').strip()
+    if normalized.startswith('./'):
+        normalized = normalized[2:]
+    if normalized.startswith('/'):
+        normalized = normalized.lstrip('/')
+    if normalized.startswith('files/'):
+        normalized = normalized[len('files/') :]
+    if not normalized:
+        return None
+    name = Path(normalized).stem
+    if name == 'blacklisted-yokai':
+        return 'blacklisted_yokai'
+    if name == 'bot-data':
+        return None
+    if name == 'configuration':
+        return None
+    return name
 
 
-#Get Yo-kai lists :
-with open("./files/yokai_list.json") as yokai_list:
-    yokai_data = fix_encoding(json.load(yokai_list))
-    list_len = {
-        "E" : len(yokai_data["E"]["yokai_list"]),
-        "D" : len(yokai_data["D"]["yokai_list"]),
-        "C" : len(yokai_data["C"]["yokai_list"]),
-        "B" : len(yokai_data["B"]["yokai_list"]),
-        "A" : len(yokai_data["A"]["yokai_list"]),
-        "S" : len(yokai_data["S"]["yokai_list"]),
-        "LegendaryS" : len(yokai_data["LegendaryS"]["yokai_list"]),
-        "treasureS" : len(yokai_data["treasureS"]["yokai_list"]),
-        "DivinityS" : len(yokai_data["DivinityS"]["yokai_list"]),
-        "SpecialS" : len(yokai_data["SpecialS"]["yokai_list"]),
-        "Boss" : len(yokai_data["Boss"]["yokai_list"]),
-        "Shiny" : len(yokai_data["Shiny"]["yokai_list"])
+def _read_sql_catalog_json(key_name: str, default=None):
+    if not DB_PATH.exists():
+        return default
+    try:
+        with sqlite3.connect(DB_PATH) as connection:
+            row = connection.execute(
+                "SELECT value_json FROM catalog_lookup WHERE key_name = ?",
+                (key_name,),
+            ).fetchone()
+    except sqlite3.Error:
+        return default
+    if row is None:
+        return default
+    try:
+        return fix_encoding(json.loads(row[0]))
+    except (TypeError, ValueError):
+        return default
+
+
+def _load_yokai_lengths(yokai_data):
+    if not isinstance(yokai_data, dict):
+        return {}
+    return {
+        "E": len(yokai_data.get("E", {}).get("yokai_list", [])),
+        "D": len(yokai_data.get("D", {}).get("yokai_list", [])),
+        "C": len(yokai_data.get("C", {}).get("yokai_list", [])),
+        "B": len(yokai_data.get("B", {}).get("yokai_list", [])),
+        "A": len(yokai_data.get("A", {}).get("yokai_list", [])),
+        "S": len(yokai_data.get("S", {}).get("yokai_list", [])),
+        "LegendaryS": len(yokai_data.get("LegendaryS", {}).get("yokai_list", [])),
+        "treasureS": len(yokai_data.get("treasureS", {}).get("yokai_list", [])),
+        "DivinityS": len(yokai_data.get("DivinityS", {}).get("yokai_list", [])),
+        "SpecialS": len(yokai_data.get("SpecialS", {}).get("yokai_list", [])),
+        "Boss": len(yokai_data.get("Boss", {}).get("yokai_list", [])),
+        "Shiny": len(yokai_data.get("Shiny", {}).get("yokai_list", [])),
     }
-#Make the class list and the proba    
+
+
+#Get Yo-kai lists from SQLite only, except configuration and bot-data that remain JSON.
+yokai_data = _read_sql_catalog_json("yokai_list", {})
+list_len = _load_yokai_lengths(yokai_data)
+
+#Make the class list and the proba
 class_list = ['E', 'D', 'C', 'B', 'A', 'S', 'LegendaryS', "treasureS", "SpecialS", 'DivinityS', "Boss", "Shiny"]
 proba_list = [0.4165, 0.2, 0.12, 0.12, 0.08, 0.04, 0.0075, 0.0075, 0.0075, 0.005, 0.0025, 0.0010]
 #                E     D     C     B     A     S      L       t       Sp      D       B      Sh
 golden_proba_list = [0.0, 0.0, 0.0, 0.3, 0.25, 0.2, 0.10, 0.10, 0.005, 0.025, 0.01, 0.01]
 
-#Get the full list
-"""with open("./files/full_name_fr.json") as yk_list_full:
-    yokai_list_full = fix_encoding(json.load(yk_list_full))"""
-    
-#don't ask why
-yokai_list_full = open_json("./files/full_name_fr.json")
-    
-#get image and emoji list :
-with open("./files/bot-data.json") as bot_data:
-    bot_data = fix_encoding(json.load(bot_data))
+yokai_list_full = _read_sql_catalog_json("full_name_fr", {})
+
+# get image and emoji list from bot-data.json only
+with open("./files/bot-data.json", "r", encoding="utf-8") as bot_data_file:
+    bot_data = fix_encoding(json.load(bot_data_file))
     image_link = {}
-    for link in bot_data["image_link"]:
+    for link in bot_data.get("image_link", {}):
         image_link[link] = bot_data["image_link"][link]
-        
+
     emoji = {}
-    for emojis in bot_data["emoji"] :
+    for emojis in bot_data.get("emoji", {}):
         emoji[emojis] = bot_data["emoji"][emojis]
-        
-        
-# Get configuration.json
-with open("./configuration.json", "r") as config:
+
+# Get configuration.json only
+with open("./configuration.json", "r", encoding="utf-8") as config:
     config_data = fix_encoding(json.load(config))
-    team_member_id = config_data["team_members_id"]
-    team_bypass_cooldown = config_data["team_bypass_cooldown"]
-    
-    
+    team_member_id = config_data.get("team_members_id", [])
+    team_bypass_cooldown = config_data.get("team_bypass_cooldown", False)
+
 #Get all coin related stuff (a lot)
-with open("./files/coin.json") as coin_brute :
-    coin_data = fix_encoding(json.load(coin_brute))
-    coin_list = []
-    coin_proba = []
-    
-    for coin in coin_data :
-        #get the name of the coin, and his proba, and put it into tow seperate list in the same order
-        coin_list.append(coin)
-        coin_proba.append(coin_data[coin]["proba"])
+coin_data = _read_sql_catalog_json("coin", {})
+coin_list = list(coin_data.keys())
+coin_proba = [coin_data[coin].get("proba", 0) for coin in coin_list]
 
 coin_loot = {}
 for dirpath, dirnames, filenames in os.walk("./files/coin"):
     for file in filenames:
+        if not file.endswith(".json"):
+            continue
         coin_loot_brute = open_json(f"./files/coin/{file}")
-        coin_loot[file.removesuffix(".json")] = {
-                "list" : coin_loot_brute["list"]
-            }
-        
+        coin_key = file.removesuffix(".json")
+        coin_loot[coin_key] = {"list": coin_loot_brute.get("list", {})}
         proba_in_order = []
         element_in_order = []
-        
-        for element in coin_loot[file.removesuffix(".json")]["list"] :
-            #add the element to the list at the same place than his proba
+        for element in coin_loot[coin_key]["list"]:
             element_in_order.append(element)
-            
-            proba_in_order.append(coin_loot[file.removesuffix(".json")]["list"][element][1])
-        
-        coin_loot[file.removesuffix(".json")]["proba_in_order"] = proba_in_order
-        coin_loot[file.removesuffix(".json")]["element_in_order"] = element_in_order
+            proba_in_order.append(coin_loot[coin_key]["list"][element][1])
+        coin_loot[coin_key]["proba_in_order"] = proba_in_order
+        coin_loot[coin_key]["element_in_order"] = element_in_order
 
-#items info :
-item = open_json("./files/items.json")
+#items info
+item = _read_sql_catalog_json("items", {})
 
 #tag info
-TAGS_DATA = open_json("./files/tags.json")
+TAGS_DATA = _read_sql_catalog_json("tags", {})
 
 #Sort tags data
 for value in TAGS_DATA.values():
-    value["list"].sort()
-    
-    
+    if isinstance(value, dict) and isinstance(value.get("list"), list):
+        value["list"].sort()
+
 #money info
-MONEY_DATA = open_json("./files/monnaie.json")
+MONEY_DATA = _read_sql_catalog_json("monnaie", {})
 
 #terheure loot info
-terrheure = open_json("./files/terrheure_loot.json")
+terrheure = _read_sql_catalog_json("terrheure_loot", {})
 
 #blacklist info for normal bkai
-blacklist = open_json("./files/blacklisted-yokai.json")
+blacklist = _read_sql_catalog_json("blacklisted_yokai", {})
 
 #items info for shop
-shop_item = open_json("./files/shop.json")
+shop_item = _read_sql_catalog_json("shop", {})
 
 #list of people who use daily command today
-daily_people= open_json("./files/daily.json")
+daily_people = _read_sql_catalog_json("daily_people", {"people": []})
 
 #information about the daily shop
-daily_shop = open_json("./files/daily_shop.json")
+daily_shop = _read_sql_catalog_json("daily_shop", {})
 
-fusion = open_json("./files/fusion.json")
+fusion = _read_sql_catalog_json("fusion", {})
 
-yokai_event_list = open_json("./files/yokai_event.json")
+yokai_event_list = _read_sql_catalog_json("yokai_event_list", {})
+yokai_event_data = _read_sql_catalog_json("yokai_event", {})
+event_list_len = {
+    "Halloween": len(yokai_event_data.get("Halloween", {}).get("yokai_list", [])),
+    "Noël": len(yokai_event_data.get("Noël", {}).get("yokai_list", [])),
+    "St-Valentin": len(yokai_event_data.get("St-Valentin", {}).get("yokai_list", [])),
+    "Printemps": len(yokai_event_data.get("Printemps", {}).get("yokai_list", [])),
+    "Pâques": len(yokai_event_data.get("Pâques", {}).get("yokai_list", [])),
+    "Estival": len(yokai_event_data.get("Estival", {}).get("yokai_list", [])),
+    "Autre": len(yokai_event_data.get("Autre", {}).get("yokai_list", [])),
+}
 
-with open("./files/yokai_event.json") as yokai_event_list:
-    yokai_event_data = fix_encoding(json.load(yokai_event_list))
-    event_list_len = {
-        "Halloween" : len(yokai_event_data["Halloween"]["yokai_list"]),
-        "Noël" : len(yokai_event_data["Noël"]["yokai_list"]),
-        "St-Valentin" : len(yokai_event_data["St-Valentin"]["yokai_list"]),
-        "Printemps" : len(yokai_event_data["Printemps"]["yokai_list"]),
-        "Pâques" : len(yokai_event_data["Pâques"]["yokai_list"]),
-        "Estival" : len(yokai_event_data["Estival"]["yokai_list"]),
-        "Autre" : len(yokai_event_data["Autre"]["yokai_list"])
-    }
+current_event_data = _read_sql_catalog_json("current_event", {})
+current_event = current_event_data.get("current_event") if isinstance(current_event_data, dict) else None
 
-yokai_event_list = open_json("./files/yokai_event_list.json")
+if current_event is not None:
+    current_event_payload = yokai_event_data.get(current_event, {})
+    if isinstance(current_event_payload, dict):
+        list_len["SpecialS"] = max(0, list_len.get("SpecialS", 0) - len(current_event_payload.get("yokai_list", [])))
 
-current_event = open_json("./files/current_event.json")["current_event"]
-
-if current_event != None:
-    list_len["SpecialS"] -= len(yokai_event_data[current_event]["yokai_list"])
-
-
-trophe_data = open_json("./files/trophe.json")
+trophe_data = _read_sql_catalog_json("trophe", {})
 
 trophe_color = {
-    "bronze" : "#4e3609",
-    "argent" : "#5d5f5d",
-    "or" : "#fffb00"
+    "bronze": "#4e3609",
+    "argent": "#5d5f5d",
+    "or": "#fffb00"
 }
 #information about the flex command
-flex = open_json("./files/flex.json")
+flex = _read_sql_catalog_json("flex", {})
 
 #yokai sondage info
-sondage = open_json("./files/sondage.json")
+sondage = _read_sql_catalog_json("sondage", {})
 
 default_medallium  = {
                         "last_claim" : 10000,

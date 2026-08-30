@@ -138,6 +138,10 @@ class Terrheure():
         
         self.bot.logger.info(f"Terrheure stopped in server {ctx.guild.id}/{ctx.guild.name}, started by {ctx.author.id}/{ctx.author.name}, {users_len} users")
 
+        data.terrheure.setdefault("stats", {})
+        data.terrheure["stats"]["activation_time"] = int(data.terrheure["stats"].get("activation_time", 0)) + 1
+        data.save_json("./files/terrheure_loot.json", data.terrheure)
+
         for id in view.users_in:
             await Cf.update_trophe_data(id, "terrheure", 1, "add")
             if users_len >= 5:

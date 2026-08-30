@@ -7,6 +7,7 @@ import bot_package.Custom_func as Cf
 import bot_package.Check as Check
 import bot_package.data as data
 import bot_package.economy as eco
+from bot_package.database import get_all_player_ids
 from typing import Literal
 import time
 import io
@@ -74,8 +75,7 @@ class Admin_command(commands.Cog):
             self.all_top["Complétion"].clear()
             self.all_top["Points"].clear()
             
-            files = [f for f in os.listdir("./files/inventory") if f.endswith(".json")]
-            ids = [int(f.removesuffix(".json")) for f in files]
+            ids = await get_all_player_ids()
             member_data = []
 
             for id in ids:
@@ -186,6 +186,20 @@ class Admin_command(commands.Cog):
             index = data.daily_people["people"].index(target_id)
             del data.daily_people["people"][index]
             return await ctx.send(f"l'id {target_id} a bien été oubliez de la liste")
+
+    @commands.hybrid_command(name="sondage_reset")
+    @Check.is_in_dev_team()
+    async def sondage_reset(self, ctx: commands.Context):
+        """
+        Oublie les participants du sondage du jour et remet uniquement les comptes à zéro.
+        Ne fait pas avancer au jour suivant et ne modifie pas le stage en cours.
+        """
+        sondage_data = data.open_json("./files/sondage.json")
+        sondage_data["today_user"] = []
+        sondage_data["choice1"] = 0
+        sondage_data["choice2"] = 0
+        data.save_json("./files/sondage.json", sondage_data)
+        return await ctx.send("Le sondage a bien été remis à zéro : participants oubliés et compteurs nettoyés, sans avancer le cycle.", ephemeral=True)
             
     @commands.hybrid_command(name="statistique")
     @Check.is_in_dev_team()
@@ -251,8 +265,9 @@ class Admin_command(commands.Cog):
 
         statis_embed = discord.Embed(color=discord.Color.green(), title="Voici les stats avancées")
         statis_embed.add_field(name="Totals de yo-kai en circulation", value=f"`{total_yokai}` yo-kai")
-        statis_embed.add_field(name="Totals d'orbe en circulation", value=f"{total_money} orbes")
-        statis_embed.add_field(name="nombre d'activation de la terrheure", value=f"{data.terrheure["stats"]["activation_time"]} Terrheure on déja été activé")
+        statis_embed.add_field(name="Totals d'orbes en circulation", value=f"{total_money} orbes")
+        activation_count = int(data.terrheure.get("stats", {}).get("activation_time", 0))
+        statis_embed.add_field(name="nombre d'activation de la terrheure", value=f"{activation_count} Terrheure ont déjà été activé")
         statis_embed.set_footer(text="partie 2/2")
         return await ctx.send(embed=statis_embed)
 
@@ -797,7 +812,7 @@ class Admin_command(commands.Cog):
         data.current_event = event
         current_event = data.open_json("./files/current_event.json")
         current_event["current_event"] = event
-        data.save_json("./files/current_event.json",current_event)
+        data.save_json("./files/current_event.json", current_event)
         embed = discord.Embed(
             title = f"Évènement {event} commencé."
         )

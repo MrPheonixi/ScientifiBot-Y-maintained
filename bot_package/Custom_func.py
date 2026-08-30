@@ -61,9 +61,8 @@ else:
         return obj
 
 
-#Get the full list
-with open("./files/full_name_fr.json") as yk_list_full:
-    yokai_list_full = fix_encoding(json.load(yk_list_full))
+#Get the full list from the SQL-backed catalog source
+yokai_list_full = data.yokai_list_full
 
 
 asset_for_class_id_to_class = {
@@ -113,14 +112,20 @@ async def get_inv(id : int):
     """
     A func to get the inv of a user (with his id)
     """
+    try:
+        from bot_package.database import get_inv_sql
+        data = await get_inv_sql(id)
+        if data:
+            return data
+    except Exception:
+        pass
+
     if os.path.exists(f"./files/inventory/{str(id)}.json"):
         async with aiofiles.open(f"./files/inventory/{str(id)}.json") as f:
             content = await f.read()
             data = fix_encoding(json.loads(content))
-    else :
-        # Return nothing if there's nothing to :/
+    else:
         data = {}
-       
     return data
 
 
@@ -130,6 +135,12 @@ async def save_inv(data : dict, id : int):
     """
     A func to save the inv of a user (with his id)
     """
+    try:
+        from bot_package.database import save_inv_sql
+        await save_inv_sql(id, data)
+    except Exception:
+        pass
+
     async with aiofiles.open(f"./files/inventory/{str(id)}.json", "w", encoding="utf-8") as f:
         await f.write(json.dumps(data, indent=2, ensure_ascii=False))
         
@@ -141,14 +152,20 @@ async def get_bag(id : int):
     """
     A func to get the bag of a user (with his id)
     """
+    try:
+        from bot_package.database import get_bag_sql
+        data = await get_bag_sql(id)
+        if data:
+            return data
+    except Exception:
+        pass
+
     if os.path.exists(f"./files/bag/{str(id)}.json"):
         async with aiofiles.open(f"./files/bag/{str(id)}.json") as f:
             content = await f.read()
             data = fix_encoding(json.loads(content))
-    else :
-        #retrun nothing if there's nothing to :/
+    else:
         data = {}
-       
     return data
 
 
@@ -158,11 +175,17 @@ async def save_bag(data : dict, id : int):
     """
     A func to save the bag of a user (with his id)
     """
+    try:
+        from bot_package.database import save_bag_sql
+        await save_bag_sql(id, data)
+    except Exception:
+        pass
+
     async with aiofiles.open(f"./files/bag/{str(id)}.json", "w", encoding="utf-8") as f:
         await f.write(json.dumps(data, indent=2, ensure_ascii=False))
         
         
-exlude_match= data.open_json("./files/exclude_match.json")["list"]
+exlude_match = data.open_json("./files/exclude_match.json").get("list", [])
 async def smart_match(s1: str, s2: str) -> bool:
     """
     A func that return if s1 match s2
@@ -206,9 +229,8 @@ async def manage_cooldown(user_id: int, check_only: bool = False) -> bool:
         bool: True if user has seen message, False if not
     """
     try:
-        with open("./files/cooldownlist.json", "r") as f:
-            cooldown_list = json.load(f)
-    except:
+        cooldown_list = data.open_json("./files/cooldownlist.json")
+    except Exception:
         cooldown_list = {}
 
     # Check if user exists
@@ -221,8 +243,7 @@ async def manage_cooldown(user_id: int, check_only: bool = False) -> bool:
 
     # Add user and save
     cooldown_list[str(user_id)] = True
-    with open("./files/cooldownlist.json", "w") as f:
-        json.dump(cooldown_list, f, indent=2)
+    data.save_json("./files/cooldownlist.json", cooldown_list)
     return False
 
 
@@ -342,45 +363,61 @@ async def HasMoreThanOneThing(input_id : int, thing:str, where: str):
         return False
 
 async def trophe_check(user : int, ctx: commands.Context):
+    from bot_package.database import add_trophy_earned, get_db_connection
     bag = await get_bag(user)
 
+    # Initialise la structure si elle n'existe pas (backward compat)
+    if "trophe_data" not in bag:
+        bag["trophe_data"] = {"data": {}, "list": [], "fusion": []}
+    
     trophe_user_data = bag["trophe_data"]
 
     for trophe in data.trophe_data:
         try:
-            if trophe_user_data["data"][data.trophe_data[trophe]["condition"]] >= data.trophe_data[trophe]["value"] and trophe not in trophe_user_data["list"]:
+            condition_key = data.trophe_data[trophe]["condition"]
+            condition_value = trophe_user_data["data"].get(condition_key, 0)
+            
+            if condition_value >= data.trophe_data[trophe]["value"] and trophe not in trophe_user_data["list"]:
                 trophe_user_data["list"].append(trophe)
                 trophe_obtained = trophe
                 trophe_type_obtained = data.trophe_data[trophe]["type"]
-        
-
+                
+                # Enregistre dans la DB
+                await add_trophy_earned(user, trophe)
+                
                 bag["trophe_data"] = trophe_user_data
                 await save_bag(bag, user)
 
                 trophe_embed = discord.Embed(
                     title=f"Vous avez eu le trophée **{trophe_obtained}** ✨ ",
-                    description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe]["obtention"]}",
+                    description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe]['obtention']}",
                     color=discord.Color.from_str(data.trophe_color[trophe_type_obtained])                
                 )
-                #trophe_embed.set_thumbnail(url=data.image_link[trophe_type_obtained])
-    
                 return await ctx.send(embed=trophe_embed)
 
         except KeyError:
-                    pass
+            pass
 
 async def update_trophe_data(user : int, condition : str, value : int, mode: str):
-    bag = await get_bag(user)
-
+    """Met à jour les données de trophée dans la base SQL."""
+    from bot_package.database import add_trophy_progress
+    
     if mode == "set":
-        bag["trophe_data"]["data"][condition] = value
+        await add_trophy_progress(user, condition, value)
     elif mode == "add":
-        try : 
-            bag["trophe_data"]["data"][condition] += value
-        except KeyError:
-            bag["trophe_data"]["data"][condition] = value
-
-    await save_bag(bag, user)
+        try:
+            from bot_package.database import get_db_connection
+            db = await get_db_connection()
+            cursor = await db.execute(
+                "SELECT value FROM trophy_progress WHERE user_id = ? AND trophy_condition = ?",
+                (user, condition)
+            )
+            row = await cursor.fetchone()
+            current_value = row[0] if row else 0
+            await db.close()
+            await add_trophy_progress(user, condition, current_value + value)
+        except Exception:
+            await add_trophy_progress(user, condition, value)
 
 ##########################
 ## Data management part ##
@@ -466,7 +503,7 @@ async def add(input_id : int, thing : str, rang : str, where:str, rank_orbe: boo
                     inv[thing][1] += 1
                     # give orb if the argument is true
                     if rank_orbe:
-                        eco.add_rank_orbe(input_id,rang)
+                        await eco.add_rank_orbe(input_id,rang)
                 except Exception:
                     #catch an exception if the yokai was not stacked
                     #so we know there is only one and we can add the mention of two yokai ( .append(2) )

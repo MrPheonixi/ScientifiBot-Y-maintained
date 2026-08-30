@@ -24,6 +24,8 @@ import discord
 from discord.ext import commands, tasks
 from discord.ext.commands import Context
 
+from database.migrate_json_to_sql import migrate_all_json_to_sql
+
 #import .env stuff
 from dotenv import load_dotenv
 
@@ -189,6 +191,13 @@ class DiscordBot(commands.Bot):
             f"Running on: {platform.system()} {platform.release()} ({os.name})"
         )
         self.logger.info("-------------------")
+
+        try:
+            await migrate_all_json_to_sql()
+            self.logger.info("JSON-to-SQL migration completed successfully.")
+        except Exception as exc:
+            self.logger.warning(f"JSON-to-SQL migration skipped or failed: {exc}")
+
         await self.load_cogs()
         # Sync global commands
         try:

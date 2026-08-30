@@ -15,9 +15,12 @@ if True: #flemme of removing all this tab
         if bag == {}:
             bag = data.default_bag.copy()
 
+        if "daily_shop_data" not in bag or not isinstance(bag["daily_shop_data"], list):
+            bag["daily_shop_data"] = [False, 0, "object", 0, "Aucun objet disponible.", "Aucun objet."]
+
         try:
             last_daily_shop_reset = bag["daily_shop_data"][1]
-        except KeyError:
+        except (KeyError, IndexError, TypeError):
             last_daily_shop_reset = 0
         
         if last_daily_shop_reset < midnight: #select the item if he didn't get choose this day
@@ -111,12 +114,18 @@ class shop(commands.Cog):
         if page == 1:  #show the daily item on the first page
             await generate_daily_shop(ctx)
             bag = await Cf.get_bag(ctx.author.id)
-            item_type = bag["daily_shop_data"][2]
-            description = bag["daily_shop_data"][4]
-            price = bag["daily_shop_data"][3]
-            item = bag["daily_shop_data"][5]
+            daily_shop_data = bag.get("daily_shop_data")
+            if not isinstance(daily_shop_data, list) or len(daily_shop_data) < 6:
+                daily_shop_data = [False, await Cf.get_midnight(), "object", 0, "Aucun objet disponible.", "Aucun objet."]
+                bag["daily_shop_data"] = daily_shop_data
+                await Cf.save_bag(bag, ctx.author.id)
+
+            item_type = daily_shop_data[2]
+            description = daily_shop_data[4]
+            price = daily_shop_data[3]
+            item = daily_shop_data[5]
             if item_type == "yokai":
-                class_name = await Cf.classid_to_class(bag["daily_shop_data"][6])
+                class_name = await Cf.classid_to_class(daily_shop_data[6]) if len(daily_shop_data) > 6 else "inconnu"
                 embed.add_field(
                     name=f"Item du jour:\n{item}, yo-kai de rang {class_name}",
                     value=f"Prix: {price} orbes\nDescription: {description}",
@@ -223,7 +232,7 @@ class shop(commands.Cog):
             embed.add_field(name = f"{daily_item}",value = f"Rang: {class_name} \nDescription: {description} \nPrix: {price} orbes")
             embed.set_thumbnail(url=data.image_link[class_id])
             id = data.yokai_list_full.get(Yokai_choice, {}).get("id", None)
-            embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+            embed.set_image(url=f"https://slimepunk.fr/bello/sby/{id}.png")
 
         else:
             embed.add_field(name = f"{daily_item}",value = f"Description: {description} \nPrix: {price} orbes")
@@ -266,8 +275,9 @@ class shop(commands.Cog):
             await Cf.trophe_check(ctx.author.id, ctx)
             if bag["daily_shop_data"][2] == "object":
                 item = bag["daily_shop_data"][5]
-                item_type = data.item[item]["type"]
-                item_desc = data.item[item]["desc"]
+                item_data = data.item.get(item, {})
+                item_type = item_data.get("type", "obj")
+                item_desc = item_data.get("desc", "Aucune description disponible.")
                 
                 if verification:
                     for elements in bag.keys():
@@ -286,8 +296,9 @@ class shop(commands.Cog):
                             )
                             #get the image
 
-                            id = data.item[item]["id"]
-                            item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+                            item_id = item_data.get("id")
+                            if item_id:
+                                item_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{item_id}.png")
                             
                             item_embed.add_field(
                                 name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
@@ -313,8 +324,9 @@ class shop(commands.Cog):
                     )
                     #get the image
 
-                    id = data.item[item]["id"]
-                    item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+                    item_id = item_data.get("id")
+                    if item_id:
+                        item_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{item_id}.png")
                     
                     item_embed.add_field(
                         name=f"Vous ne l'avez jamais eu !",
@@ -340,7 +352,7 @@ class shop(commands.Cog):
                 )
             
                 #add the image
-                coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{coin_id}.png")
+                coin_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{coin_id}.png")
 
             
                 if verification == True:
@@ -387,7 +399,7 @@ class shop(commands.Cog):
                 )
                 yokai_embed.set_thumbnail(url=data.image_link[class_id])
                 id = data.yokai_list_full.get(Yokai_choice, {}).get("id", None) #I feel ashamed of what I did here
-                yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+                yokai_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{id}.png")
 
                 #is the Yo-kai in the inventory
                 #try the inv

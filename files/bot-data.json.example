@@ -1,16 +1,16 @@
 {
     "image_link" : {
-        "B" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/Rang_B.webp",
-        "E" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/Rang_E.webp",
-        "C" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/Rang_C.webp",
-        "A" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/Rang_A.webp",
-        "D" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/Rang_D.webp",
-        "S" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/Rang_S.webp",
-        "LegendaryS" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/Legende.png",
-        "treasureS" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/Treasure.png",
-        "SpecialS" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/rare.png",
-        "DivinityS" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/divinite.png",
-        "Boss" : "https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/static/boss.png",
+        "B" : "https://slimepunk.fr/bello/sby/static/Rang_B.webp",
+        "E" : "https://slimepunk.fr/bello/sby/static/Rang_E.webp",
+        "C" : "https://slimepunk.fr/bello/sby/static/Rang_C.webp",
+        "A" : "https://slimepunk.fr/bello/sby/static/Rang_A.webp",
+        "D" : "https://slimepunk.fr/bello/sby/static/Rang_D.webp",
+        "S" : "https://slimepunk.fr/bello/sby/static/Rang_S.webp",
+        "LegendaryS" : "https://slimepunk.fr/bello/sby/static/Legende.png",
+        "treasureS" : "https://slimepunk.fr/bello/sby/static/Treasure.png",
+        "SpecialS" : "https://slimepunk.fr/bello/sby/static/rare.png",
+        "DivinityS" : "https://slimepunk.fr/bello/sby/static/divinite.png",
+        "Boss" : "https://slimepunk.fr/bello/sby/static/boss.png",
         "Shiny" : "https://example.com/"
 
     },

@@ -10,6 +10,77 @@ import asyncio
 import io
 
 
+SONDAGE_PATH = "./files/sondage.json"
+
+
+class SondageView(discord.ui.View):
+    def __init__(self, sondage_data_path: str, user_id: int, choice1: str, choice2: str):
+        super().__init__(timeout=30)
+        self.sondage_data_path = sondage_data_path
+        self.user_id = user_id
+        self.choice1 = choice1
+        self.choice2 = choice2
+        self.voted = False
+        self.message = None  # sera assigné juste après l'envoi du message
+
+        # Renomme dynamiquement les boutons avec les noms des yokai
+        self.children[0].label = choice1
+        self.children[1].label = choice2
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        # Empêche quelqu'un d'autre de voter à ta place (sécurité, même si le message est éphémère)
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message("Ce sondage n'est pas pour toi !", ephemeral=True)
+            return False
+        return True
+
+    async def _register_vote(self, interaction: discord.Interaction, choice_num: int):
+        self.voted = True
+        sondage_data = data.open_json(self.sondage_data_path)
+
+        if choice_num == 1:
+            sondage_data["choice1"] += 1
+        else:
+            sondage_data["choice2"] += 1
+
+        today_users = sondage_data.setdefault("today_user", [])
+        if str(self.user_id) not in today_users:
+            today_users.append(str(self.user_id))
+
+        data.save_json(self.sondage_data_path, sondage_data)
+
+        for child in self.children:
+            child.disabled = True
+
+        winner_label = self.choice1 if choice_num == 1 else self.choice2
+        await interaction.response.edit_message(
+            content=f"✅ Merci pour ton vote pour **{winner_label}** !",
+            embed=None,
+            view=self
+        )
+        self.stop()
+
+    @discord.ui.button(label="Choix 1", style=discord.ButtonStyle.primary)
+    async def choice1_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self._register_vote(interaction, 1)
+
+    @discord.ui.button(label="Choix 2", style=discord.ButtonStyle.primary)
+    async def choice2_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self._register_vote(interaction, 2)
+
+    async def on_timeout(self):
+        if not self.voted:
+            for child in self.children:
+                child.disabled = True
+            if self.message is not None:
+                try:
+                    await self.message.edit(
+                        content="⏱️ Temps écoulé, aucun choix. Tu pourras revoter à ton prochain bingo-kai.",
+                        view=self
+                    )
+                except (discord.NotFound, discord.HTTPException):
+                    pass
+
 
 class sondage():
     def __init__(self, bot=None):
@@ -44,15 +115,15 @@ class sondage():
             return Image.new("RGBA", size, (0, 0, 0, 0))
 
     async def sondage(self, ctx, user_id):
-        #get the sondage data
-        sondage_data = data.open_json("./files/sondage.json")
+        # get the sondage data
+        sondage_data = data.open_json(SONDAGE_PATH)
         cs = sondage_data["current_stage"]
         stage_key = str(cs)
         next_stage_key = str(cs + 1)
         need_reset = False
-        #get the last day of poll
+        # get the last day of poll
         last_day = sondage_data["last_day"]
-        #get the current day
+        # get the current day
         current_day = datetime.now().strftime("%Y-%m-%d")
         if last_day != current_day:
             sondage_data["last_day"] = current_day
@@ -85,17 +156,17 @@ class sondage():
                 temp = sondage_data["choice1"]
                 sondage_data["choice1"] = sondage_data["choice2"]
                 sondage_data["choice2"] = temp
-                
+
             poll_embed = discord.Embed(title="Résultat du sondage d'hier !",
                                     description=f"Le sondage d'hier a été remporté par {sondage_data['last_selection1']} avec {sondage_data['choice1']} votes contre {sondage_data['last_selection2']} avec {sondage_data['choice2']} votes !",
                                     color=discord.Color.green())
-            
-            #crée la liste suivante si non existante
+
+            # crée la liste suivante si non existante
             next_stage_list = sondage_data.setdefault(next_stage_key, [])
-            #mettre le gagnant dans la list
+            # mettre le gagnant dans la list
             next_stage_list.append(sondage_data["last_selection1"])
             current_stage_list = sondage_data.setdefault(stage_key, [])
-            #si il reste que un yk dans la current list, le faire passer ainsi que le notifier
+            # si il reste que un yk dans la current list, le faire passer ainsi que le notifier
             if len(current_stage_list) == 1:
                 next_stage_list.append(current_stage_list[0])
                 poll_embed.add_field(name=f"le tour numéro {cs} est fini!", value=f"de manière exceptionnelle, le yokai {current_stage_list[0]} est passé au tour suivant car il était le dernier restant dans la liste!")
@@ -126,7 +197,8 @@ class sondage():
             sondage_data["last_day"] = current_day
             sondage_data["choice1"] = 0
             sondage_data["choice2"] = 0
-            #choose 2 new yokai and make other stuff
+            sondage_data["today_user"] = []
+            # choose 2 new yokai and make other stuff
             current_stage_list = sondage_data.setdefault(stage_key, [])
             if len(current_stage_list) >= 2:
                 yk1 = random.choice(current_stage_list)
@@ -139,13 +211,13 @@ class sondage():
             sondage_data["last_selection1"] = yk1
             sondage_data["last_selection2"] = yk2
 
-            #create the poll image
+            # create the poll image
             id_list = data.yokai_list_full
             id1 = id_list.get(yk1, {}).get("id")
             id2 = id_list.get(yk2, {}).get("id")
             if id1 and id2:
-                imgyk1 = self._get_image_from_url(f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id1}.png")
-                imgyk2 = self._get_image_from_url(f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id2}.png")
+                imgyk1 = self._get_image_from_url(f"https://slimepunk.fr/bello/sby/{id1}.png")
+                imgyk2 = self._get_image_from_url(f"https://slimepunk.fr/bello/sby/{id2}.png")
             else:
                 imgyk1 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
                 imgyk2 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
@@ -156,8 +228,8 @@ class sondage():
             id1 = id_list.get(yk1, {}).get("id")
             id2 = id_list.get(yk2, {}).get("id")
             if id1 and id2:
-                imgyk1 = self._get_image_from_url(f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id1}.png")
-                imgyk2 = self._get_image_from_url(f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id2}.png")
+                imgyk1 = self._get_image_from_url(f"https://slimepunk.fr/bello/sby/{id1}.png")
+                imgyk2 = self._get_image_from_url(f"https://slimepunk.fr/bello/sby/{id2}.png")
             else:
                 imgyk1 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
                 imgyk2 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
@@ -182,49 +254,38 @@ class sondage():
             im.paste(vs_image, (256, 0), vs_image)
         image_path = f"./files/poll_image/{current_day}.png"
         im.save(image_path)
-        data.save_json("./files/sondage.json", sondage_data)
+        data.save_json(SONDAGE_PATH, sondage_data)
 
-        today_users = sondage_data.setdefault("today_user", [])
+        # Vérifie si l'utilisateur a déjà voté aujourd'hui
+        today_users = sondage_data.get("today_user", [])
         if str(user_id) in today_users:
             return
 
-        today_users.append(str(user_id))
-        data.save_json("./files/sondage.json", sondage_data)
-
-        poll_embed = discord.Embed(title="Sondage du jour !",
-                                  description=f"Votez pour ton yokai préféré !\n\n{sondage_data['last_selection1']} ou {sondage_data['last_selection2']} ?",
-                                  color=discord.Color.blue())
+        # Prépare l'embed et la vue avec boutons
+        poll_embed = discord.Embed(
+            title="Sondage du jour !",
+            description=f"Vote pour ton yokai préféré !\n\n{sondage_data['last_selection1']} ou {sondage_data['last_selection2']} ?",
+            color=discord.Color.blue()
+        )
         poll_embed.set_image(url=f"attachment://{os.path.basename(image_path)}")
-        msg = await ctx.send(embed=poll_embed, file=discord.File(image_path, filename=os.path.basename(image_path)), ephemeral=True)
 
+        view = SondageView(
+            SONDAGE_PATH,
+            user_id,
+            sondage_data["last_selection1"],
+            sondage_data["last_selection2"]
+        )
+
+        await ctx.send(
+            embed=poll_embed,
+            file=discord.File(image_path, filename=os.path.basename(image_path)),
+            view=view,
+            ephemeral=True
+        )
+
+        # Récupère le message réel pour permettre l'édition au timeout (on_timeout)
         try:
-            await msg.add_reaction("1️⃣")
-            await msg.add_reaction("2️⃣")
-        except (discord.NotFound, discord.HTTPException):
-            pass
-
-        def check(reaction, user):
-            return (
-                user != self.bot.user
-                and reaction.message.id == msg.id
-                and str(reaction.emoji) in ("1️⃣", "2️⃣")
-            )
-
-        try:
-            reaction, user = await self.bot.wait_for(
-                "reaction_add",
-                timeout=30,
-                check=check
-            )
-
-            if str(reaction.emoji) == "1️⃣":
-                sondage_data["choice1"] += 1
-            else:
-                sondage_data["choice2"] += 1
-            data.save_json("./files/sondage.json", sondage_data)
-            await ctx.send("Merci pour votre vote !", ephemeral=True)
-
-        except asyncio.TimeoutError:
-            await ctx.send(f"Temps écoulé, aucun choix.<@{user_id}> \nVous pourrez refaire un choix à votre prochain bingo-kai", ephemeral=True)
-
-
+            if getattr(ctx, "interaction", None) is not None:
+                view.message = await ctx.interaction.original_response()
+        except (discord.NotFound, discord.HTTPException, AttributeError):
+            view.message = None

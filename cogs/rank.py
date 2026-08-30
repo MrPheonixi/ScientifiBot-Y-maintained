@@ -3,6 +3,7 @@ from discord.ext import commands
 from typing import Literal
 import bot_package.Custom_func as Cf
 import bot_package.data as data
+from bot_package.database import get_all_player_ids
 import os
 import time
 
@@ -48,8 +49,7 @@ class Rank(commands.Cog):
             self.all_top["Complétion"].clear()
             self.all_top["Points"].clear()
             
-            files = [f for f in os.listdir("./files/inventory") if f.endswith(".json")]
-            ids = [int(f.removesuffix(".json")) for f in files]
+            ids = await get_all_player_ids()
 
             for id in ids:
 
