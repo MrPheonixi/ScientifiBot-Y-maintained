@@ -389,6 +389,9 @@ async def update_trophe_data(user : int, condition : str, value : int, mode: str
 
 async def create_trophe_data(user: int):
     bag = await get_bag(user)
+    if bag == {}:
+        bag = data.default_bag.copy()
+        return True
     try:
         bag["trophe_data"]
         return False
