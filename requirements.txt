@@ -1,4 +1,5 @@
 discord.py
 python-dotenv
 aiofiles
-PIL
+Pillow
+aiosqlite
