@@ -393,7 +393,7 @@ async def create_trophe_data(user: int):
         bag = data.default_bag.copy()
         bag["trophe_data"] = {
             "list" : [],
-            "data" : [],
+            "data" : {},
             "fusion" : []
         }
         await save_bag(bag, user)
