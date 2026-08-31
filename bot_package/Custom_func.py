@@ -342,7 +342,7 @@ async def HasMoreThanOneThing(input_id : int, thing:str, where: str):
         return False
 
 async def trophe_check(user : int, ctx: commands.Context):
-    if not await create_trophe_data(user):
+    if await create_trophe_data(user):
         return
 
     bag = await get_bag(user)
