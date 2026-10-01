@@ -228,7 +228,7 @@ class Bingo_kai(commands.Cog):
                 #define the id and so the api request to the image
         
                 id = data.yokai_list_full.get(item, {}).get("id", None)
-                yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+                yokai_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{id}.png")
                 if id == None :
                     yokai_embed.add_field(name="Image non disponible ! 😢", inline=False, value="En effet, nous ne possédons pas l'image de tous les Yo-kai, mais l'équipe travaille pour les apporter au complet et au plus vite.")
 
@@ -265,7 +265,8 @@ class Bingo_kai(commands.Cog):
                 #add the item to the bag
                 await Cf.add(ctx.author.id, item, "obj", "bag")
                 bag = await Cf.get_bag(ctx.author.id)
-                item_desc = data.item[item]["desc"]
+                item_data = data.item.get(item, {})
+                item_desc = item_data.get("desc", "Aucune description disponible.")
 
                 item_embed = discord.Embed(
                     title="Vous avez eu un objet 📦 ! ",
@@ -274,8 +275,9 @@ class Bingo_kai(commands.Cog):
                 )
                 #get the image
 
-                id = data.item[item]["id"]
-                item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+                item_id = item_data.get("id")
+                if item_id:
+                    item_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{item_id}.png")
                 
                 if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                             
@@ -298,7 +300,8 @@ class Bingo_kai(commands.Cog):
 
             elif item_type == "treasure":
                 await Cf.add(ctx.author.id, item, "treasure", "bag")
-                item_desc = data.item[item]["desc"]
+                item_data = data.item.get(item, {})
+                item_desc = item_data.get("desc", "Aucune description disponible.")
 
                 bag = await Cf.get_bag(ctx.author.id)
                 item_embed = discord.Embed(
@@ -308,8 +311,9 @@ class Bingo_kai(commands.Cog):
                 )
                 #get the image
 
-                id = data.item[item]["id"]
-                item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+                treasure_id = item_data.get("id")
+                if treasure_id:
+                    item_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{treasure_id}.png")
 
                 if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                     item_embed.add_field(
@@ -343,7 +347,7 @@ class Bingo_kai(commands.Cog):
                 )
             
                 #add the image
-                coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{coin_id}.png")
+                coin_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{coin_id}.png")
                 if await Cf.HasMoreThanOneThing(ctx.author.id, item, "bag"):
                     coin_embed.add_field(
                         name=f"Vous l'avez déjà eu. Vous en avez donc {bag[item][1]}",
@@ -458,7 +462,7 @@ class Bingo_kai(commands.Cog):
         
 
         id = data.yokai_list_full.get(Yokai_choice, {}).get("id", None) #I feel ashamed of what I did here
-        yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+        yokai_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{id}.png")
 
         if id == None :
             yokai_embed.add_field(name="Image non disponible ! 😢", inline=False, value="En effet, nous ne possédons pas l'image de tous les Yo-kai, mais l'équipe travaille pour les apporter au complet et au plus vite.")
@@ -530,7 +534,7 @@ class Bingo_kai(commands.Cog):
             )
             
             #add the image
-            coin_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{coin_id}.png")
+            coin_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{coin_id}.png")
 
 
             await Cf.add(ctx.author.id, coin, "coin", "bag")
@@ -629,25 +633,25 @@ class Bingo_kai(commands.Cog):
             
             await Cf.add(ctx.author.id, "Pièce gagnante", "coin", "bag")
             
-            winning_bkai_embed.set_image(url="https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/bkai-gagnant.png")
+            winning_bkai_embed.set_image(url="https://slimepunk.fr/bello/sby/bkai-gagnant.png")
 
             await ctx.send(embed=winning_bkai_embed)
 
         inventory = await Cf.get_inv(ctx.author.id)
-        value = inventory["E"] + inventory["D"] + inventory["C"] + inventory["B"] + inventory["A"] + inventory["S"] + inventory["LegendaryS"] + inventory["treasureS"] + inventory["SpecialS"] + inventory["DivinityS"]
+        value = inventory.get("E", 0) + inventory.get("D", 0) + inventory.get("C", 0) + inventory.get("B", 0) + inventory.get("A", 0) + inventory.get("S", 0) + inventory.get("LegendaryS", 0) + inventory.get("treasureS", 0) + inventory.get("SpecialS", 0) + inventory.get("DivinityS", 0)
         await Cf.update_trophe_data(ctx.author.id, "E a divinite", value, "set")
-        await Cf.update_trophe_data(ctx.author.id, "boss", inventory["Boss"], "set")
-        await Cf.update_trophe_data(ctx.author.id, "shiny", inventory["Shiny"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "boss", inventory.get("Boss", 0), "set")
+        await Cf.update_trophe_data(ctx.author.id, "shiny", inventory.get("Shiny", 0), "set")
 
-        value = value + inventory["Boss"] + inventory["Shiny"]
+        value = value + inventory.get("Boss", 0) + inventory.get("Shiny", 0)
         await Cf.update_trophe_data(ctx.author.id, "yokai total", value, "set")
 
-        await Cf.update_trophe_data(ctx.author.id, "Halloween", inventory["Halloween"], "set")
-        await Cf.update_trophe_data(ctx.author.id, "Noel", inventory["Noël"], "set")
-        await Cf.update_trophe_data(ctx.author.id, "Printemps", inventory["St-Valentin"], "set")
-        await Cf.update_trophe_data(ctx.author.id, "Valentin", inventory["Printemps"], "set")
-        await Cf.update_trophe_data(ctx.author.id, "Paques", inventory["Pâques"], "set")
-        await Cf.update_trophe_data(ctx.author.id, "Estival", inventory["Estival"], "set")
+        await Cf.update_trophe_data(ctx.author.id, "Halloween", inventory.get("Halloween", 0), "set")
+        await Cf.update_trophe_data(ctx.author.id, "Noel", inventory.get("Noël", 0), "set")
+        await Cf.update_trophe_data(ctx.author.id, "Printemps", inventory.get("St-Valentin", 0), "set")
+        await Cf.update_trophe_data(ctx.author.id, "Valentin", inventory.get("Printemps", 0), "set")
+        await Cf.update_trophe_data(ctx.author.id, "Paques", inventory.get("Pâques", 0), "set")
+        await Cf.update_trophe_data(ctx.author.id, "Estival", inventory.get("Estival", 0), "set")
 
         await Cf.update_trophe_data(ctx.author.id, "bingo-kai", 1, "add")
 
@@ -704,7 +708,7 @@ class Bingo_kai(commands.Cog):
         
 
         id = data.yokai_list_full.get(Yokai_choice, {}).get("id", None)
-        yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/bello/sby/{id}.png")
+        yokai_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{id}.png")
 
         if id == None :
             yokai_embed.add_field(name="Image non disponible ! 😢", inline=False, value="En effet, nous ne possédons pas l'image de tous les Yo-kai, mais l'équipe travaille pour les apporter au complet et au plus vite.")

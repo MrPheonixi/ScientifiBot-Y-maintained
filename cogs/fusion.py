@@ -54,6 +54,10 @@ class Fusion(commands.Cog):
             return await ctx.send(embed=not_has)
 
         bag = await Cf.get_bag(ctx.author.id)
+        # Initialise la structure si elle n'existe pas (backward compat)
+        if "trophe_data" not in bag:
+            bag["trophe_data"] = {"data": {}, "list": [], "fusion": []}
+        
         if fusion not in bag["trophe_data"]["fusion"]:
             bag["trophe_data"]["fusion"].append(fusion)
             bag["trophe_data"]["data"]["fusion"] = len(bag["trophe_data"]["fusion"])
@@ -121,7 +125,8 @@ class Fusion(commands.Cog):
             #add the item to the bag
             await Cf.add(ctx.author.id, result, "obj", "bag")
             bag = await Cf.get_bag(ctx.author.id)
-            item_desc = data.item[result]["desc"]
+            item_data = data.item.get(result, {})
+            item_desc = item_data.get("desc", "Aucune description disponible.")
 
             item_embed = discord.Embed(
                 title="Vous avez eu un objet 📦 ! ",
@@ -130,8 +135,9 @@ class Fusion(commands.Cog):
             )
             #get the image
 
-            id = data.item[result]["id"]
-            item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+            item_id = item_data.get("id")
+            if item_id:
+                item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{item_id}.png")
                 
             if await Cf.hasMoreThanOneThing(ctx.author.id, result, "bag"):
                             
