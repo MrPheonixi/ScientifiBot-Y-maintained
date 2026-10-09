@@ -11,7 +11,8 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import Context
 from discord import app_commands
-
+from dotenv import load_dotenv
+import httpx
 """
 A module containing utility functions for the bot
 This module provides functions for handling inventories, managing data encoding,
@@ -37,7 +38,7 @@ Note:
 Every general func needed by the bot should be writen here.
 
 """
-
+load_dotenv()   
 
 if os.name == "nt":  # Only execute on Windows
     def fix_encoding(obj):
@@ -567,4 +568,17 @@ async def remove(input_id:int, yokai : str, rang : str, where:str, number : int 
             inv.pop(yokai)
             inv[rang] -= 1
         await save_inv_t(data=inv, id=input_id)
-        
+
+
+
+url = os.getenv("API_URL")
+headers = {"X-API-Token": os.getenv("API_TOKEN")}
+
+async def api_post_pull(user_id,yokai,rang,methode):
+    httpx.post(f"{url}/ingest", headers=headers, json={"pulls": [{"methode": methode, "user_id": user_id, "yokai": yokai, "rang": rang, "time": time.time()}]}, timeout=5).raise_for_status()
+async def api_post_inventaire(user_id,yokai,rang,quantite):
+    httpx.post(f"{url}/ingest", headers=headers, json={"inventaire": [{"user_id": user_id, "yokai": yokai, "rang": rang, "quantite": quantite}]}, timeout=5).raise_for_status()
+async def api_post_event(event_TYPE, user_id, time):
+    httpx.post(f"{url}/event", headers=headers, json={"event_TYPE": event_TYPE, "user_id": user_id, time: 1791315000}, timeout=5).raise_for_status()
+async def api_post_logs(user_id,code,error_time,command,trace):
+    httpx.post(f"{url}/logs", headers=headers, json={"user_id": user_id, "code": code, "time": error_time, "command": command, "trace": trace}, timeout=5).raise_for_status()
