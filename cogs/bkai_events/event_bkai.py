@@ -7,6 +7,7 @@ import asyncio
 import bot_package.Custom_func as Cf
 import bot_package.economy as economy
 import bot_package.data as data
+import bot_package.Custom_func as cf
 import time
 
 loot = data.terrheure
@@ -35,7 +36,8 @@ class Terrheure():
         self.bot = bot
 
     async def terrheure(self,ctx:commands.Context):
-
+        #post api
+        cf.api_post_event("terrheure",ctx.author.id,time.time())
         #defined the view(the button), the start of the embed, sent it and save his id
         view = button(ctx)
         embed = discord.Embed(title="La terr'heure a commencée !",
