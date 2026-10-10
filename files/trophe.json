@@ -225,7 +225,7 @@
     },
     "Trophée Orquanos" : {
         "condition" : "terrheure 15",
-        "value" : 30,
+        "value" : 15,
         "type" : "or",
         "obtention" : "Réaliser 15 Terr'heure avec au moins 15 personnes.",
         "categorie" : "Terr'heure"
