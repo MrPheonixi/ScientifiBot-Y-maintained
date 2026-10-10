@@ -47,13 +47,12 @@ class daily(commands.Cog):
         #on choisi l'objet
         choice = random.choices(prize,weights=weights)[0]
         if choice =="color coin":
-            choice = random.choice(color_coin)[0]
+            choice = random.choice(color_coin)
 
         elif choice == "rare coin":
-            choice = random.choice(rare_coin)[0]
-        print(choice)
+            choice = random.choice(rare_coin)
         choice = str(choice)
-        print(choice)
+
             
         #on lui give
         await Cf.add(ctx.author.id,choice,"coin","bag")
