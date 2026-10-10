@@ -37,7 +37,7 @@ class Terrheure():
 
     async def terrheure(self,ctx:commands.Context):
         #post api
-        cf.api_post_event("terrheure",ctx.author.id,time.time())
+        await cf.api_post_event("terrheure",ctx.author.id,time.time())
         #defined the view(the button), the start of the embed, sent it and save his id
         view = button(ctx)
         embed = discord.Embed(title="La terr'heure a commencée !",
@@ -98,6 +98,7 @@ class Terrheure():
                     phrase = f"le yokai {gifted_yokai} de rang {reward["class"]}"
                     for id in view.users_in:
                         await Cf.add(id,gifted_yokai,reward["class"],"medallium")
+                        await cf.api_post_inventaire(id, gifted_yokai, reward["class"], 1)
 
                 # if reward is a coin 
                 # choose a random coin in a list
@@ -116,6 +117,7 @@ class Terrheure():
                     phrase = f"le yokai {gifted_yokai} de rang {reward["rang"]}"
                     for id in view.users_in:
                         await Cf.add(id,gifted_yokai,reward["rang"],"medallium")
+                        await cf.api_post_inventaire(id, gifted_yokai, reward["rang"], 1)
 
                 # if reward is treasure
                 # give the selected treasure

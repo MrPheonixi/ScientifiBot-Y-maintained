@@ -17,7 +17,7 @@ async def mk_error_file(error_trace, ctx, command):
     with open(f"./files/error/{file_name}.txt", "w", encoding="utf-8") as f:
         f.write(error_info)
 
-    cf.api_post_logs(ctx.author.id,file_name,time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()),command,error_trace)
+    await cf.api_post_logs(ctx.author.id,file_name,time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()),command,error_trace)
     
     error_embed = discord.Embed(
                 title="Oh non, une erreur s'est produite !",

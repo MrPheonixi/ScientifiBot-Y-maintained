@@ -381,7 +381,7 @@ async def trophe_check(user : int, ctx: commands.Context):
 
                 trophe_embed = discord.Embed(
                     title=f"Vous avez eu le trophée **{trophe_obtained}** ✨ ",
-                    description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe]["obtention"]}",
+                    description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe].get('obtention', '')}",
                     color=discord.Color.from_str(data.trophe_color[trophe_type_obtained])                
                 )
                 #trophe_embed.set_thumbnail(url=data.image_link[trophe_type_obtained])
@@ -604,11 +604,28 @@ async def remove(input_id:int, yokai : str, rang : str, where:str, number : int 
 url = os.getenv("API_URL")
 headers = {"X-API-Token": os.getenv("API_TOKEN")}
 
+
+
 async def api_post_pull(user_id,yokai,rang,methode):
-    httpx.post(f"{url}/ingest", headers=headers, json={"pulls": [{"methode": methode, "user_id": user_id, "yokai": yokai, "rang": rang, "time": time.time()}]}, timeout=5).raise_for_status()
+    if os.getenv("API_CONNECT"):
+        async with httpx.AsyncClient() as client:
+            response = await client.post(f"{url}/ingest", headers=headers, json={"pulls": [{"methode": methode, "user_id": user_id, "yokai": yokai, "rang": rang, "time": time.time()}]}, timeout=5)
+            response.raise_for_status()
+
 async def api_post_inventaire(user_id,yokai,rang,quantite):
-    httpx.post(f"{url}/ingest", headers=headers, json={"inventaire": [{"user_id": user_id, "yokai": yokai, "rang": rang, "quantite": quantite}]}, timeout=5).raise_for_status()
+    if not os.getenv("API_CONNECT"):
+        async with httpx.AsyncClient() as client:
+            response = await client.post(f"{url}/ingest", headers=headers, json={"inventaire": [{"user_id": user_id, "yokai": yokai, "rang": rang, "quantite": quantite}]}, timeout=5)
+            response.raise_for_status()
+
 async def api_post_event(event_TYPE, user_id, time):
-    httpx.post(f"{url}/event", headers=headers, json={"event_TYPE": event_TYPE, "user_id": user_id, time: 1791315000}, timeout=5).raise_for_status()
+    if not os.getenv("API_CONNECT"):
+        async with httpx.AsyncClient() as client:
+            response = await client.post(f"{url}/event", headers=headers, json={"event_TYPE": event_TYPE, "user_id": user_id, "time": time}, timeout=5)
+            response.raise_for_status()
+
 async def api_post_logs(user_id,code,error_time,command,trace):
-    httpx.post(f"{url}/logs", headers=headers, json={"user_id": user_id, "code": code, "time": error_time, "command": command, "trace": trace}, timeout=5).raise_for_status()
+    if not os.getenv("API_CONNECT"):
+        async with httpx.AsyncClient() as client:
+            response = await client.post(f"{url}/logs", headers=headers, json={"user_id": user_id, "code": code, "time": error_time, "command": command, "trace": trace}, timeout=5)
+            response.raise_for_status()
