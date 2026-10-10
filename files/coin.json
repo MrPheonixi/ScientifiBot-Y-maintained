@@ -127,7 +127,62 @@
     "color" : "#78acff",
     "id" : "c0019",
     "proba" : 0
+    },
+    "Pièce objet (vol.3)" :{
+    "name_en" : "object coin (vol.3)",
+    "color" : "#9D6934",
+    "id" : "c0020",
+    "proba" : 0.05
+    },
+    "Pièce objet (vol.4)" :{
+    "name_en" : "object coin (vol.4)",
+    "color" : "#9D6934",
+    "id" : "c0021",
+    "proba" : 0.05
+    },
+    "Pièce objet (vol.5)" :{
+    "name_en" : "object coin (vol.5)",
+    "color" : "#78acff",
+    "id" : "c0022",
+    "proba" : 0.05
+    },
+    "Pièce objet (vol.6)" :{
+    "name_en" : "object coin (vol.6)",
+    "color" : "#9D6934",
+    "id" : "c0028",
+    "proba" : 0.05
+    },
+    "Pièce objet (vol.7)" :{
+    "name_en" : "object coin (vol.7)",
+    "color" : "#9D6934",
+    "id" : "c0023",
+    "proba" : 0.05
+    },
+    "Pièce objet (vol.8)" :{
+    "name_en" : "object coin (vol.8)",
+    "color" : "#78acff",
+    "id" : "c0024",
+    "proba" : 0.05
+    },
+    "Pièce objet (vol.9)" :{
+    "name_en" : "object coin (vol.9)",
+    "color" : "#9D6934",
+    "id" : "c0025",
+    "proba" : 0.05
+    },
+    "Pièce robotique" :{
+    "name_en" : "robot coin",
+    "color" : "#9D6934",
+    "id" : "c0026",
+    "proba" : 0.025
+    },
+    "Pièce fructifère" :{
+    "name_en" : "fruity coin",
+    "color" : "#78acff",
+    "id" : "c0027",
+    "proba" : 0.025
     }
+
 
     
 

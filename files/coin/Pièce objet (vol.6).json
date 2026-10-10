@@ -1,0 +1,22 @@
+{
+    "list": {
+        "Concasseur d'oni": ["obj", 1],
+        "Marteau mortel": ["obj", 1],
+        "Concasseur bleu": ["obj", 1],
+        "Concasseur rouge": ["obj", 1],
+        "Marteau fracasseur": ["obj", 1],
+        "Ultra concasseur Rouge": ["obj", 1],
+        "Ultra concasseur Bleu": ["obj", 1],
+        "Ultra concasseur Noir": ["obj", 1],
+        "Marteau infernal": ["obj", 1],
+        "Marteau d'horreur": ["obj", 1],
+        "Marteau du danger": ["obj", 1],
+        "Concasseur de feu": ["obj", 1],
+        "Broyeur d'ogre": ["obj", 1],
+        "Concasseur océan": ["obj", 1],
+        "Cogneur d'ogre": ["obj", 1],
+        "Concasseur terre": ["obj", 1],
+        "Concasseur ultime": ["obj", 1],
+        "Concasseur paradis": ["obj", 1]
+    }
+}
