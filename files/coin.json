@@ -176,11 +176,23 @@
     "id" : "c0026",
     "proba" : 0.025
     },
-    "Pièce fructifère" :{
+    "Pièce fruitière" :{
     "name_en" : "fruity coin",
     "color" : "#78acff",
     "id" : "c0027",
     "proba" : 0.025
+    },
+    "Pièce Halloween" :{
+    "name_en" : "Halloween coin",
+    "color" : "#78acff",
+    "id" : "c0028",
+    "proba" : 0
+    },
+    "Pièce Chanceuse" :{
+    "name_en" : "Lucky coin",
+    "color" : "#78acff",
+    "id" : "c0029",
+    "proba" : 0
     }
 
 
