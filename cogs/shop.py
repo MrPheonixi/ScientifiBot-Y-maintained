@@ -154,54 +154,40 @@ class shop(commands.Cog):
         Permet d'acheter un item du shop
         '''
         actual_shop = data.shop_item
-        item_found = False
-        print(f"Buy command executed for item: {item}")
+        normalized_item = item.strip().casefold()
+        item_name = None
+        item_info = None
+
         for page_items in actual_shop.values():
-            if item in page_items:
-                item_found = True
-                page = page_items
+            for key, value in page_items.items():
+                if key.strip().casefold() == normalized_item:
+                    item_name = key
+                    item_info = value
+                    break
+            if item_info is not None:
                 break
-        if not item_found:
+
+        if item_info is None:
             return await ctx.send(embed=discord.Embed(title="Erreur", description=f"L'item {item} n'est pas disponible dans le shop.\nMerci de rentrer un item valide.", color=discord.Color.red()))
 
         user_balance = await eco.get_balance(ctx.author.id)
-        item_info = page[item]
         price = item_info.get("price", 0)
         rang = item_info.get("rang", "obj")
-        print(rang)
         quantity = item_info.get("quantity", 1)
 
         if user_balance < price:
-            embed_poor = discord.Embed(title="Erreur", description=f"Vous n'avez pas assez d'orbes pour acheter {item}.", color=discord.Color.red())
-            embed_poor.set_footer(text=f"vous avez {user_balance}/{price} orbes") 
+            embed_poor = discord.Embed(title="Erreur", description=f"Vous n'avez pas assez d'orbes pour acheter {item_name}.", color=discord.Color.red())
+            embed_poor.set_footer(text=f"vous avez {user_balance}/{price} orbes")
             return await ctx.send(embed=embed_poor)
-        else:
-            user_balance = await eco.get_balance(ctx.author.id)
-            item_info = page[item]
-            price = item_info.get("price", 0)
-            rang = item_info.get("rang", "obj")
-            print(rang)
-            quantity = item_info.get("quantity", 1)
 
-            
+        await eco.add(ctx.author.id, -price)
+        await Cf.add(ctx.author.id, item_name, rang, "bag", number=quantity)
+        embed = discord.Embed(title="Achat réussi", description=f"Vous avez acheté {item_name} pour {price} orbes.", color=discord.Color.green())
+        await Cf.update_trophe_data(ctx.author.id, "buy", 1, "add")
+        await Cf.update_trophe_data(ctx.author.id, "depense", price, "add")
+        await Cf.trophe_check(ctx.author.id, ctx)
+        return await ctx.send(embed=embed)
 
-            if user_balance < price:
-                embed_poor = discord.Embed(title="Erreur", description=f"Vous n'avez pas assez d'orbes pour acheter {item}.", color=discord.Color.red())
-                embed_poor.set_footer(text=f"vous avez {user_balance}/{price} orbes") 
-                return await ctx.send(embed=embed_poor)
-            else:
-                await eco.add(ctx.author.id, -price)
-                await Cf.add(ctx.author.id, item, rang, "bag", number=quantity)
-                embed = discord.Embed(title="Achat réussi", description=f"Vous avez acheté {item} pour {price} orbes.", color=discord.Color.green())
-                await Cf.update_trophe_data(ctx.author.id, "buy", 1, "add")
-                await Cf.update_trophe_data(ctx.author.id, "depense", price, "add")
-                await Cf.trophe_check(ctx.author.id, ctx)
-                return await ctx.send(embed=embed)
-            await eco.add(ctx.author.id, -price)
-            await Cf.add(ctx.author.id, item, rang, "bag", number=quantity)
-            embed = discord.Embed(title="Achat réussi", description=f"Vous avez acheté {item} pour {price} orbes.", color=discord.Color.green())
-            return await ctx.send(embed=embed)
-            
 
     @commands.hybrid_command(name="daily_shop")
     async def daily_shop(self, ctx):
