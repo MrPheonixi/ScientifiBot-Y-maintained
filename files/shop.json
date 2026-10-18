@@ -1,36 +1,98 @@
 {
-    "page 1":
-    {   
-        "item 1":
-        {
-            "price": 100,
-            "description": "This is item 1",
-            "rang": "obj",
-            "quantity": 5
-        },
-        "item 2":
-        {
-            "price": 200,
-            "description": "This is item 2",
-            "rang": "Trésors",
-            "quantity": 1
-        }
+  "page 1": {
+    "Pièce bleue ciel": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
     },
-    "page 2":
-    {
-        "item 3":
-        {
-            "price": 300,
-            "description": "This is item 3",
-            "rang": "Trésors",
-            "quantity": 1
-        },
-        "item 4":
-        {
-            "price": 400,
-            "description": "This is item 4",
-            "rang": "pièce",
-            "quantity": 10
-        }
+    "Pièce bleue": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce jaune": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce mauve": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
     }
+  },
+  "page 2": {
+    "Pièce noire": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce orange": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce rose": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce rouge": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce verte": {
+      "price": 250,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    }
+  },
+  "page 3": {
+    "Pièce 1 étoile": {
+      "price": 750,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce 5 étoiles": {
+      "price": 750,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce spéciale": {
+      "price": 750,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce démoniaque": {
+      "price": 750,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce scellée": {
+      "price": 750,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    },
+    "Pièce légendaire": {
+      "price": 750,
+      "description": "Une pièce à utiliser au /bkai",
+      "rang": "coin",
+      "quantity": 1
+    }
+  }
 }
