@@ -1,7 +1,7 @@
 import discord
 import uuid
 import time
-import Custom_func as cf
+import bot_package.Custom_func as cf
 
 async def mk_error_file(error_trace, ctx, command):
 
