@@ -329,7 +329,9 @@ class Medallium(commands.Cog) :
             if "trophe_data" not in bag:
                 bag["trophe_data"] = {"data": {}, "list": [], "fusion": []}
             bag["trophe_data"]["data"]["medallium completion"] = completion
+            await Cf.save_bag(bag,ctx.author.id)
             await Cf.trophe_check(user.id, ctx)
+            
 
     
     #the bag command
