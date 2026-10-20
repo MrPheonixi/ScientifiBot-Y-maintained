@@ -16,7 +16,7 @@ import httpx
 
 
 async def class_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
-    choices = ["Shiny", "Boss", "Divinité / Enma", "Légendaire", "Spécial", "S", "A", "B", "C", "D", "E", "objet", "pièce", "json-mod", "claim", "Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival", "Autre"]
+    choices = ["Shiny", "Boss", "Divinité / Enma", "Légendaire", "Spécial", "S", "A", "B", "C", "D", "E", "objet", "pièce", "json-mod", "claim", "Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival","Automne", "Autre"]
     list = [
         app_commands.Choice(name=choices, value=choices)
         for choices in choices if current.lower() in choices.lower()
@@ -26,7 +26,7 @@ async def class_autcomplete(interaction : discord.Interaction, current : str) ->
     return list
 
 async def event_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
-    choices = ["Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival"]
+    choices = ["Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival","Automne"]
     list = [
         app_commands.Choice(name=choices, value=choices)
         for choices in choices if current.lower() in choices.lower()
@@ -836,6 +836,7 @@ class Admin_command(commands.Cog):
                 inventory["Printemps"] = 0
                 inventory["Pâques"] = 0
                 inventory["Estival"] = 0
+                inventory["Automne"] = 0
                 inventory["Autre"] = 0
             for yokai in inventory:
                 if not type(inventory[yokai]) == int and not type(inventory[yokai]) == float and inventory[yokai][0] == "SpecialS":
