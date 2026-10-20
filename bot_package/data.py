@@ -170,6 +170,7 @@ with open("./files/yokai_event.json") as yokai_event_list:
         "Printemps" : len(yokai_event_data["Printemps"]["yokai_list"]),
         "Pâques" : len(yokai_event_data["Pâques"]["yokai_list"]),
         "Estival" : len(yokai_event_data["Estival"]["yokai_list"]),
+        "Automne" : len(yokai_event_data["Automne"]["yokai_list"]),
         "Autre" : len(yokai_event_data["Autre"]["yokai_list"])
     }
 
