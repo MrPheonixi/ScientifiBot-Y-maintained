@@ -37,7 +37,7 @@ class daily(commands.Cog):
         data.save_json("./files/daily.json", people)
         
         #on défini quelque liste pour bien choisir l'objet
-        prize = ["Pièce Journalière","color coin","rare coin"]
+        prize = ["Pièce journalière","color coin","rare coin"]
         weights = [75,20,5]
         
 
