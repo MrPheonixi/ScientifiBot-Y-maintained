@@ -634,6 +634,7 @@ class Medallium(commands.Cog) :
                     discord.SelectOption(label="Printemps"),
                     discord.SelectOption(label="Pâques"),
                     discord.SelectOption(label="Estival"),
+                    discord.SelectOption(label="Automne"),
                     discord.SelectOption(label="Autre")
                 ]
 

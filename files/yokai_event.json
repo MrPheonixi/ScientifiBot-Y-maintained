@@ -5,11 +5,30 @@
         "color": "#2aff00",
         "yokai_list": [
             "Jibanyan halloween",
-            "Kuroi Corniot",
-            "Kuroi Kyuubi",
-            "Kuroi Octorgone",
             "Octorgone Effrayant (Horror Orochi)",
-            "Shogunyan Halloween (Goku Bushinyan)"
+            "Shogunyan Halloween (Goku Bushinyan)",
+            "Zazel (Vampire)",
+            "Fielippine (Halloween)",
+            "Dracunyan (Halloween)",
+            "Robonoko (Halloween)",
+            "Indiana Jaws (Momie)",
+            "Goku Blizzaria (Goku Fubuki-hime)",
+            "Faustille (Halloween)",
+            "Chauvekipeut (Halloween)",
+            "Hallowhis",
+            "Dente (Halloween)",
+            "M. Spioche (Loup-garou)",
+            "Zombigoût (Halloween)",
+            "Goku Noko (Goku Tsuchinoko)",
+            "Goku Fouétar (Goku Namahage)",
+            "Hovernyan Cao Cao (Citrouille)",
+            "Komami (Sorcière)",
+            "Komajiro (Loup-garou)",
+            "Komasan (Sorcier)",
+            "Insomnelle (Sorcière)",
+            "Damona (Halloween)",
+            "Usapyon (Diablotin)",
+            "Nyansès II (Halloween)"
         ]
     },
     "Noël":{
@@ -138,6 +157,33 @@
             "Sailornyan Estivale",
             "Shogunyan réincarné Estival",
             "Shutendoji Estival"
+        ]
+    },
+    "Automne" : {
+        "class_name" : "Automne",
+        "class_id": "Automne",
+        "color" : "#2aff00",
+        "yokai_list" : [
+            "Enma Automnal",
+            "Le dernier Nyanmuraï Automnal",
+            "Maginyan Automnale",
+            "Kyubi Automnal",
+            "Komasan (Cueilleur)",
+            "Camélia Automnale",
+            "Jibanyan (Cueilleur)",
+            "Damona Automnale",
+            "Alpinella (Mi-saison)",
+            "Camaïeul Automnal",
+            "Komasan Automnal",
+            "Tengu Automnal",
+            "Alpinella Automnale",
+            "Automnyan",
+            "Ange garudien Automnal",
+            "Appak Automnal",
+            "Sabruine (Cueilleuse)",
+            "Cymbaline Automnale",
+            "Champinyan",
+            "Morféa Automnale"
         ]
     },
     "Autre": {
