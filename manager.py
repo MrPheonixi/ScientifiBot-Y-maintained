@@ -3,7 +3,8 @@ import time
 import os
 import aiohttp
 import asyncio
-VERSION = 3
+from bot_package import data
+VERSION = 4
 
 
 
@@ -901,6 +902,39 @@ def avent_manager():
     input("End of the program, press any key to go back to the main menu.")
 
 
+def recalc_event_yokai():
+    """
+    A command that will change the class of all the event yo-kai
+    """
+    files = []
+    for file in os.listdir("./files/inventory"):
+        if file != ".gitignore":
+            file = file.removesuffix(".json")
+            file = int(file)
+            files.append(file)
+    for id in files:
+        inventory = get_inv(id)
+        try:
+            inventory["Halloween"]
+        except KeyError:
+            inventory["Halloween"] = 0
+            inventory["Noël"] = 0
+            inventory["St-Valentin"] = 0
+            inventory["Printemps"] = 0
+            inventory["Pâques"] = 0
+            inventory["Estival"] = 0
+            inventory["Automne"] = 0
+            inventory["Autre"] = 0
+        for yokai in inventory:
+            if not type(inventory[yokai]) == int and not type(inventory[yokai]) == float and inventory[yokai][0] == "SpecialS":
+                if yokai in data.yokai_event_list:
+                    class_id = data.yokai_event_list[yokai]
+                    inventory[yokai][0] = class_id
+    
+                    inventory["SpecialS"] -= 1
+                    inventory[class_id] += 1
+        save_inv(inventory, id)
+
 func_list = {
     1 : inv_info,
     2 : key_manager,
@@ -909,7 +943,8 @@ func_list = {
     5 : check,
     6 : adjust_id,
     7 : avent_manager,
-    8 : match_adjust
+    8 : match_adjust,
+    9 : recalc_event_yokai
 }
 
 line(35)
@@ -928,9 +963,10 @@ while True :
     print("[6] Adjust yokai ids")
     print("[7] Avent calendar manager")
     print("[8] match manager")
+    print("[9] Event yokai recalc")
     
     
-    choise_range = "1-8"
+    choise_range = "1-9"
     choise = input(f"Please select a number [{choise_range}] : ")
 
     if int(choise) in func_list.keys() :

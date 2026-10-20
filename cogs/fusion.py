@@ -64,7 +64,7 @@ class Fusion(commands.Cog):
             await Cf.save_bag(bag, ctx.author.id)
             await Cf.trophe_check(ctx.author.id, ctx)
         
-        
+        await Cf.save_bag(bag,ctx.author.id)
         await Cf.remove(ctx.author.id, item_or_yokai_a, rang_item_A ,where_type_A)
         await Cf.remove(ctx.author.id, item_or_yokai_b, rang_item_B ,where_type_B)
 

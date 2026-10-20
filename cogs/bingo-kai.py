@@ -684,7 +684,6 @@ class Bingo_kai(commands.Cog):
         """
             
         brute_inventory = await Cf.get_inv(ctx.author.id)
-        brute_bag = await Cf.get_bag(ctx.author.id)
 
         #look if there is a golden coin, else return that there isn't one
         if not await Cf.hasThing(ctx.author.id, "Pièce gagnante", "bag"):
@@ -757,8 +756,6 @@ class Bingo_kai(commands.Cog):
             )
 
         yokai_embed.set_footer(text="Tu as utilisé un tirage du bingo-kai gagnant!")
-                
-        await Cf.save_bag(brute_bag, ctx.author.id)
 
         await Cf.update_trophe_data(ctx.author.id, "bingo-kai gagnant", 1, "add")
                     
