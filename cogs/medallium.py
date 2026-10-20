@@ -584,6 +584,7 @@ class Medallium(commands.Cog) :
             "Printemps": {},
             "Pâques": {},
             "Estival": {},
+            "Automne": {},
             "Autre": {}
         }
 
