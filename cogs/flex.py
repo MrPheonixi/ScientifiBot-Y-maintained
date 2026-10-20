@@ -4,6 +4,12 @@ from discord.ext import commands
 import bot_package.Custom_func as cf
 
 
+def _normalize_yokai_name(name: str) -> str:
+    try:
+        return name.encode("cp1252").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return name
+
 
 class flex(commands.Cog):
     def __init__(self, bot):
@@ -18,22 +24,32 @@ class flex(commands.Cog):
         # calculate the percentage of the medallium completed
         inv = await cf.get_inv(ctx.author.id)
 
-        total = 0
-        actual = 0
+        yokai_names = {
+            _normalize_yokai_name(yokai)
+            for yokai_data in (*data.yokai_data.values(), *data.yokai_event_data.values())
+            for yokai in yokai_data["yokai_list"]
+        }
+        tag_names = {
+            _normalize_yokai_name(yokai)
+            for tag in data.TAGS_DATA.values()
+            for yokai in tag.get("list", [])
+        }
+        tracked_names = yokai_names | tag_names
+        inventory_counts = {}
+        for yokai, details in inv.items():
+            normalized_yokai = _normalize_yokai_name(yokai)
+            if normalized_yokai not in tracked_names:
+                continue
+            if not isinstance(details, list) or not details or not isinstance(details[0], str):
+                continue
+            copies = details[1] if len(details) > 1 and isinstance(details[1], int) else 1
+            inventory_counts[normalized_yokai] = copies
 
-        for class_id in data.class_list:
-            total += data.list_len[class_id]
-
-        completion = round((actual / total) * 100, 2) if total else 0
+        unique_yokai = len(yokai_names.intersection(inventory_counts))
+        total = len(yokai_names)
+        actual = sum(inventory_counts[yokai] for yokai in yokai_names if yokai in inventory_counts)
+        completion = round((unique_yokai / total) * 100, 2) if total else 0
         
-        #calculate the total of unique yokai owned by the user
-        unique_yokai = len(inv.keys())-14
-        for yk in inv:
-            if isinstance(yk,list) and len(yk) < 2:
-                try:
-                    actual += inv[yk][1]
-                except:
-                    actual += 1
         flex_embed.add_field(name="Statistiques relatif au Médallium", 
                              value=f"""complété à *{completion}% {unique_yokai}/{total}* 
                             total de yokai possédés: {actual}""", inline=False)
@@ -44,21 +60,10 @@ class flex(commands.Cog):
         completed_tags = []
         tags = data.TAGS_DATA
         for tag_n, tag in tags.items():
-            lists = tag.get("list")
-            min = 0
-            for yk in lists:
-                if yk in inv:
-                    yk = inv.get(yk)
-                    if len(yk) == 1:
-                        if min > 1:
-                            min = 1
-                    else:
-                        if min > yk[1]:
-                            min = yk[1]
-                else:
-                    break
-            if min > 0:
-                completed_tags.append(f"{tag_n} (x{min})")
+            tag_yokai = {_normalize_yokai_name(yokai) for yokai in tag.get("list", [])}
+            copies = [inventory_counts.get(yokai, 0) for yokai in tag_yokai]
+            if copies and all(count > 0 for count in copies):
+                completed_tags.append(f"{tag_n} (x{min(copies)})")
 
 
 

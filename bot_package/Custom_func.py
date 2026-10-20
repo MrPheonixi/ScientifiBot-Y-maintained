@@ -509,26 +509,22 @@ async def add(input_id : int, thing : str, rang : str, where:str, rank_orbe: boo
         # 2. If yes, if there is already many oh this yokai
         # and we do it in range(number) to give several yokai
         for _ in range(number) :
-            try:
-                inv[thing]
-                try:
-                    #stack the yokai
-                    inv[thing][1] += 1
-                    # give orb if the argument is true
-                    if rank_orbe:
-                        eco.add_rank_orbe(input_id,rang)
-                except Exception:
-                    #catch an exception if the yokai was not stacked
-                    #so we know there is only one and we can add the mention of two yokai ( .append(2) )
+            if thing in inv:
+                if len(inv[thing]) == 1:
+                    # Add the duplicate count when this is the first copy beyond the original.
                     inv[thing].append(2)
-            except KeyError:
+                else:
+                    inv[thing][1] += 1
+                if rank_orbe:
+                    await eco.add_rank_orbe(input_id, rang)
+            else:
                 #return an exception if the yokai was not in the inv
                 #add it
                 inv[thing] = [rang]
                 #add one more to the yokai count of the corresponding class
                 try:
                     inv[rang] += 1
-                except:
+                except KeyError:
                     inv[rang] = 1
                     
             #save the inv
