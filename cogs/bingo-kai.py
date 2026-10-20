@@ -50,7 +50,7 @@ class Bingo_kai(commands.Cog):
 
 
     @commands.hybrid_command(name="bingo-kai",)
-    @app_commands.autocomplete(coin=bingo_kai_autcomplete)
+    #@app_commands.autocomplete(coin=bingo_kai_autcomplete)
     async def bingo_yokai(self, ctx = commands.Context, coin : str = None):
         """
         Tire au sort un Yo-kai de manière aléatoire.
@@ -664,7 +664,7 @@ class Bingo_kai(commands.Cog):
 
     
     @commands.hybrid_command(name="bkai")
-    @app_commands.autocomplete(coin=bingo_kai_autcomplete)
+    #@app_commands.autocomplete(coin=bingo_kai_autcomplete)
     async def bkai(self, ctx = commands.Context, coin : str = None):
         """
         Alias de /bingo-kai.
