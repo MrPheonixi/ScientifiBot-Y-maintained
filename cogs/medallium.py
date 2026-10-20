@@ -62,7 +62,7 @@ class Medallium(commands.Cog) :
         #sort the Yo-kai by class
         for elements in brute_inventory:
             #Don't take any numbers
-            if not type(brute_inventory[elements]) == int and not type(brute_inventory[elements]) == float and not elements in blacklist and elements not in data.yokai_event_list:
+            if not type(brute_inventory[elements]) == int and not type(brute_inventory[elements]) == float and not elements in blacklist and elements not in data.yokai_event_list and brute_inventory[elements][0] in yokai_per_class:
                 categorie = brute_inventory[elements]
 
                 #Check if it's stack
