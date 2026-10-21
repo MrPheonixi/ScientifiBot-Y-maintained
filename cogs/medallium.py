@@ -517,7 +517,9 @@ class Medallium(commands.Cog) :
             
             else:
                 yokai_claimed_count += f"**{await Cf.classid_to_class(classes, False)}s**: `{brute_bag[classes]}`\n"
-
+                if classes == "obj" and user.id == ctx.author.id:
+                    await Cf.update_trophe_data(ctx.author.id,"objets",brute_bag[classes],"set")
+                    await Cf.trophe_check(ctx.author.id,ctx)
 
         main_embed.add_field(name="Voici vos statistiques :", value=yokai_claimed_count, inline=True)
         if not user == None and user.id != ctx.author.id:
