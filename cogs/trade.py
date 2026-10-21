@@ -138,14 +138,14 @@ class TradeConfirmView(discord.ui.View):
         for i in range(len(ton_yokai)):
             offered_yokai = ton_yokai[i]
             a = int(a_ton_yokai[i])
-            if not await Cf.hasThing(self.destinataire.id, asked_yokai, "medallium"):
+            if not await Cf.hasThing(self.destinataire.id, offered_yokai, "medallium"):
                 await Cf.update_trophe_data(self.destinataire.id, "trade un yokai", 1, "add")
             await Cf.update_trophe_data(self.destinataire.id, "trade", 1, "add")
             await Cf.add(self.destinataire.id, offered_yokai, author_inv[offered_yokai][0], "medallium",number=a)
         for i in range(len(ton_item)):
             offered_item = ton_item[i]
             a = int(a_ton_item[i])
-            if not await Cf.hasThing(self.destinataire.id, asked_item, "bag"):
+            if not await Cf.hasThing(self.destinataire.id, offered_item, "bag"):
                 await Cf.update_trophe_data(self.destinataire.id, "trade un objet", 1, "add")
             await Cf.update_trophe_data(self.destinataire.id, "trade", 1, "add")
             await Cf.add(self.destinataire.id, offered_item, author_bag[offered_item][0], "bag",number=a)
