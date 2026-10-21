@@ -251,14 +251,14 @@ async def get_midnight():
     return midnight
 
 
-async def generateRandomYokai(ctx, proba: list = data.proba_list.copy(), treasure: bool = False):
+async def generateRandomYokai(ctx, proba: list, treasure: bool = False):
     """
     A function to generate a random yo-kai
     proba: The probabilities for the yo-kai (in order) -> If not specified, uses the default bingo kai proba
     treasure : If treasure should count for the probabilities
     return (in this order): The yo-kai, the class name and the class id
     """
-    print(proba)    
+    
     classlist = data.class_list
 
     if treasure == True:
