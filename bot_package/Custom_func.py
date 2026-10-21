@@ -258,7 +258,7 @@ async def generateRandomYokai(ctx, proba: list = data.proba_list.copy(), treasur
     treasure : If treasure should count for the probabilities
     return (in this order): The yo-kai, the class name and the class id
     """
-    
+    print(proba)    
     classlist = data.class_list
 
     if treasure == True:

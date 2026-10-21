@@ -433,7 +433,7 @@ class Bingo_kai(commands.Cog):
                     return await ctx.send(embed=yokai_embed)
                 
 
-        Yokai_choice, class_name, class_id = await Cf.generateRandomYokai(ctx, treasure = True)
+        Yokai_choice, class_name, class_id = await Cf.generateRandomYokai(ctx,proba = data.proba_list.copy(), treasure = True)
         await Cf.api_post_pull(ctx.author.id, Yokai_choice, class_id, "pull")
 
         
