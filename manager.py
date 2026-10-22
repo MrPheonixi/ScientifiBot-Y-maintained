@@ -904,36 +904,43 @@ def avent_manager():
 
 def recalc_event_yokai():
     """
-    A command that will change the class of all the event yo-kai
+    A command that will change the class of all the event yo-kai.
+    This was previously mutating the inventory while iterating over it, which can
+    skip entries and cause the event recalculation to behave inconsistently.
     """
     files = []
     for file in os.listdir("./files/inventory"):
         if file != ".gitignore":
             file = file.removesuffix(".json")
-            file = int(file)
-            files.append(file)
-    for id in files:
-        inventory = get_inv(id)
-        try:
-            inventory["Halloween"]
-        except KeyError:
-            inventory["Halloween"] = 0
-            inventory["Noël"] = 0
-            inventory["St-Valentin"] = 0
-            inventory["Printemps"] = 0
-            inventory["Pâques"] = 0
-            inventory["Estival"] = 0
-            inventory["Automne"] = 0
-            inventory["Autre"] = 0
-        for yokai in inventory:
-            if not type(inventory[yokai]) == int and not type(inventory[yokai]) == float and inventory[yokai][0] == "SpecialS":
-                if yokai in data.yokai_event_list:
-                    class_id = data.yokai_event_list[yokai]
-                    inventory[yokai][0] = class_id
-    
-                    inventory["SpecialS"] -= 1
-                    inventory[class_id] += 1
-        save_inv(inventory, id)
+            try:
+                files.append(int(file))
+            except ValueError:
+                continue
+
+    for user_id in files:
+        inventory = get_inv(user_id)
+
+        for event_key in ["Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival", "Automne", "Autre"]:
+            inventory.setdefault(event_key, 0)
+        inventory.setdefault("SpecialS", 0)
+
+        for yokai, value in list(inventory.items()):
+            if not isinstance(value, list) or len(value) < 2:
+                continue
+            if value[0] != "SpecialS":
+                continue
+            if yokai not in data.yokai_event_list:
+                continue
+
+            class_id = data.yokai_event_list[yokai]
+            inventory[yokai][0] = class_id
+            inventory.setdefault(class_id, 0)
+            inventory[class_id] += 1
+
+            if isinstance(inventory.get("SpecialS"), int):
+                inventory["SpecialS"] = max(0, inventory["SpecialS"] - 1)
+
+        save_inv(inventory, user_id)
 
 func_list = {
     1 : inv_info,
