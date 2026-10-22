@@ -23,7 +23,7 @@ async def bingo_kai_autcomplete(interaction : discord.Interaction, current : str
     return [
         app_commands.Choice(name=coin, value=coin)
         for coin in coin if current.lower() in coin.lower()
-    ]
+    ][:25]  # Limit to 25 choices for discord limitation
 
 
 
@@ -50,7 +50,7 @@ class Bingo_kai(commands.Cog):
 
 
     @commands.hybrid_command(name="bingo-kai",)
-    #@app_commands.autocomplete(coin=bingo_kai_autcomplete)
+    @app_commands.autocomplete(coin=bingo_kai_autcomplete)
     async def bingo_yokai(self, ctx = commands.Context, coin : str = None):
         """
         Tire au sort un Yo-kai de manière aléatoire.
