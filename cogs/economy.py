@@ -35,7 +35,7 @@ class economy(commands.Cog):
                                   )
             embed.set_author(name=user.name, icon_url=user.display_avatar.url)
             embed.add_field(name="Orbes oni :", value=f"{ecof[str(user.id)]} orbes oni")
-            embed.set_footer(text="pas d’inquiétude cher utilisateur, elles serviront plus tard soit dans un shop soit dans un classement ou les 2 qui sait?")
+            embed.set_footer(text="pas d’inquiétude cher utilisateur, vous pouvez désormais les dépenser dans les items disponible avec /shop que vous pouvez acheter avec les commande /buy and /buy_daily")
             return await ctx.send(embed=embed)
 
     @commands.hybrid_command(name="pay")
