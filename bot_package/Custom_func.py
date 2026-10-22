@@ -601,27 +601,50 @@ url = os.getenv("API_URL")
 headers = {"X-API-Token": os.getenv("API_TOKEN")}
 
 
+def api_enabled() -> bool:
+    return str(os.getenv("API_CONNECT", "")) #true or false
 
-async def api_post_pull(user_id,yokai,rang,methode):
-    if os.getenv("API_CONNECT"):
+
+async def api_post_pull(user_id, yokai, rang, methode):
+    if api_enabled():
         async with httpx.AsyncClient() as client:
-            response = await client.post(f"{url}/ingest", headers=headers, json={"pulls": [{"methode": methode, "user_id": user_id, "yokai": yokai, "rang": rang, "time": time.time()}]}, timeout=5)
+            response = await client.post(
+                f"{url}/ingest",
+                headers=headers,
+                json={"pulls": [{"methode": methode, "user_id": user_id, "yokai": yokai, "rang": rang, "time": time.time()}]},
+                timeout=5,
+            )
             response.raise_for_status()
 
-async def api_post_inventaire(user_id,yokai,rang,quantite):
-    if not os.getenv("API_CONNECT"):
+async def api_post_inventaire(user_id, yokai, rang, quantite):
+    if api_enabled():
         async with httpx.AsyncClient() as client:
-            response = await client.post(f"{url}/ingest", headers=headers, json={"inventaire": [{"user_id": user_id, "yokai": yokai, "rang": rang, "quantite": quantite}]}, timeout=5)
+            response = await client.post(
+                f"{url}/ingest",
+                headers=headers,
+                json={"inventaire": [{"user_id": user_id, "yokai": yokai, "rang": rang, "quantite": quantite}]},
+                timeout=5,
+            )
             response.raise_for_status()
 
 async def api_post_event(event_TYPE, user_id, time):
-    if not os.getenv("API_CONNECT"):
+    if api_enabled():
         async with httpx.AsyncClient() as client:
-            response = await client.post(f"{url}/event", headers=headers, json={"event_TYPE": event_TYPE, "user_id": user_id, "time": time}, timeout=5)
+            response = await client.post(
+                f"{url}/event",
+                headers=headers,
+                json={"event_TYPE": event_TYPE, "user_id": user_id, "time": time},
+                timeout=5,
+            )
             response.raise_for_status()
 
-async def api_post_logs(user_id,code,error_time,command,trace):
-    if not os.getenv("API_CONNECT"):
+async def api_post_logs(user_id, code, error_time, command, trace):
+    if api_enabled():
         async with httpx.AsyncClient() as client:
-            response = await client.post(f"{url}/logs", headers=headers, json={"user_id": user_id, "code": code, "time": error_time, "command": command, "trace": trace}, timeout=5)
+            response = await client.post(
+                f"{url}/logs",
+                headers=headers,
+                json={"user_id": user_id, "code": code, "time": error_time, "command": command, "trace": trace},
+                timeout=5,
+            )
             response.raise_for_status()
