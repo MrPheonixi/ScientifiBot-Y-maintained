@@ -88,7 +88,11 @@ class Search(commands.Cog):
             for coin in data.coin_loot:
                 if query in data.coin_loot[coin]["element_in_order"]:
                     idx = data.coin_loot[coin]["element_in_order"].index(query)
-                    locations.append(f"> {coin} avec {round(data.coin_loot[coin]["proba_in_order"][idx]*100, 5)}% de chance.")
+                    total_proba = 0
+                    for proba in data.coin_loot[coin]["proba_in_order"]:
+                        total_proba += proba
+                    item_proba = data.coin_loot[coin]["proba_in_order"][idx]
+                    locations.append(f"> {coin} avec {round(item_proba/total_proba*100, 5)}% de chance.")
            
             
             

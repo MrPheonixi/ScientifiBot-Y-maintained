@@ -139,7 +139,7 @@ class Fusion(commands.Cog):
             if item_id:
                 item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{item_id}.png")
                 
-            if await Cf.hasMoreThanOneThing(ctx.author.id, result, "bag"):
+            if await Cf.HasMoreThanOneThing(ctx.author.id, result, "bag"):
                             
                 item_embed.add_field(
                     name=f"Vous l'avez déjà eu. Vous en avez donc {bag[result][1]}",

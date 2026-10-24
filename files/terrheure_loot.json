@@ -1,53 +1,59 @@
 {
-    "stats":{
-        "activation_time":0
-    },
-    "1":{
-        "type": "orbe",
-        "amount": 1
-    },
-    "2":{
-        "type": "yokair",
-        "class": "B"
-    
-    },
-    "4" : {
-        "type" :"orbe",
-        "amount" : 40
-    },
-    "5":{
-        "type": "coin",
-        "coin_list": ["Pièce rouge", "Pièce verte"],
-        "amount": 1
-    },
-    "10":{
-        "type": "yokair",
-        "class": "S"
-    },
-    "15" :{
-        "type" :"orbe",
-        "amount" : 100
-    },
-    "20":{
-        "type": "treasure",
-        "name": "Trésor oni"
-    },
-    "30":{
-        "type": "yokair",
-        "class":"Boss"
-    },
-    "35":{
-        "type" :"orbe",
-        "amount" : 600
-    },
-    "40":{
-        "type":"coin",
-        "coin_list" :["Pièce monstrueuse","Pièce démoniaque","Pièce spéciale","Pièce légendaire"],
-        "amount": 2
-
-    },
-    "45":{
-        "type":"orbe",
-        "amount": 1000
-    }
+  "stats": {
+    "activation_time": 1
+  },
+  "1": {
+    "type": "orbe",
+    "amount": 1
+  },
+  "2": {
+    "type": "yokair",
+    "class": "B"
+  },
+  "4": {
+    "type": "orbe",
+    "amount": 40
+  },
+  "5": {
+    "type": "coin",
+    "coin_list": [
+      "Pièce rouge",
+      "Pièce verte"
+    ],
+    "amount": 1
+  },
+  "10": {
+    "type": "yokair",
+    "class": "S"
+  },
+  "15": {
+    "type": "orbe",
+    "amount": 100
+  },
+  "20": {
+    "type": "treasure",
+    "name": "Trésor oni"
+  },
+  "30": {
+    "type": "yokair",
+    "class": "Boss"
+  },
+  "35": {
+    "type": "orbe",
+    "amount": 600
+  },
+  "40": {
+    "type": "coin",
+    "coin_list": [
+      "Pièce monstrueuse",
+      "Pièce démoniaque",
+      "Pièce spéciale",
+      "Pièce légendaire"
+    ],
+    "amount": 2
+  },
+  "45": {
+    "type": "orbe",
+    "amount": 1000
+  }
 }

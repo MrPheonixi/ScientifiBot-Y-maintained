@@ -19,11 +19,17 @@ import bot_package.treasure_tool as tt
 
 
 async def bingo_kai_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
-    coin = data.coin_list
-    return [
+    coin = data.coin_list.copy()
+    bag = await Cf.get_bag(interaction.user.id)
+    coin_list = []
+    for coin_bis in coin:
+        if coin_bis in bag:
+            coin_list.append(app_commands.Choice(name=coin_bis, value=coin_bis))
+    return coin_list[:25] # Limit to 25 choices for discord limitation
+    """[
         app_commands.Choice(name=coin, value=coin)
         for coin in coin if current.lower() in coin.lower()
-    ][:25]  # Limit to 25 choices for discord limitation
+    ]"""
 
 
 
@@ -664,7 +670,7 @@ class Bingo_kai(commands.Cog):
 
     
     @commands.hybrid_command(name="bkai")
-    #@app_commands.autocomplete(coin=bingo_kai_autcomplete)
+    @app_commands.autocomplete(coin=bingo_kai_autcomplete)
     async def bkai(self, ctx = commands.Context, coin : str = None):
         """
         Alias de /bingo-kai.

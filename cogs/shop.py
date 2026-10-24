@@ -66,7 +66,7 @@ if True: #flemme of removing all this tab
                 #choose the Yo-kai in the class
                 Yokai_choice = random.choice(class_choice["yokai_list"])
         
-                while Yokai_choice in data.blacklist.get("yokai") :
+                while Yokai_choice in data.blacklist.get("yokai") or Yokai_choice in data.yokai_event_list:
                     Yokai_choice = random.choice(class_choice["yokai_list"])
                 Yokai_choice = Yokai_choice
                 description = f"Un magnifique yo-kai de rang {class_name}✨"
