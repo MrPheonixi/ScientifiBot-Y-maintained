@@ -6,7 +6,7 @@ cooldownlist.json
 avent.json
 avent_user_cooldown.json
 monnaie.json
-sondage.json
+/files/sondage.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

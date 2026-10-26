@@ -249,7 +249,7 @@ class shop(commands.Cog):
         if bag["daily_shop_data"][0] == True:   #check if the item was already bough
             embed = discord.Embed(
                 title="Achat impossible",
-                description="Vous avez déja acheté votre item quotidien. Réessayer demain.",
+                description="Vous avez déjà acheté votre item quotidien. Réessayez demain.",
                 color=discord.Color.red()
                 )
             return await ctx.send(embed=embed)
