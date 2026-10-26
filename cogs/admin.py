@@ -554,7 +554,7 @@ class Admin_command(commands.Cog):
                             inv[yokai][1] += 1
                             # give orb if the argument is true
                             if rank_orbe:
-                                eco.add_rank_orbe(input_id,rang)
+                                await eco.add_rank_orbe(input_id,rang)
                         except :
                             #return an exception if the yokai was not stacked
                             #so we know there is only one and we can add the mention of two yokai ( .append(2) )

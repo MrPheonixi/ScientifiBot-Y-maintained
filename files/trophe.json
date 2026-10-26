@@ -205,7 +205,7 @@
     "Trophée du dépenseur ultime" : {
         "condition" : "depense",
         "value" : 10000,
-        "type" : "bronze",
+        "type" : "or",
         "obtention" : "Dépenser 10 000 orbes.",
         "categorie" : "Shop"
     },
