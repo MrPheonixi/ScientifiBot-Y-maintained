@@ -212,5 +212,656 @@
         "Result" : {
             "Le dernier Komuraï" : ["yokai","Légendaire"]
         }
+    },
+    "Bonneto,Épée légendaire":{
+        "Bonneto" : ["yokai","C"],
+        "Épée légendaire" : ["obj"],
+        "Result" : {
+            "Sabri" : ["yokai","A"]
+        }
+    },
+    "Bonneto,Épée maudite":{
+        "Bonneto" : ["yokai","C"],
+        "Épée maudite" : ["obj"],
+        "Result" : {
+            "Padelou" : ["yokai","A"]
+        }
+    },
+    "Bonneto,Épée sacrée":{
+        "Bonneto" : ["yokai","C"],
+        "Épée sacrée" : ["obj"],
+        "Result" : {
+            "Orox" : ["yokai","S"]
+        }
+    },
+    "Cupistol,Six-coups foudre":{
+        "Cupistol" : ["yokai","D"],
+        "Six-coups foudre" : ["obj"],
+        "Result" : {
+            "Donjouant" : ["yokai","A"]
+        }
+    },
+    "Padrézo,Orbe GHz":{
+        "Padrézo" : ["yokai","D"],
+        "Orbe GHz" : ["obj"],
+        "Result" : {
+            "Émettor" : ["yokai","A"]
+        }
+    },
+    "Coléroptère,Âme imbattable":{
+        "Coléroptère" : ["yokai","B"],
+        "Âme imbattable" : ["obj"],
+        "Result" : {
+            "Rhinolimit" : ["yokai","S"]
+        }
+    },
+    "Castelius I,Lingot de platine":{
+        "Castelius I" : ["yokai","A"],
+        "Lingot de platine" : ["obj"],
+        "Result" : {
+            "Castelius Max" : ["yokai","S"]
+        }
+    },
+    "Chihuaglagla,Cape de blizzard":{
+        "Chihuaglagla" : ["yokai","E"],
+        "Cape de blizzard" : ["obj"],
+        "Result" : {
+            "Froahuahua" : ["yokai","A"]
+        }
+    },
+    "Pitou,Sceptre d'amour":{
+        "Pitou" : ["yokai","C"],
+        "Sceptre d'amour" : ["obj"],
+        "Result" : {
+            "Choubidou" : ["yokai","B"]
+        }
+    },
+    "Angélik,Pince de glace":{
+        "Angélik" : ["yokai","B"],
+        "Pince de glace" : ["obj"],
+        "Result" : {
+            "Blizarria" : ["yokai","S"]
+        }
+    },
+    "Tortico,Poids":{
+        "Tortico" : ["yokai","E"],
+        "Poids" : ["obj"],
+        "Result" : {
+            "Tendino" : ["yokai","B"]
+        }
+    },
+    "Timidémon,Éclat démoniaque":{
+        "Timidémon" : ["yokai","A"],
+        "Éclat démoniaque" : ["obj"],
+        "Result" : {
+            "Belzel" : ["yokai","S"]
+        }
+    },
+    "Cenridion,Poudre jouvence":{
+        "Cenridion" : ["yokai","B"],
+        "Poudre jouvence" : ["obj"],
+        "Result" : {
+            "Jouvencia" : ["yokai","A"]
+        }
+    },
+    "Noko,Goutte de joie":{
+        "Noko" : ["yokai","E"],
+        "Goutte de joie" : ["obj"],
+        "Result" : {
+            "Nénunoko" : ["yokai","A"]
+        }
+    },
+    "Dracounet,Orbe de dragon":{
+        "Dracounet" : ["yokai","D"],
+        "Orbe de dragon" : ["obj"],
+        "Result" : {
+            "Sire Dragon" : ["yokai","S"]
+        }
+    },
+    "Scatcheur,Âme du général":{
+        "Scatcheur" : ["yokai","B"],
+        "Âme du général" : ["obj"],
+        "Result" : {
+            "Scarmouche" : ["yokai","S"]
+        }
+    },
+    "Felipaix,Costume sable":{
+        "Felipaix" : ["yokai","E"],
+        "Costume sable" : ["obj"],
+        "Result" : {
+            "M. Felipaix" : ["yokai","B"]
+        }
+    },
+    "Métaureaulog,Eau d'outre-monde":{
+        "Métaureaulog" : ["yokai","D"],
+        "Eau d'outre-monde" : ["obj"],
+        "Result" : {
+            "Tauracle" : ["yokai","S"]
+        }
+    },
+    "Zikafon,Assourdisseur":{
+        "Zikafon" : ["yokai","E"],
+        "Assourdisseur" : ["obj"],
+        "Result" : {
+            "Babarouf" : ["yokai","B"]
+        }
+    },
+    "Ornella,Revue maudite":{
+        "Ornella" : ["yokai","C"],
+        "Revue maudite" : ["obj"],
+        "Result" : {
+            "Sornella" : ["yokai","A"]
+        }
+    },
+    "Yvantouse,Amnéspirateur":{
+        "Yvantouse" : ["yokai","D"],
+        "Amnéspirateur" : ["obj"],
+        "Result" : {
+            "Ed Mémoire" : ["yokai","A"]
+        }
+    },
+    "Sirénée,Perle de sirène":{
+        "Sirénée" : ["yokai","D"],
+        "Perle de sirène" : ["obj"],
+        "Result" : {
+            "Sirènité" : ["yokai","S"]
+        }
+    },
+    "Granpapéti,Riz plein d'amour":{
+        "Granpapéti" : ["yokai","E"],
+        "Riz plein d'amour" : ["obj"],
+        "Result" : {
+            "Puissafon" : ["yokai","B"]
+        }
+    },
+    "Mélobê,Sculpture d'ours":{
+        "Mélobê" : ["yokai","D"],
+        "Sculpture d'ours" : ["obj"],
+        "Result" : {
+            "Geigneau" : ["yokai","B"]
+        }
+    },
+    "Bon-huiii,Lanterne carassin":{
+        "Bon-huiii" : ["yokai","D"],
+        "Lanterne carassin" : ["obj"],
+        "Result" : {
+            "Verrascible" : ["yokai","B"]
+        }
+    },
+    "Petit Panja,Lanterne du maître":{
+        "Petit Panja" : ["yokai","D"],
+        "Lanterne du maître" : ["obj"],
+        "Result" : {
+            "Panja-san" : ["yokai","B"]
+        }
+    },
+    "Samuren,Emblème d'or":{
+        "Samuren" : ["yokai","D"],
+        "Emblème d'or" : ["obj"],
+        "Result" : {
+            "Barrakéda" : ["yokai","B"]
+        }
+    },
+    "Poulpatouch,Moule à takoyaki":{
+        "Poulpatouch" : ["yokai","D"],
+        "Moule à takoyaki" : ["obj"],
+        "Result" : {
+            "Poulpater" : ["yokai","B"]
+        }
+    },
+    "Avallée,Sable des dunes":{
+        "Avallée" : ["yokai","D"],
+        "Sable des dunes" : ["obj"],
+        "Result" : {
+            "Mont merci" : ["yokai","B"]
+        }
+    },
+    "Sumodon,Chapeau de paille":{
+        "Sumodon" : ["yokai","D"],
+        "Chapeau de paille" : ["obj"],
+        "Result" : {
+            "Soupotori" : ["yokai","B"]
+        }
+    },
+    "Pfffuji,Statue terre cuite":{
+        "Pfffuji" : ["yokai","D"],
+        "Statue terre cuite" : ["obj"],
+        "Result" : {
+            "Krakatouaaah" : ["yokai","B"]
+        }
+    },
+    "Lacanne,Hibiscus rouge":{
+        "Lacanne" : ["yokai","D"],
+        "Hibiscus rouge" : ["obj"],
+        "Result" : {
+            "Canastelle" : ["yokai","B"]
+        }
+    },
+    "Sale de bain,Essence maléfique":{
+        "Sale de bain " : ["yokai","D"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Gale de bain" : ["yokai","C"]
+        }
+    },
+    "Bouh,Essence maléfique":{
+        "Bouh" : ["yokai","C"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Mabouhl" : ["yokai","B"]
+        }
+    },
+    "Brumella,Essence maléfique":{
+        "Brumella" : ["yokai","A"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Fumella" : ["yokai","A"]
+        }
+    },
+    "Faux Kappa,Essence maléfique":{
+        "Faux Kappa" : ["yokai","A"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Fou Kappa" : ["yokai","A"]
+        }
+    },
+    "Parasolal,Essence maléfique":{
+        "Parasolal" : ["yokai","E"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Pariasolal" : ["yokai","D"]
+        }
+    },
+    "Lulutin,Essence maléfique":{
+        "Lulutin" : ["yokai","D"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Fatalutin" : ["yokai","C"]
+        }
+    },
+    "Métaureaulog,Essence maléfique":{
+        "Métaureaulog" : ["yokai","D"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Métaréaulog" : ["yokai","C"]
+        }
+    },
+    "Poilux,Essence maléfique":{
+        "Poilux" : ["yokai","E"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Poulux" : ["yokai","D"]
+        }
+    },
+    "Sirénée,Essence maléfique":{
+        "Sirénée" : ["yokai","D"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Sinisrénée" : ["yokai","C"]
+        }
+    },
+    "Mlle Coucou,Essence maléfique":{
+        "Mlle Coucou" : ["yokai","C"],
+        "Essence maléfique" : ["obj"],
+        "Result" : {
+            "Mlle Courroux" : ["yokai","B"]
+        }
+    },
+    "Komajiro,Âme tourbillonnante":{
+        "Komajiro" : ["yokai","D"],
+        "Âme tourbillonnante" : ["obj"],
+        "Result" : {
+            "Komistigri" : ["yokai","A"]
+        }
+    },
+    "Komasan,Âme tourbillonnante":{
+        "Komasan" : ["yokai","D"],
+        "Âme tourbillonnante" : ["obj"],
+        "Result" : {
+            "Komaous" : ["yokai","A"]
+        }
+    },
+    "Nanpart,Clé de voûte":{
+        "Nanpart" : ["yokai","E"],
+        "Clé de voûte" : ["obj"],
+        "Result" : {
+            "Passpa" : ["yokai","A"]
+        }
+    },
+    "Chauvekipeut,Placard confortable":{
+        "Chauvekipeut" : ["yokai","D"],
+        "Placard confortable" : ["obj"],
+        "Result" : {
+            "Chauv'coucou" : ["yokai","A"]
+        }
+    },
+    "Fouétar,Perle Périlleuse":{
+        "Fouétar" : ["yokai","S"],
+        "Perle Périlleuse" : ["obj"],
+        "Result" : {
+            "Superfouétar" : ["yokai","S"]
+        }
+    },
+    "Potache,Céramique ancienne":{
+        "Potache" : ["yokai","E"],
+        "Céramique ancienne" : ["obj"],
+        "Result" : {
+            "Dépotache" : ["yokai","B"]
+        }
+    },
+    "Bambincroyable,Boule barbare":{
+        "Bambincroyable" : ["yokai","E"],
+        "Boule barbare" : ["obj"],
+        "Result" : {
+            "Bambinsupportable" : ["yokai","S"]
+        }
+    },
+    "Bleunet de bain,Huile de bain parfumée":{
+        "Bleunet de bain" : ["yokai","E"],
+        "Huile de bain parfumée" : ["obj"],
+        "Result" : {
+            "Antoilette" : ["yokai","A"]
+        }
+    },
+    "Hâtila,Mauvaise nouvelle":{
+        "Hâtila" : ["yokai","C"],
+        "Mauvaise nouvelle" : ["obj"],
+        "Result" : {
+            "Entout' Hâtila" : ["yokai","S"]
+        }
+    },
+    "Tyragédie,ADN de dinosaure":{
+        "Tyragédie" : ["yokai","D"],
+        "ADN de dinosaure" : ["obj"],
+        "Result" : {
+            "Catastrosaure" : ["yokai","S"]
+        }
+    },
+    "Sale de bain,Prix meilleur joueur":{
+        "Sale de bain" : ["yokai","D"],
+        "Prix meilleur joueur" : ["obj"],
+        "Result" : {
+            "XXL de bain" : ["yokai","A"]
+        }
+    },
+    "Granpapéti,Vermicelles colorés":{
+        "Granpapéti" : ["yokai","E"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "PapiXXL" : ["yokai","B"]
+        }
+    },
+    "Loubarbare,Vermicelles colorés":{
+        "Loubarbare" : ["yokai","E"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Graffaël" : ["yokai","B"]
+        }
+    },
+    "Feulion,Vermicelles colorés":{
+        "Feulion" : ["yokai","C"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Lionguiste" : ["yokai","C"]
+        }
+    },
+    "Toutouïe,Vermicelles colorés":{
+        "Toutouïe" : ["yokai","D"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Tatartelette" : ["yokai","C"]
+        }
+    },
+    "Bananar,Vermicelles colorés":{
+        "Bananar" : ["yokai","B"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Chocobananar" : ["yokai","A"]
+        }
+    },
+    "Robonyan,Vermicelles colorés":{
+        "Robonyan" : ["yokai","A"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Superobonyan" : ["yokai","A"]
+        }
+    },
+    "Trodésolé,Vermicelles colorés":{
+        "Trodésolé" : ["yokai","D"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Otempourmoa" : ["yokai","C"]
+        }
+    },
+    "Noripop,Vermicelles colorés":{
+        "Noripop" : ["yokai","E"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Athlaitue" : ["yokai","C"]
+        }
+    },
+    "Nanpart,Vermicelles colorés":{
+        "Nanpart" : ["yokai","E"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Haltela" : ["yokai","B"]
+        }
+    },
+    "Hyprapillon,Vermicelles colorés":{
+        "Hyprapillon" : ["yokai","A"],
+        "Vermicelles colorés" : ["obj"],
+        "Result" : {
+            "Ailexagère" : ["yokai","A"]
+        }
+    },
+    "Aura Octorgone,Gant abîmé":{
+        "Aura Octorgone" : ["obj"],
+        "Gant abîmé" : ["obj"],
+        "Result" : {
+            "Octorgantelet" : ["obj"]
+        }
+    },
+    "Cristal fissuré,Éclat de cristal":{
+        "Cristal fissuré" : ["obj"],
+        "Éclat de cristal" : ["obj"],
+        "Result" : {
+            "Boule de cristal" : ["obj"]
+        }
+    },
+    "Toupropre,Écharpe jaunie":{
+        "Toupropre" : ["obj"],
+        "Écharpe jaunie" : ["obj"],
+        "Result" : {
+            "Écharpe céleste" : ["obj"]
+        }
+    },
+    "Eau sacrée,Écaille cracra":{
+        "Eau sacrée" : ["obj"],
+        "Écaille cracra" : ["obj"],
+        "Result" : {
+            "Écaille ancienne" : ["obj"]
+        }
+    },
+    "Bague normale,Rubis":{
+        "Bague normale" : ["obj"],
+        "Rubis" : ["obj"],
+        "Result" : {
+            "Anneau du feu" : ["obj"]
+        }
+    },
+    "Bague normale,Aigue-marine":{
+        "Bague normale" : ["obj"],
+        "Aigue-marine" : ["obj"],
+        "Result" : {
+            "Anneau de l'eau" : ["obj"]
+        }
+    },
+    "Bague normale,Topaze":{
+        "Bague normale" : ["obj"],
+        "Topaze" : ["obj"],
+        "Result" : {
+            "Anneau de la foudre" : ["obj"]
+        }
+    },
+    "Bague normale,Tourmaline":{
+        "Bague normale" : ["obj"],
+        "Tourmaline" : ["obj"],
+        "Result" : {
+            "Anneau de la terre" : ["obj"]
+        }
+    },
+    "Bague normale,Émeraude":{
+        "Bague normale" : ["obj"],
+        "Émeraude" : ["obj"],
+        "Result" : {
+            "Anneau du vent" : ["obj"]
+        }
+    },
+    "Bague normale,Opale":{
+        "Bague normale" : ["obj"],
+        "Opale" : ["obj"],
+        "Result" : {
+            "Anneau de la glace" : ["obj"]
+        }
+    },
+    "Amulette vide,Rubis":{
+        "Amulette vide" : ["obj"],
+        "Rubis" : ["obj"],
+        "Result" : {
+            "Amulette antifeu" : ["obj"]
+        }
+    },
+    "Amulette vide,Aigue-marine":{
+        "Amulette vide" : ["obj"],
+        "Aigue-marine" : ["obj"],
+        "Result" : {
+            "Amulette imperméable" : ["obj"]
+        }
+    },
+    "Amulette vide,Topaze":{
+        "Amulette vide" : ["obj"],
+        "Topaze" : ["obj"],
+        "Result" : {
+            "Amulette parafoudre" : ["obj"]
+        }
+    },
+    "Amulette vide,Tourmaline":{
+        "Amulette vide" : ["obj"],
+        "Tourmaline" : ["obj"],
+        "Result" : {
+            "Amulette antiterre" : ["obj"]
+        }
+    },
+    "Amulette vide,Émeraude":{
+        "Amulette vide" : ["obj"],
+        "Émeraude" : ["obj"],
+        "Result" : {
+            "Amulette coupevent" : ["obj"]
+        }
+    },
+    "Amulette vide,Opale":{
+        "Amulette vide" : ["obj"],
+        "Opale" : ["obj"],
+        "Result" : {
+            "Amulette antigel" : ["obj"]
+        }
+    },
+    "Herbe médicinale,Herbe fétide":{
+        "Herbe médicinale" : ["obj"],
+        "Herbe fétide" : ["obj"],
+        "Result" : {
+            "Remède infect" : ["obj"]
+        }
+    },
+    "Remède infect,Herbe amère":{
+        "Remède infect" : ["obj"],
+        "Herbe amère" : ["obj"],
+        "Result" : {
+            "Remède amer" : ["obj"]
+        }
+    },
+    "Couteau ébréché,Aiguisoir brut":{
+        "Couteau ébréché" : ["obj"],
+        "Aiguisoir brut" : ["obj"],
+        "Result" : {
+            "Épée légendaire" : ["obj"]
+        }
+    },
+    "Couteau ébréché,Aiguisoir sinistre":{
+        "Couteau ébréché" : ["obj"],
+        "Aiguisoir sinistre" : ["obj"],
+        "Result" : {
+            "Épée maudite" : ["obj"]
+        }
+    },
+    "Couteau ébréché,Aiguisoir sublime":{
+        "Couteau ébréché" : ["obj"],
+        "Aiguisoir sublime" : ["obj"],
+        "Result" : {
+            "Épée sacrée" : ["obj"]
+        }
+    },
+    "Grelot brisé,Talisman de force":{
+        "Grelot brisé" : ["obj"],
+        "Talisman de force" : ["obj"],
+        "Result" : {
+            "Clochette de force" : ["obj"]
+        }
+    },
+    "Grelot brisé,Talisman d'esprit":{
+        "Grelot brisé" : ["obj"],
+        "Talisman d'esprit" : ["obj"],
+        "Result" : {
+            "Clochette charme" : ["obj"]
+        }
+    },
+    "Grelot brisé,Talisman défense":{
+        "Grelot brisé" : ["obj"],
+        "Talisman défense" : ["obj"],
+        "Result" : {
+            "Clochette vigueur" : ["obj"]
+        }
+    },
+    "Grelot brisé,Talisman de vitesse":{
+        "Grelot brisé" : ["obj"],
+        "Talisman de vitesse" : ["obj"],
+        "Result" : {
+            "Clochette vitesse" : ["obj"]
+        }
+    },
+    "Éclat S 1 ∞,Éclat S 2 ∞":{
+        "Éclat S 1 ∞" : ["obj"],
+        "Éclat S 2 ∞" : ["obj"],
+        "Result" : {
+            "Pierre S ∞" : ["obj"]
+        }
+    },
+    "Éclat du phénix 1 ∞,Éclat du phénix 2 ∞":{
+        "Éclat du phénix 1 ∞" : ["obj"],
+        "Éclat du phénix 2 ∞" : ["obj"],
+        "Result" : {
+            "Pierre du phénix ∞" : ["obj"]
+        }
+    },
+    "Éclat avare 1 ∞,Éclat avare 2 ∞":{
+        "Éclat avare 1 ∞" : ["obj"],
+        "Éclat avare 2 ∞" : ["obj"],
+        "Result" : {
+            "Pierre avare ∞" : ["obj"]
+        }
+    },
+    "Éclat stupide 1 ∞,Éclat stupide 2 ∞":{
+        "Éclat stupide 1 ∞" : ["obj"],
+        "Éclat stupide 2 ∞" : ["obj"],
+        "Result" : {
+            "Pierre stupide ∞" : ["obj"]
+        }
+    },
+    "Éclat orné 1 ∞,Éclat orné 2 ∞":{
+        "Éclat orné 1 ∞" : ["obj"],
+        "Éclat orné 2 ∞" : ["obj"],
+        "Result" : {
+            "Pierre orné ∞" : ["obj"]
+        }
     }
 }

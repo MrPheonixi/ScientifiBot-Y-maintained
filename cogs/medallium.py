@@ -62,7 +62,7 @@ class Medallium(commands.Cog) :
         #sort the Yo-kai by class
         for elements in brute_inventory:
             #Don't take any numbers
-            if not type(brute_inventory[elements]) == int and not type(brute_inventory[elements]) == float and not elements in blacklist and elements not in data.yokai_event_list:
+            if not type(brute_inventory[elements]) == int and not type(brute_inventory[elements]) == float and not elements in blacklist and elements not in data.yokai_event_list and brute_inventory[elements][0] in yokai_per_class:
                 categorie = brute_inventory[elements]
 
                 #Check if it's stack
@@ -329,7 +329,9 @@ class Medallium(commands.Cog) :
             if "trophe_data" not in bag:
                 bag["trophe_data"] = {"data": {}, "list": [], "fusion": []}
             bag["trophe_data"]["data"]["medallium completion"] = completion
+            await Cf.save_bag(bag,ctx.author.id)
             await Cf.trophe_check(user.id, ctx)
+            
 
     
     #the bag command
@@ -515,7 +517,9 @@ class Medallium(commands.Cog) :
             
             else:
                 yokai_claimed_count += f"**{await Cf.classid_to_class(classes, False)}s**: `{brute_bag[classes]}`\n"
-
+                if classes == "obj" and user.id == ctx.author.id:
+                    await Cf.update_trophe_data(ctx.author.id,"objets",brute_bag[classes],"set")
+                    await Cf.trophe_check(ctx.author.id,ctx)
 
         main_embed.add_field(name="Voici vos statistiques :", value=yokai_claimed_count, inline=True)
         if not user == None and user.id != ctx.author.id:
@@ -582,6 +586,7 @@ class Medallium(commands.Cog) :
             "Printemps": {},
             "Pâques": {},
             "Estival": {},
+            "Automne": {},
             "Autre": {}
         }
 
@@ -632,6 +637,7 @@ class Medallium(commands.Cog) :
                     discord.SelectOption(label="Printemps"),
                     discord.SelectOption(label="Pâques"),
                     discord.SelectOption(label="Estival"),
+                    discord.SelectOption(label="Automne"),
                     discord.SelectOption(label="Autre")
                 ]
 
@@ -784,18 +790,18 @@ class Medallium(commands.Cog) :
         class Inv_dropdown(discord.ui.Select):
             def __init__(self):
                 options = [
-                    discord.SelectOption(label="Tout !", description="Affiche tout les trophées."),
-                    discord.SelectOption(label="medallium", description="Affiche tout les trophées de la catégorie médallium."),
-                    discord.SelectOption(label="cadeau", description="Affiche tout les trophées de la catégorie cadeau."),
-                    discord.SelectOption(label="trade", description="Affiche tout les trophées de la catégorie trade."),
-                    discord.SelectOption(label="fusion", description="Affiche tout les trophées de la catégorie fusion."),
-                    discord.SelectOption(label="top", description="Affiche tout les trophées de la catégorie top."),
-                    discord.SelectOption(label="shop", description="Affiche tout les trophées de la catégorie shop."),
-                    discord.SelectOption(label="terrheure", description="Affiche tout les trophées de la catégorie terrheure."),
-                    discord.SelectOption(label="bag", description="Affiche tout les trophées de la catégorie bag."),
-                    discord.SelectOption(label="orbes", description="Affiche tout les trophées de la catégorie orbes."),
-                    discord.SelectOption(label="search", description="Affiche tout les trophées de la catégorie search."),
-                    discord.SelectOption(label="bingo-kai", description="Affiche tout les trophées de la catégorie bingo-kai.")
+                    discord.SelectOption(label="Tout !", description="Affiche tout les trophées.", emoji="🌐"),
+                    discord.SelectOption(label="Médallium", description="Affiche tout les trophées de la catégorie médallium.", emoji="🌐"),
+                    discord.SelectOption(label="Cadeau", description="Affiche tout les trophées de la catégorie cadeau.", emoji="🎁"),
+                    discord.SelectOption(label="Trade", description="Affiche tout les trophées de la catégorie trade.", emoji="🌐"),
+                    discord.SelectOption(label="Fusion", description="Affiche tout les trophées de la catégorie fusion.", emoji="🌐"),
+                    discord.SelectOption(label="Top", description="Affiche tout les trophées de la catégorie top.", emoji="🌐"),
+                    discord.SelectOption(label="Shop", description="Affiche tout les trophées de la catégorie shop.", emoji="🌐"),
+                    discord.SelectOption(label="Terr'heure", description="Affiche tout les trophées de la catégorie terrheure.", emoji="👺"),
+                    discord.SelectOption(label="Bag", description="Affiche tout les trophées de la catégorie bag.", emoji="🎒"),
+                    discord.SelectOption(label="Orbes", description="Affiche tout les trophées de la catégorie orbes.", emoji="🌐"),
+                    discord.SelectOption(label="Search", description="Affiche tout les trophées de la catégorie search.", emoji="🌐"),
+                    discord.SelectOption(label="Bingo-kai", description="Affiche tout les trophées de la catégorie bingo-kai.", emoji="🌐")
                 ]
 
                 super().__init__(placeholder='Choisissez la catégorie que vous voulez...', min_values=1, max_values=1, options=options)

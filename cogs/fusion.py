@@ -64,7 +64,7 @@ class Fusion(commands.Cog):
             await Cf.save_bag(bag, ctx.author.id)
             await Cf.trophe_check(ctx.author.id, ctx)
         
-        
+        await Cf.save_bag(bag,ctx.author.id)
         await Cf.remove(ctx.author.id, item_or_yokai_a, rang_item_A ,where_type_A)
         await Cf.remove(ctx.author.id, item_or_yokai_b, rang_item_B ,where_type_B)
 
@@ -91,7 +91,7 @@ class Fusion(commands.Cog):
             #define the id and so the api request to the image
         
             id = data.yokai_list_full.get(result, {}).get("id", None)
-            yokai_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{id}.png")
+            yokai_embed.set_image(url=f"https://slimepunk.fr/bello/sby/{id}.png")
             if id == None :
                 yokai_embed.add_field(name="Image non disponible ! 😢", inline=False, value="En effet, nous ne possédons pas l'image de tous les Yo-kai, mais l'équipe travaille pour les apporter au complet et au plus vite.")
 
@@ -139,7 +139,7 @@ class Fusion(commands.Cog):
             if item_id:
                 item_embed.set_image(url=f"https://lfbn-idf3-1-5-236.w81-249.abo.wanadoo.fr/{item_id}.png")
                 
-            if await Cf.hasMoreThanOneThing(ctx.author.id, result, "bag"):
+            if await Cf.HasMoreThanOneThing(ctx.author.id, result, "bag"):
                             
                 item_embed.add_field(
                     name=f"Vous l'avez déjà eu. Vous en avez donc {bag[result][1]}",

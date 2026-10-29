@@ -170,6 +170,7 @@ with open("./files/yokai_event.json") as yokai_event_list:
         "Printemps" : len(yokai_event_data["Printemps"]["yokai_list"]),
         "Pâques" : len(yokai_event_data["Pâques"]["yokai_list"]),
         "Estival" : len(yokai_event_data["Estival"]["yokai_list"]),
+        "Automne" : len(yokai_event_data["Automne"]["yokai_list"]),
         "Autre" : len(yokai_event_data["Autre"]["yokai_list"])
     }
 
@@ -244,4 +245,12 @@ class_to_point = {
     "DivinityS" : 32,
     "Boss" : 64,
     "Shiny" : 82,
+    "Halloween" : 24,
+    "Noël" : 24,
+    "St-Valentin" : 24,
+    "Printemps" : 24,
+    "Pâques" : 24,
+    "Estival" : 24,
+    "Automne" : 24,
+    "Autre" : 24
 }

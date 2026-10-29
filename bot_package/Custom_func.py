@@ -11,7 +11,8 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import Context
 from discord import app_commands
-
+from dotenv import load_dotenv
+import httpx
 """
 A module containing utility functions for the bot
 This module provides functions for handling inventories, managing data encoding,
@@ -37,7 +38,7 @@ Note:
 Every general func needed by the bot should be writen here.
 
 """
-
+load_dotenv()   
 
 if os.name == "nt":  # Only execute on Windows
     def fix_encoding(obj):
@@ -250,7 +251,7 @@ async def get_midnight():
     return midnight
 
 
-async def generateRandomYokai(ctx, proba: list = data.proba_list.copy(), treasure: bool = False):
+async def generateRandomYokai(ctx, proba: list, treasure: bool = False):
     """
     A function to generate a random yo-kai
     proba: The probabilities for the yo-kai (in order) -> If not specified, uses the default bingo kai proba
@@ -360,6 +361,9 @@ def _ensure_trophe_data(bag: dict) -> dict:
     return trophe_data
 
 async def trophe_check(user : int, ctx: commands.Context):
+    if await create_trophe_data(user):
+        return
+
     bag = await get_bag(user)
 
     trophe_user_data = _ensure_trophe_data(bag)
@@ -377,7 +381,7 @@ async def trophe_check(user : int, ctx: commands.Context):
 
                 trophe_embed = discord.Embed(
                     title=f"Vous avez eu le trophée **{trophe_obtained}** ✨ ",
-                    description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe]["obtention"]}",
+                    description=f"C'est un trophé de/d' **{trophe_type_obtained}**\nObtention: {data.trophe_data[trophe].get('obtention', '')}",
                     color=discord.Color.from_str(data.trophe_color[trophe_type_obtained])                
                 )
                 #trophe_embed.set_thumbnail(url=data.image_link[trophe_type_obtained])
@@ -385,9 +389,11 @@ async def trophe_check(user : int, ctx: commands.Context):
                 return await ctx.send(embed=trophe_embed)
 
         except KeyError:
-                    pass
+            pass
 
 async def update_trophe_data(user : int, condition : str, value : int, mode: str):
+    await create_trophe_data(user)
+
     bag = await get_bag(user)
     trophe_data = _ensure_trophe_data(bag)
 
@@ -400,6 +406,31 @@ async def update_trophe_data(user : int, condition : str, value : int, mode: str
             trophe_data["data"][condition] = value
 
     await save_bag(bag, user)
+
+async def create_trophe_data(user: int):
+    bag = await get_bag(user)
+    if bag == {}:
+        bag = data.default_bag.copy()
+        bag["trophe_data"] = {
+            "list" : [],
+            "data" : {},
+            "fusion" : []
+        }
+        await save_bag(bag, user)
+        return True
+        
+    try:
+        bag["trophe_data"]
+        return False
+    except KeyError:
+        bag["trophe_data"] = {
+            "list" : [],
+            "data" : {},
+            "fusion" : []
+        }
+        await save_bag(bag, user)
+        return True
+        
 
 ##########################
 ## Data management part ##
@@ -478,26 +509,22 @@ async def add(input_id : int, thing : str, rang : str, where:str, rank_orbe: boo
         # 2. If yes, if there is already many oh this yokai
         # and we do it in range(number) to give several yokai
         for _ in range(number) :
-            try:
-                inv[thing]
-                try:
-                    #stack the yokai
-                    inv[thing][1] += 1
-                    # give orb if the argument is true
-                    if rank_orbe:
-                        eco.add_rank_orbe(input_id,rang)
-                except Exception:
-                    #catch an exception if the yokai was not stacked
-                    #so we know there is only one and we can add the mention of two yokai ( .append(2) )
+            if thing in inv:
+                if len(inv[thing]) == 1:
+                    # Add the duplicate count when this is the first copy beyond the original.
                     inv[thing].append(2)
-            except KeyError:
+                else:
+                    inv[thing][1] += 1
+                if rank_orbe:
+                    await eco.add_rank_orbe(input_id, rang)
+            else:
                 #return an exception if the yokai was not in the inv
                 #add it
                 inv[thing] = [rang]
                 #add one more to the yokai count of the corresponding class
                 try:
                     inv[rang] += 1
-                except:
+                except KeyError:
                     inv[rang] = 1
                     
             #save the inv
@@ -567,4 +594,57 @@ async def remove(input_id:int, yokai : str, rang : str, where:str, number : int 
             inv.pop(yokai)
             inv[rang] -= 1
         await save_inv_t(data=inv, id=input_id)
-        
+
+
+
+url = os.getenv("API_URL")
+headers = {"X-API-Token": os.getenv("API_TOKEN")}
+
+
+def api_enabled() -> bool:
+    return str(os.getenv("API_CONNECT", "")) #true or false
+
+
+async def api_post_pull(user_id, yokai, rang, methode):
+    if api_enabled():
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{url}/ingest",
+                headers=headers,
+                json={"pulls": [{"methode": methode, "user_id": user_id, "yokai": yokai, "rang": rang, "time": time.time()}]},
+                timeout=5,
+            )
+            response.raise_for_status()
+
+async def api_post_inventaire(user_id, yokai, rang, quantite):
+    if api_enabled():
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{url}/ingest",
+                headers=headers,
+                json={"inventaire": [{"user_id": user_id, "yokai": yokai, "rang": rang, "quantite": quantite}]},
+                timeout=5,
+            )
+            response.raise_for_status()
+
+async def api_post_event(event_TYPE, user_id, time):
+    if api_enabled():
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{url}/event",
+                headers=headers,
+                json={"event_TYPE": event_TYPE, "user_id": user_id, "time": time},
+                timeout=5,
+            )
+            response.raise_for_status()
+
+async def api_post_logs(user_id, code, error_time, command, trace):
+    if api_enabled():
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{url}/logs",
+                headers=headers,
+                json={"user_id": user_id, "code": code, "time": error_time, "command": command, "trace": trace},
+                timeout=5,
+            )
+            response.raise_for_status()

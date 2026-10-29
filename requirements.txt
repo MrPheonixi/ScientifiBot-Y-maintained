@@ -3,3 +3,4 @@ python-dotenv
 aiofiles
 Pillow
 aiosqlite
+httpx

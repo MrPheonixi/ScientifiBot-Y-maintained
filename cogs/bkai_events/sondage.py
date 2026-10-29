@@ -235,8 +235,14 @@ class sondage():
             id1 = id_list.get(yk1, {}).get("id")
             id2 = id_list.get(yk2, {}).get("id")
             if id1 and id2:
-                imgyk1 = self._get_image_from_url(f"https://slimepunk.fr/bello/sby/{id1}.png")
-                imgyk2 = self._get_image_from_url(f"https://slimepunk.fr/bello/sby/{id2}.png")
+                try:
+                    imgyk1 = self._get_image_from_url(f"https://slimepunk.fr/bello/sby/{id1}.png")
+                except:
+                    imgyk2 = Image.new("RGBA", (500,500),(0,0,0,0))
+                try:
+                    imgyk2 = self._get_image_from_url(f"https://slimepunk.fr/bello/sby/{id2}.png")
+                except:
+                    imgyk2 = Image.new("RGBA", (500,500),(0,0,0,0))
             else:
                 imgyk1 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
                 imgyk2 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))

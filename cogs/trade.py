@@ -121,14 +121,14 @@ class TradeConfirmView(discord.ui.View):
         for i in range(len(son_yokai)):
             asked_yokai = son_yokai[i]
             a = int(a_son_yokai[i])
-            if not Cf.HasThing(self.author.id, asked_yokai, "medallium"):
+            if not await Cf.hasThing(self.author.id, asked_yokai, "medallium"):
                 await Cf.update_trophe_data(self.author.id, "trade un yokai", 1, "add")
             await Cf.update_trophe_data(self.author.id, "trade", 1, "add")
             await Cf.add(self.author.id, asked_yokai, recipient_inv[asked_yokai][0], "medallium",number=a)
         for i in range(len(son_item)):
             asked_item = son_item[i]
             a = int(a_son_item[i])
-            if not Cf.HasThing(self.author.id, asked_yokai, "medallium"):
+            if not await Cf.hasThing(self.author.id, asked_item, "bag"):
                 await Cf.update_trophe_data(self.author.id, "trade un objet", 1, "add")
             await Cf.update_trophe_data(self.author.id, "trade", 1, "add")
             await Cf.add(self.author.id, asked_item, recipient_bag[asked_item][0], "bag", number=a)
@@ -138,14 +138,14 @@ class TradeConfirmView(discord.ui.View):
         for i in range(len(ton_yokai)):
             offered_yokai = ton_yokai[i]
             a = int(a_ton_yokai[i])
-            if not Cf.HasThing(self.author.id, asked_yokai, "medallium"):
+            if not await Cf.hasThing(self.destinataire.id, offered_yokai, "medallium"):
                 await Cf.update_trophe_data(self.destinataire.id, "trade un yokai", 1, "add")
             await Cf.update_trophe_data(self.destinataire.id, "trade", 1, "add")
             await Cf.add(self.destinataire.id, offered_yokai, author_inv[offered_yokai][0], "medallium",number=a)
         for i in range(len(ton_item)):
             offered_item = ton_item[i]
             a = int(a_ton_item[i])
-            if  not Cf.HasThing(self.author.id, asked_yokai, "medallium"):
+            if not await Cf.hasThing(self.destinataire.id, offered_item, "bag"):
                 await Cf.update_trophe_data(self.destinataire.id, "trade un objet", 1, "add")
             await Cf.update_trophe_data(self.destinataire.id, "trade", 1, "add")
             await Cf.add(self.destinataire.id, offered_item, author_bag[offered_item][0], "bag",number=a)
@@ -847,10 +847,10 @@ class Trade(commands.Cog):
         #Format the offered yokai
         offered_yokai = ""
         for asked_yokai in ton_yokai :
-            offered_yokai += f"> Le Yo-kai **{asked_yokai}** de rang **{await Cf.classid_to_class(author_inv[asked_yokai][0])}**\n "
+            offered_yokai += f"> Le Yo-kai **{asked_yokai}** de rang **{await Cf.classid_to_class(author_inv[asked_yokai][0])}** {a_ton_yokai[ton_yokai.index(asked_yokai)]} fois\n "
         offered_item = ""
         for asked_item in ton_item:
-            offered_item += f"> - **{asked_item}**"
+            offered_item += f"> - **{asked_item}** {a_ton_item[ton_item.index(asked_item)]} fois"
         
         #ADD the user to the queue
 

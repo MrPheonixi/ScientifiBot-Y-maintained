@@ -19,11 +19,17 @@ import bot_package.treasure_tool as tt
 
 
 async def bingo_kai_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
-    coin = data.coin_list
-    return [
+    coin = data.coin_list.copy()
+    bag = await Cf.get_bag(interaction.user.id)
+    coin_list = []
+    for coin_bis in coin:
+        if coin_bis in bag:
+            coin_list.append(app_commands.Choice(name=coin_bis, value=coin_bis))
+    return coin_list[:25] # Limit to 25 choices for discord limitation
+    """[
         app_commands.Choice(name=coin, value=coin)
         for coin in coin if current.lower() in coin.lower()
-    ]
+    ]"""
 
 
 
@@ -215,6 +221,7 @@ class Bingo_kai(commands.Cog):
                         class_id = data.yokai_data[element]["class_id"]
                         class_name = data.yokai_data[element]["class_name"]
                         break
+                await Cf.api_post_pull(ctx.author.id, item, class_id, "piece")
 
 
                 yokai_embed = discord.Embed(
@@ -432,7 +439,8 @@ class Bingo_kai(commands.Cog):
                     return await ctx.send(embed=yokai_embed)
                 
 
-        Yokai_choice, class_name, class_id = await Cf.generateRandomYokai(ctx, treasure = True)
+        Yokai_choice, class_name, class_id = await Cf.generateRandomYokai(ctx,proba = data.proba_list.copy(), treasure = True)
+        await Cf.api_post_pull(ctx.author.id, Yokai_choice, class_id, "pull")
 
         
         if ctx.guild is not None:
@@ -682,7 +690,6 @@ class Bingo_kai(commands.Cog):
         """
             
         brute_inventory = await Cf.get_inv(ctx.author.id)
-        brute_bag = await Cf.get_bag(ctx.author.id)
 
         #look if there is a golden coin, else return that there isn't one
         if not await Cf.hasThing(ctx.author.id, "Pièce gagnante", "bag"):
@@ -755,8 +762,6 @@ class Bingo_kai(commands.Cog):
             )
 
         yokai_embed.set_footer(text="Tu as utilisé un tirage du bingo-kai gagnant!")
-                
-        await Cf.save_bag(brute_bag, ctx.author.id)
 
         await Cf.update_trophe_data(ctx.author.id, "bingo-kai gagnant", 1, "add")
                     

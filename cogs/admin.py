@@ -11,11 +11,12 @@ import bot_package.economy as eco
 from typing import Literal
 import time
 import io
+import httpx
 
 
 
 async def class_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
-    choices = ["Shiny", "Boss", "Divinité / Enma", "Légendaire", "Spécial", "S", "A", "B", "C", "D", "E", "objet", "pièce", "json-mod", "claim", "Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival", "Autre"]
+    choices = ["Shiny", "Boss", "Divinité / Enma", "Légendaire", "Spécial", "S", "A", "B", "C", "D", "E", "objet", "pièce", "json-mod", "claim", "Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival","Automne", "Autre"]
     list = [
         app_commands.Choice(name=choices, value=choices)
         for choices in choices if current.lower() in choices.lower()
@@ -25,7 +26,7 @@ async def class_autcomplete(interaction : discord.Interaction, current : str) ->
     return list
 
 async def event_autcomplete(interaction : discord.Interaction, current : str) -> list[app_commands.Choice[str]] :
-    choices = ["Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival"]
+    choices = ["Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival","Automne"]
     list = [
         app_commands.Choice(name=choices, value=choices)
         for choices in choices if current.lower() in choices.lower()
@@ -53,6 +54,50 @@ class Admin_command(commands.Cog):
     
     
     
+    @commands.hybrid_command(name="admin_post_inventory")
+    @Check.is_in_dev_team()
+    async def post_inventory(self, ctx: commands.Context):
+        """
+        Envoie tout le contenu des Médalliums vers l'API externe.
+        """
+        if str(os.getenv("API_CONNECT", "")).strip().lower() not in {"1", "true", "yes", "on"}:
+            return await ctx.send("L'API n'est pas activée (API_CONNECT=false).", ephemeral=True)
+
+        await ctx.defer()
+
+        all_users = await Cf.get_all_player_ids()
+        inventory_entries = []
+
+        for user_id in all_users:
+            inv = await Cf.get_inv(user_id)
+            for key, value in inv.items():
+                if key in {"claim", "last_claim"}:
+                    continue
+                if not isinstance(value, list) or len(value) < 2:
+                    continue
+                rang = value[0]
+                quantity = value[1] if isinstance(value[1], int) else 1
+                inventory_entries.append({
+                    "user_id": user_id,
+                    "yokai": key,
+                    "rang": rang,
+                    "quantite": quantity,
+                })
+
+        if not inventory_entries:
+            return await ctx.send("Aucun contenu d'inventaire à envoyer.", ephemeral=True)
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{Cf.url}/ingest",
+                headers=Cf.headers,
+                json={"inventaire": inventory_entries},
+                timeout=20,
+            )
+            response.raise_for_status()
+
+        return await ctx.send(f"✅ {len(inventory_entries)} entrées d'inventaire envoyées à l'API pour {len(all_users)} utilisateur(s).", ephemeral=True)
+
     @commands.hybrid_command(name="admin_top")
     @Check.is_in_dev_team()
     async def top(self, ctx:commands.Context, category:Literal["Points", "Complétion"]):
@@ -509,7 +554,7 @@ class Admin_command(commands.Cog):
                             inv[yokai][1] += 1
                             # give orb if the argument is true
                             if rank_orbe:
-                                eco.add_rank_orbe(input_id,rang)
+                                await eco.add_rank_orbe(input_id,rang)
                         except :
                             #return an exception if the yokai was not stacked
                             #so we know there is only one and we can add the mention of two yokai ( .append(2) )
@@ -527,8 +572,10 @@ class Admin_command(commands.Cog):
                     #save the inv
                     await save_inv(data=inv, id=input_id)
                 
-            sucess_embed.add_field(name=f"Yo-Kai ajouté(s) {"au Médallium" if where=="medallium" else "à la sacoche"} de {input_id}",
-                                    value=f"**{yokai}** de rang **{rang}**\n> quantité : {number}\n----------------")
+            sucess_embed.add_field(
+                name=f'Yo-Kai ajouté(s) {"au Médallium" if where == "medallium" else "à la sacoche"} de {input_id}',
+                value=f"**{yokai}** de rang **{rang}**\n> quantité : {number}\n----------------"
+            )
             self.bot.logger.warning(msg=f"{ctx.author.name} a utilisé le /give sur l'id {input_id} // yokai : {yokai} // rang : {rang} // x{number}")
 
         return await ctx.send(embed=sucess_embed)
@@ -670,10 +717,11 @@ class Admin_command(commands.Cog):
                     inv[class_id] -= 1
                 await save_inv(data=inv, id=input_id)
             
-        sucess_embed = discord.Embed(title=f"Le(s) Yo-Kai a été retiré {"du Médallium" if where=="medallium" else "de la sacoche"} de {input_id}",
-                                        color=discord.Color.green(),
-                                        description=f"**{yokai}** de rang **{rang}** \n> quantité : {number} "
-                                        )
+        sucess_embed = discord.Embed(
+            title=f'Le(s) Yo-Kai a été retiré {"du Médallium" if where == "medallium" else "de la sacoche"} de {input_id}',
+            color=discord.Color.green(),
+            description=f"**{yokai}** de rang **{rang}** \n> quantité : {number} "
+        )
         self.bot.logger.warning(msg=f"{ctx.author.name} a utilisé le /remove sur l'id {input_id}, le yokai {yokai}, la quantité {number}")
         return await ctx.send(embed=sucess_embed)
     
@@ -765,44 +813,7 @@ class Admin_command(commands.Cog):
         else:
             await ctx.send(f"{content}")
 
-    @commands.hybrid_command(name="recalc_event_yokai")
-    @Check.is_in_dev_team()
-    async def recalc_event_yokai(self, ctx:commands.Context):
-        """
-        A command that will change the class of all the event yo-kai
-        """
-        files = []
-        for file in os.listdir("./files/inventory"):
-            if file != ".gitignore":
-                file = file.removesuffix(".json")
-                int(file)
-                files.append(file)
-        for id in files:
-            inventory = await Cf.get_inv(id)
-            try:
-                inventory["Halloween"]
-            except KeyError:
-                inventory["Halloween"] = 0
-                inventory["Noël"] = 0
-                inventory["St-Valentin"] = 0
-                inventory["Printemps"] = 0
-                inventory["Pâques"] = 0
-                inventory["Estival"] = 0
-                inventory["Autre"] = 0
-            for yokai in inventory:
-                if not type(inventory[yokai]) == int and not type(inventory[yokai]) == float and inventory[yokai][0] == "SpecialS":
-                    if yokai in data.yokai_event_list:
-                        class_id = data.yokai_event_list[yokai]
-                        inventory[yokai][0] = class_id
-                    
-                        inventory["SpecialS"] -= 1
-                        inventory[class_id] += 1
-            await Cf.save_inv(inventory, id)
-        embed=discord.Embed(
-            title = "Tâche terminé",
-            description= ""
-        )
-        return await ctx.send(embed=embed)
+    
     
     @commands.hybrid_command(name="start_event")
     @Check.is_in_dev_team()
@@ -849,6 +860,7 @@ class Admin_command(commands.Cog):
         return await ctx.send(embed=embed)
     
     @commands.hybrid_command(name="event")
+    @Check.is_in_dev_team()
     async def event(self, ctx : commands.Context):
         """
         Permet de savoir quel évènement est en cours

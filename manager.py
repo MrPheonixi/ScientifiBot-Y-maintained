@@ -3,7 +3,8 @@ import time
 import os
 import aiohttp
 import asyncio
-VERSION = 3
+from bot_package import data
+VERSION = 4
 
 
 
@@ -901,6 +902,46 @@ def avent_manager():
     input("End of the program, press any key to go back to the main menu.")
 
 
+def recalc_event_yokai():
+    """
+    A command that will change the class of all the event yo-kai.
+    This was previously mutating the inventory while iterating over it, which can
+    skip entries and cause the event recalculation to behave inconsistently.
+    """
+    files = []
+    for file in os.listdir("./files/inventory"):
+        if file != ".gitignore":
+            file = file.removesuffix(".json")
+            try:
+                files.append(int(file))
+            except ValueError:
+                continue
+
+    for user_id in files:
+        inventory = get_inv(user_id)
+
+        for event_key in ["Halloween", "Noël", "St-Valentin", "Printemps", "Pâques", "Estival", "Automne", "Autre"]:
+            inventory.setdefault(event_key, 0)
+        inventory.setdefault("SpecialS", 0)
+
+        for yokai, value in list(inventory.items()):
+            if not isinstance(value, list) or len(value) < 2:
+                continue
+            if value[0] != "SpecialS":
+                continue
+            if yokai not in data.yokai_event_list:
+                continue
+
+            class_id = data.yokai_event_list[yokai]
+            inventory[yokai][0] = class_id
+            inventory.setdefault(class_id, 0)
+            inventory[class_id] += 1
+
+            if isinstance(inventory.get("SpecialS"), int):
+                inventory["SpecialS"] = max(0, inventory["SpecialS"] - 1)
+
+        save_inv(inventory, user_id)
+
 func_list = {
     1 : inv_info,
     2 : key_manager,
@@ -909,7 +950,8 @@ func_list = {
     5 : check,
     6 : adjust_id,
     7 : avent_manager,
-    8 : match_adjust
+    8 : match_adjust,
+    9 : recalc_event_yokai
 }
 
 line(35)
@@ -928,9 +970,10 @@ while True :
     print("[6] Adjust yokai ids")
     print("[7] Avent calendar manager")
     print("[8] match manager")
+    print("[9] Event yokai recalc")
     
     
-    choise_range = "1-8"
+    choise_range = "1-9"
     choise = input(f"Please select a number [{choise_range}] : ")
 
     if int(choise) in func_list.keys() :
