@@ -537,8 +537,8 @@ async def remove(input_id:int, yokai : str, rang : str, where:str, number : int 
 
     Args:
         input_id (int): The user's id
-        thing (str): the thing
-        rang (str): the thing class (the id format)
+        yokai (str): the yokai to remove
+        rang (str): the yokai class (the id format)
         where (str): where to remove, bag/medallium
         number (str, optional): how many. Defaults to '1'.
     """
@@ -596,55 +596,59 @@ async def remove(input_id:int, yokai : str, rang : str, where:str, number : int 
         await save_inv_t(data=inv, id=input_id)
 
 
-
 url = os.getenv("API_URL")
 headers = {"X-API-Token": os.getenv("API_TOKEN")}
 
 
 def api_enabled() -> bool:
-    return str(os.getenv("API_CONNECT", "")) #true or false
+    return str(os.getenv("API_CONNECT", "")).strip().lower() in {"1", "true", "yes", "on"}
+
+
+async def _post(route: str, payload: dict):
+    """Envoie à l'API. Ne doit JAMAIS faire planter le bot si l'API est down."""
+    if not api_enabled():
+        return
+    try:
+        async with httpx.AsyncClient() as client:
+            r = await client.post(f"{url}{route}", headers=headers, json=payload, timeout=5)
+            r.raise_for_status()
+    except Exception as e:
+        print(f"[API] {route} échec : {e}")
 
 
 async def api_post_pull(user_id, yokai, rang, methode):
-    if api_enabled():
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                f"{url}/ingest",
-                headers=headers,
-                json={"pulls": [{"methode": methode, "user_id": user_id, "yokai": yokai, "rang": rang, "time": time.time()}]},
-                timeout=5,
-            )
-            response.raise_for_status()
+    # /evenements ajoute aussi +1 à l'inventaire côté API (voir trier() dans main.py dans le code de l'api)
+    await _post("/evenements", {
+        "type": "pull",
+        "user_id": str(user_id),
+        "date": int(time.time()),
+        "donnees": {"methode": methode, "yokai": yokai, "rang": rang},
+    })
+
 
 async def api_post_inventaire(user_id, yokai, rang, quantite):
-    if api_enabled():
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                f"{url}/ingest",
-                headers=headers,
-                json={"inventaire": [{"user_id": user_id, "yokai": yokai, "rang": rang, "quantite": quantite}]},
-                timeout=5,
-            )
-            response.raise_for_status()
+    await _post("/inventaire", {
+        "user_id": str(user_id),
+        "yokai": yokai,
+        "rang": rang,
+        "quantite": int(quantite),
+    })
+
 
 async def api_post_event(event_TYPE, user_id, time):
-    if api_enabled():
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                f"{url}/event",
-                headers=headers,
-                json={"event_TYPE": event_TYPE, "user_id": user_id, "time": time},
-                timeout=5,
-            )
-            response.raise_for_status()
+    # le paramètre "time" masque le module time ici, c'est voulu : on ne s'en sert pas dans cette fonction
+    await _post("/event", {
+        "event_TYPE": event_TYPE,
+        "user_id": str(user_id),
+        "time": int(time),
+    })
+
 
 async def api_post_logs(user_id, code, error_time, command, trace):
-    if api_enabled():
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                f"{url}/logs",
-                headers=headers,
-                json={"user_id": user_id, "code": code, "time": error_time, "command": command, "trace": trace},
-                timeout=5,
-            )
-            response.raise_for_status()
+    await _post("/logs", {
+        "user_id": str(user_id),
+        "code": str(code),
+        "time": str(error_time),
+        "command": str(command),
+        "trace": str(trace),
+    })

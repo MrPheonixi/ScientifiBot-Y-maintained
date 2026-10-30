@@ -70,7 +70,7 @@ class_list = ['E', 'D', 'C', 'B', 'A', 'S', 'LegendaryS', "treasureS", "SpecialS
 proba_list = [0.4165, 0.2, 0.12, 0.12, 0.08, 0.04, 0.0075, 0.0075, 0.0075, 0.005, 0.0025, 0.0010]
 #                E     D     C     B     A     S      L       t       Sp      D       B      Sh
 golden_proba_list = [0.0, 0.0, 0.0, 0.3, 0.25, 0.2, 0.10, 0.10, 0.005, 0.025, 0.01, 0.01]
-
+#                     E    D    C    B     A    S    L      t     Sp     D      B    Sh
 #Get the full list
 """with open("./files/full_name_fr.json") as yk_list_full:
     yokai_list_full = fix_encoding(json.load(yk_list_full))"""
