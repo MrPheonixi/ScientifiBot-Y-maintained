@@ -2245,5 +2245,47 @@
         "slot": 1,
         "value1": 5,
         "_comment": "1% -> 5% de chance d'activer la terrheure"
+    },
+    "Citrouille sculpté": {
+        "name_en": null,
+        "id": "i1010",
+        "type": "obj",
+        "desc": "pas de description"
+    },
+    "Déguisement terrifiant": {
+        "name_en": null,
+        "id": "i1011",
+        "type": "obj",
+        "desc": "pas de description"
+    },
+    "Faux cercueil": {
+        "name_en": null,
+        "id": "i1012",
+        "type": "obj",
+        "desc": "pas de description"
+    },
+    "Squelette en plastique": {
+        "name_en": null,
+        "id": "i1013",
+        "type": "obj",
+        "desc": "pas de description"
+    },
+    "bol de bonbon": {
+        "name_en": null,
+        "id": "i1014",
+        "type": "obj",
+        "desc": "pas de description"
+    },
+    "Disque de musique \"Thriller\"": {
+        "name_en": null,
+        "id": "i1015",
+        "type": "obj",
+        "desc": "pas de description"
+    },
+    "Dragon Watch": {
+        "name_en": null,
+        "id": "i1016",
+        "type": "obj",
+        "desc": "pas de description"
     }
 }
