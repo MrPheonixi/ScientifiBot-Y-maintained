@@ -11,7 +11,15 @@
         "SpecialS" : "https://slimepunk.fr/bello/sby/static/rare.png",
         "DivinityS" : "https://slimepunk.fr/bello/sby/static/divinite.png",
         "Boss" : "https://slimepunk.fr/bello/sby/static/boss.png",
-        "Shiny" : "https://example.com/"
+        "Shiny" : "https://example.com/",
+        "Halloween" : "https://example.com/",
+        "Noël" : "https://example.com/",
+        "St-Valentin" : "https://example.com/",
+        "Printemps" : "https://example.com/",
+        "Pâques" : "https://example.com/",
+        "Estival" : "https://example.com/",
+        "Automne" : "https://example.com/",
+        "Autre" : "https://example.com/",
 
     },
     "emoji" : {

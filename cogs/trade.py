@@ -847,10 +847,10 @@ class Trade(commands.Cog):
         #Format the offered yokai
         offered_yokai = ""
         for asked_yokai in ton_yokai :
-            offered_yokai += f"> Le Yo-kai **{asked_yokai}** de rang **{await Cf.classid_to_class(author_inv[asked_yokai][0])}**\n "
+            offered_yokai += f"> Le Yo-kai **{asked_yokai}** de rang **{await Cf.classid_to_class(author_inv[asked_yokai][0])}** {a_ton_yokai[ton_yokai.index(asked_yokai)]} fois\n "
         offered_item = ""
         for asked_item in ton_item:
-            offered_item += f"> - **{asked_item}**"
+            offered_item += f"> - **{asked_item}** {a_ton_item[ton_item.index(asked_item)]} fois"
         
         #ADD the user to the queue
 

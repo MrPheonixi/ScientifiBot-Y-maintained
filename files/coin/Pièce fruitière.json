@@ -1,0 +1,25 @@
+{
+    "list": {
+        "Ananyan": ["yokai", 4],
+        "Pommnyan": ["yokai", 4],
+        "Pêchenyan": ["yokai", 4],
+        "Maranyan": ["yokai", 4],
+        "Vigninyan": ["yokai", 4],
+        "Pastènyan": ["yokai", 4],
+        "Duriannyan": ["yokai", 4],
+        "Melonyan": ["yokai", 4],
+        "Oranyan": ["yokai", 4],
+        "Kiwinyan": ["yokai", 4],
+        "Coconyan": ["yokai", 4],
+        "Citronyan": ["yokai", 4],
+        "Cerinyan": ["yokai", 4],
+        "Litchinyan": ["yokai", 4],
+        "Graines de pastèque": ["obj", 1],
+        "Graines de fraise": ["obj", 1],
+        "Graines de melon": ["obj", 1],
+        "Graines de raisin": ["obj", 1],
+        "Graines de kiwi": ["obj", 1],
+        "Graines d'orange": ["obj", 1],
+        "Le Fruit défendu": ["obj", 1]
+    }
+}

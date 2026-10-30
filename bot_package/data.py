@@ -245,4 +245,12 @@ class_to_point = {
     "DivinityS" : 32,
     "Boss" : 64,
     "Shiny" : 82,
+    "Halloween" : 24,
+    "Noël" : 24,
+    "St-Valentin" : 24,
+    "Printemps" : 24,
+    "Pâques" : 24,
+    "Estival" : 24,
+    "Automne" : 24,
+    "Autre" : 24
 }

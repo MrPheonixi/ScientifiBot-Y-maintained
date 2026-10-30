@@ -66,7 +66,7 @@ if True: #flemme of removing all this tab
                 #choose the Yo-kai in the class
                 Yokai_choice = random.choice(class_choice["yokai_list"])
         
-                while Yokai_choice in data.blacklist.get("yokai") :
+                while Yokai_choice in data.blacklist.get("yokai") or Yokai_choice in data.yokai_event_list:
                     Yokai_choice = random.choice(class_choice["yokai_list"])
                 Yokai_choice = Yokai_choice
                 description = f"Un magnifique yo-kai de rang {class_name}✨"
@@ -249,16 +249,18 @@ class shop(commands.Cog):
         if bag["daily_shop_data"][0] == True:   #check if the item was already bough
             embed = discord.Embed(
                 title="Achat impossible",
-                description="Vous avez déja acheté votre item quotidien. Réessayer demain.",
+                description="Vous avez déjà acheté votre item quotidien. Réessayez demain.",
                 color=discord.Color.red()
                 )
             return await ctx.send(embed=embed)
         
 
         elif balance >= price:
+            await Cf.save_bag(bag,ctx.author.id)
             await Cf.update_trophe_data(ctx.author.id, "buy", 1, "add")
             await Cf.update_trophe_data(ctx.author.id, "depense", price, "add")
             await Cf.trophe_check(ctx.author.id, ctx)
+            bag = await Cf.get_bag(ctx.author.id)
             if bag["daily_shop_data"][2] == "object":
                 item = bag["daily_shop_data"][5]
                 item_data = data.item.get(item, {})
