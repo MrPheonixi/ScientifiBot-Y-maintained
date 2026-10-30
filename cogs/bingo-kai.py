@@ -221,7 +221,7 @@ class Bingo_kai(commands.Cog):
                         class_id = data.yokai_data[element]["class_id"]
                         class_name = data.yokai_data[element]["class_name"]
                         break
-                await Cf.api_post_pull(ctx.author.id, item, class_id, "piece")
+                await Cf.api_post_pull(ctx.author.id, item, class_id, "piece", ctx.author.name)
 
 
                 yokai_embed = discord.Embed(
@@ -440,7 +440,7 @@ class Bingo_kai(commands.Cog):
                 
 
         Yokai_choice, class_name, class_id = await Cf.generateRandomYokai(ctx,proba = data.proba_list.copy(), treasure = True)
-        await Cf.api_post_pull(ctx.author.id, Yokai_choice, class_id, "pull")
+        await Cf.api_post_pull(ctx.author.id, Yokai_choice, class_id, "pull", ctx.author.name)
 
         
         if ctx.guild is not None:

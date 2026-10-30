@@ -69,6 +69,9 @@ class Admin_command(commands.Cog):
         inventory_entries = []
 
         for user_id in all_users:
+            user = self.bot.get_user(int(user_id)) or await self.bot.fetch_user(int(user_id))
+            await Cf.api_sync_user(user_id, user.name)
+
             inv = await Cf.get_inv(user_id)
             for key, value in inv.items():
                 if key in {"claim", "last_claim"}:

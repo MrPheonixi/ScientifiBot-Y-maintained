@@ -20,12 +20,14 @@ class button(discord.ui.View):
     def __init__(self, ctx):
         super().__init__(timeout=350)
         self.users_in = [ctx.author.id]
+        self.usernames = {ctx.author.id: ctx.author.name}
 
     @discord.ui.button(label='rejoindre la terrheure', style=discord.ButtonStyle.blurple, custom_id='join')
     async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
         if interaction.user.id not in self.users_in:
             await interaction.response.send_message("tu as rejoint la terr'heure !", ephemeral=True)
             self.users_in.append(interaction.user.id)
+            self.usernames[interaction.user.id] = interaction.user.name
         else:
             await interaction.response.send_message("tu es déjà dans la terr'heure...", ephemeral=True)
 
@@ -37,7 +39,7 @@ class Terrheure():
 
     async def terrheure(self,ctx:commands.Context):
         #post api
-        await cf.api_post_event("terrheure",ctx.author.id,time.time())
+        await cf.api_post_event("terrheure", ctx.author.id, time.time(), ctx.author.name)
         #defined the view(the button), the start of the embed, sent it and save his id
         view = button(ctx)
         embed = discord.Embed(title="La terr'heure a commencée !",
@@ -98,7 +100,9 @@ class Terrheure():
                     phrase = f"le yokai {gifted_yokai} de rang {reward["class"]}"
                     for id in view.users_in:
                         await Cf.add(id,gifted_yokai,reward["class"],"medallium")
-                        await cf.api_post_inventaire(id, gifted_yokai, reward["class"], 1)
+                        await cf.api_post_inventaire(
+                            id, gifted_yokai, reward["class"], 1, view.usernames[id]
+                        )
 
                 # if reward is a coin 
                 # choose a random coin in a list
@@ -117,7 +121,9 @@ class Terrheure():
                     phrase = f"le yokai {gifted_yokai} de rang {reward["rang"]}"
                     for id in view.users_in:
                         await Cf.add(id,gifted_yokai,reward["rang"],"medallium")
-                        await cf.api_post_inventaire(id, gifted_yokai, reward["rang"], 1)
+                        await cf.api_post_inventaire(
+                            id, gifted_yokai, reward["rang"], 1, view.usernames[id]
+                        )
 
                 # if reward is treasure
                 # give the selected treasure
