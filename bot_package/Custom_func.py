@@ -596,55 +596,69 @@ async def remove(input_id:int, yokai : str, rang : str, where:str, number : int 
         await save_inv_t(data=inv, id=input_id)
 
 
+
 url = os.getenv("API_URL")
 headers = {"X-API-Token": os.getenv("API_TOKEN")}
-
-
+ 
 def api_enabled() -> bool:
     return str(os.getenv("API_CONNECT", "")).strip().lower() in {"1", "true", "yes", "on"}
-
-
-async def _post(route: str, payload: dict):
-    """Envoie à l'API. Ne doit JAMAIS faire planter le bot si l'API est down."""
+ 
+ 
+async def _post(route: str, payload: dict) -> bool:
+    """Envoie à l'API. Ne doit JAMAIS faire planter le bot si l'API est down.
+    Renvoie True si l'API a bien accepté la requête, False sinon."""
     if not api_enabled():
-        return
+        return False
     try:
         async with httpx.AsyncClient() as client:
             r = await client.post(f"{url}{route}", headers=headers, json=payload, timeout=5)
             r.raise_for_status()
+        return True
     except Exception as e:
         print(f"[API] {route} échec : {e}")
-
-
-async def api_post_pull(user_id, yokai, rang, methode):
-    # /evenements ajoute aussi +1 à l'inventaire côté API (voir trier() dans main.py dans le code de l'api)
+        return False
+ 
+ 
+async def api_sync_user(user_id, username):
+    """Dit à l'API « cet id Discord a ce pseudo » (affiché sur le panel, l'id reste la clé).
+    Rien n'est gardé en mémoire : l'API met à jour la table users à chaque appel (si le pseudo
+    est identique, la ligne est simplement réécrite)."""
+    if not username:
+        return
+    await _post("/utilisateur", {"user_id": str(user_id), "username": str(username)})
+ 
+ 
+async def api_post_pull(user_id, yokai, rang, methode, username=None):
+    await api_sync_user(user_id, username)
     await _post("/evenements", {
         "type": "pull",
         "user_id": str(user_id),
         "date": int(time.time()),
         "donnees": {"methode": methode, "yokai": yokai, "rang": rang},
     })
-
-
-async def api_post_inventaire(user_id, yokai, rang, quantite):
+ 
+ 
+async def api_post_inventaire(user_id, yokai, rang, quantite, username=None):
+    await api_sync_user(user_id, username)
     await _post("/inventaire", {
         "user_id": str(user_id),
         "yokai": yokai,
         "rang": rang,
         "quantite": int(quantite),
     })
-
-
-async def api_post_event(event_TYPE, user_id, time):
-    # le paramètre "time" masque le module time ici, c'est voulu : on ne s'en sert pas dans cette fonction
+ 
+ 
+async def api_post_event(event_TYPE, user_id, time, username=None):
+    await api_sync_user(user_id, username)
     await _post("/event", {
         "event_TYPE": event_TYPE,
         "user_id": str(user_id),
         "time": int(time),
     })
-
-
-async def api_post_logs(user_id, code, error_time, command, trace):
+ 
+ 
+async def api_post_logs(user_id, code, error_time, command, trace, username=None):
+    await api_sync_user(user_id, username)
     await _post("/logs", {
         "user_id": str(user_id),
         "code": str(code),
