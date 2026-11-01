@@ -111,7 +111,7 @@ class Terrheure():
                     gifted_coin = random.choice(loot[recompense]["coin_list"])
                     phrase = f"{reward["amount"]} {gifted_coin}"
                     for id in view.users_in:
-                        await Cf.add(id, gifted_coin,"coin","bag", reward["amount"])
+                        await Cf.add(id, gifted_coin,"coin","bag", amount=reward["amount"])
 
                 # if reward is yokail (yokai list)
                 # choose a random yokai in this list and give him
