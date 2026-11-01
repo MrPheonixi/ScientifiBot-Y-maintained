@@ -99,9 +99,12 @@ class Terrheure():
                     gifted_yokai = random.choice(data.yokai_data[reward["class"]]["yokai_list"])
                     phrase = f"le yokai {gifted_yokai} de rang {reward["class"]}"
                     for id in view.users_in:
-                        await Cf.add(id,gifted_yokai,reward["class"],"medallium")
-                        await cf.api_post_inventaire(
-                            id, gifted_yokai, reward["class"], 1, view.usernames[id]
+                        await Cf.add(
+                            id,
+                            gifted_yokai,
+                            reward["class"],
+                            "medallium",
+                            username=view.usernames[id],
                         )
 
                 # if reward is a coin 
@@ -120,10 +123,7 @@ class Terrheure():
                     gifted_yokai = random.choice(reward["yokai_list"])
                     phrase = f"le yokai {gifted_yokai} de rang {reward["rang"]}"
                     for id in view.users_in:
-                        await Cf.add(id,gifted_yokai,reward["rang"],"medallium")
-                        await cf.api_post_inventaire(
-                            id, gifted_yokai, reward["rang"], 1, view.usernames[id]
-                        )
+                        await Cf.add(id,gifted_yokai,reward["rang"],"medallium",username=view.usernames[id],)
 
                 # if reward is treasure
                 # give the selected treasure
