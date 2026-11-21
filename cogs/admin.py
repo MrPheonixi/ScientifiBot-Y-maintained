@@ -574,7 +574,11 @@ class Admin_command(commands.Cog):
                             
                     #save the inv
                     await save_inv(data=inv, id=input_id)
-                
+
+            if where == "medallium":
+                target_user = self.bot.get_user(input_id)
+                await Cf.api_post_inventaire(input_id,yokai,class_id,number,target_user.name if target_user else None,)
+
             sucess_embed.add_field(
                 name=f'Yo-Kai ajouté(s) {"au Médallium" if where == "medallium" else "à la sacoche"} de {input_id}',
                 value=f"**{yokai}** de rang **{rang}**\n> quantité : {number}\n----------------"

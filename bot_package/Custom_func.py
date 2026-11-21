@@ -1,5 +1,6 @@
 import os
 import json
+from typing import Optional
 import bot_package.data as data
 import bot_package.economy as eco
 import bot_package.treasure_tool as tt
@@ -436,7 +437,7 @@ async def create_trophe_data(user: int):
 ## Data management part ##
 ##########################
 
-async def add(input_id : int, thing : str, rang : str, where:str, rank_orbe: bool = False, number : str = '1'):
+async def add(input_id: int,thing: str,rang: str,where: str,rank_orbe: bool = False,number: str = '1',username: Optional[str] = None,):
     """A function that add things to a Medallium or a bag, works like the give command
 
     Args:
@@ -529,7 +530,10 @@ async def add(input_id : int, thing : str, rang : str, where:str, rank_orbe: boo
                     
             #save the inv
             await save_inv_t(data=inv, id=input_id)
-        
+
+    if where == "medallium":
+        await api_post_inventaire(input_id, thing, rang, number, username)
+
             
 async def remove(input_id:int, yokai : str, rang : str, where:str, number : int = 1): 
     """
