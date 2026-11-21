@@ -7,6 +7,7 @@ import bot_package.Custom_func as Cf
 import bot_package.Check as Check
 import bot_package.data as data
 import bot_package.economy as eco
+import json
 
 from typing import Literal
 import time
@@ -874,6 +875,23 @@ class Admin_command(commands.Cog):
             events+=f"{event} "
         embed = discord.Embed(title = f"Event: {events}")
         return await ctx.send(embed=embed)
+
+    @commands.hybrid_command(name="import_event_inv")
+    @Check.is_in_dev_team()
+    async def import_event_inv(self, ctx : commands.Context,user:discord.Member,file: discord.Attachment):
+        file_content = await file.read()
+        file_content = json.loads(file_content.decode("utf-8"))
+        for objet in file_content["objet"]:
+            await Cf.add(user.id,objet,"obj","bag",number=file_content["objet"][objet])
+        for coin in file_content["coin"]:
+            await Cf.add(user.id,coin,"coin","bag",number=file_content["coin"][coin])
+        for yokai in file_content["yokai"]:
+            for rang in ["Halloween","S","treasureS","SpecialS","Boss","Shiny"]:
+                if yokai in data.yokai_data[rang]["yokai_list"]:
+                    yokai_rang=rang
+            await Cf.add(user.id,yokai,yokai_rang,"medallium",number=file_content["yokai"][yokai])
+        await ctx.send(f"Terminé\n-# oui j'avais la flemme de faire un beau embed")
+
 
 async def setup(bot : commands.Bot ) -> None:
     await bot.add_cog(Admin_command(bot))

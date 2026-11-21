@@ -620,7 +620,7 @@ class Medallium(commands.Cog) :
         #define the emoji list
         emoji = data.emoji
         yokai_data = data.yokai_data
-        list_len = data.event_list_len
+        list_len = data.list_len
         image_link = data.image_link
 
 
