@@ -63,13 +63,22 @@ with open("./files/yokai_list.json") as yokai_list:
         "DivinityS" : len(yokai_data["DivinityS"]["yokai_list"]),
         "SpecialS" : len(yokai_data["SpecialS"]["yokai_list"]),
         "Boss" : len(yokai_data["Boss"]["yokai_list"]),
-        "Shiny" : len(yokai_data["Shiny"]["yokai_list"])
+        "Shiny" : len(yokai_data["Shiny"]["yokai_list"]),
+        "Halloween" : len(yokai_data["Halloween"]["yokai_list"]),
+        "Noël" : len(yokai_data["Noël"]["yokai_list"]),
+        "St-Valentin" : len(yokai_data["St-Valentin"]["yokai_list"]),
+        "Printemps" : len(yokai_data["Printemps"]["yokai_list"]),
+        "Pâques" : len(yokai_data["Pâques"]["yokai_list"]),
+        "Estival" : len(yokai_data["Estival"]["yokai_list"]),
+        "Automne" : len(yokai_data["Automne"]["yokai_list"]),
+        "Autre" : len(yokai_data["Autre"]["yokai_list"])
+        
     }
 #Make the class list and the proba    
-class_list = ['E', 'D', 'C', 'B', 'A', 'S', 'LegendaryS', "treasureS", "SpecialS", 'DivinityS', "Boss", "Shiny"]
-proba_list = [0.4165, 0.2, 0.12, 0.12, 0.08, 0.04, 0.0075, 0.0075, 0.0075, 0.005, 0.0025, 0.0010]
+class_list = ['E', 'D', 'C', 'B', 'A', 'S', 'LegendaryS', "treasureS", "SpecialS", 'DivinityS', "Boss", "Shiny","Halloween","Noël","St-Valentin","Printemps","Pâques","Estival","Automne","Autre"]
+proba_list = [0.4165, 0.2, 0.12, 0.12, 0.08, 0.04, 0.0075, 0.0075, 0.0075, 0.005, 0.0025, 0.0010, 0, 0, 0, 0, 0, 0, 0, 0]
 #                E     D     C     B     A     S      L       t       Sp      D       B      Sh
-golden_proba_list = [0.0, 0.0, 0.0, 0.3, 0.25, 0.2, 0.10, 0.10, 0.005, 0.025, 0.01, 0.01]
+golden_proba_list = [0.0, 0.0, 0.0, 0.3, 0.25, 0.2, 0.10, 0.10, 0.005, 0.025, 0.01, 0.01, 0, 0, 0, 0, 0, 0, 0, 0]
 #                     E    D    C    B     A    S    L      t     Sp     D      B    Sh
 #Get the full list
 """with open("./files/full_name_fr.json") as yk_list_full:
@@ -159,8 +168,8 @@ daily_shop = open_json("./files/daily_shop.json")
 
 fusion = open_json("./files/fusion.json")
 
-yokai_event_list = open_json("./files/yokai_event.json")
-
+yokai_event_list = open_json("./files/yokai_event_list.json")
+"""
 with open("./files/yokai_event.json") as yokai_event_list:
     yokai_event_data = fix_encoding(json.load(yokai_event_list))
     event_list_len = {
@@ -175,11 +184,13 @@ with open("./files/yokai_event.json") as yokai_event_list:
     }
 
 yokai_event_list = open_json("./files/yokai_event_list.json")
-
+"""
 current_event = open_json("./files/current_event.json")["current_event"]
-
-if current_event != None:
-    list_len["SpecialS"] -= len(yokai_event_data[current_event]["yokai_list"])
+index_event = {"Halloween":12,"Noël":13,"St-Valentin":14,"Printemps":15,"Pâques":16,"Estival":17,"Automne":18}
+if current_event != []:
+    proba_list[8] -= 0.0025
+    for event in current_event:
+        proba_list[index_event[event]] += 10.0025/len(current_event)
 
 
 trophe_data = open_json("./files/trophe.json")

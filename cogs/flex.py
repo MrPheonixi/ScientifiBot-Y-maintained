@@ -26,7 +26,7 @@ class flex(commands.Cog):
 
         yokai_names = {
             _normalize_yokai_name(yokai)
-            for yokai_data in (*data.yokai_data.values(), *data.yokai_event_data.values())
+            for yokai_data in (data.yokai_data.values())
             for yokai in yokai_data["yokai_list"]
         }
         tag_names = {

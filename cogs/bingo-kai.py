@@ -452,18 +452,18 @@ class Bingo_kai(commands.Cog):
                 f"Executed bingo-kai command by {ctx.author} (ID: {ctx.author.id}) in DMs // He had '{Yokai_choice}' / Rank: {class_name}"
             )
 
-        if Yokai_choice in data.yokai_event_list:
+        """if Yokai_choice in data.yokai_event_list:
             yokai_embed = discord.Embed(
                 title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
                 description=f"Félicitations il est de rang **{class_name}**",
                 color=discord.Color.from_str(data.yokai_event_data[class_id]["color"])
             )
-        else:
-            yokai_embed = discord.Embed(
-                title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
-                description=f"Félicitations il est de rang **{class_name}**",
-                color=discord.Color.from_str(data.yokai_data[class_id]["color"])
-            )
+        else:"""
+        yokai_embed = discord.Embed(
+            title=f"Vous avez eu le Yo-kai **{Yokai_choice}** ✨ ",
+            description=f"Félicitations il est de rang **{class_name}**",
+            color=discord.Color.from_str(data.yokai_data[class_id]["color"])
+        )
         yokai_embed.set_thumbnail(url=data.image_link[class_id])
         
         #define the id and so the api request to the image
@@ -656,8 +656,8 @@ class Bingo_kai(commands.Cog):
 
         await Cf.update_trophe_data(ctx.author.id, "Halloween", inventory.get("Halloween", 0), "set")
         await Cf.update_trophe_data(ctx.author.id, "Noel", inventory.get("Noël", 0), "set")
-        await Cf.update_trophe_data(ctx.author.id, "Printemps", inventory.get("St-Valentin", 0), "set")
-        await Cf.update_trophe_data(ctx.author.id, "Valentin", inventory.get("Printemps", 0), "set")
+        await Cf.update_trophe_data(ctx.author.id, "Printemps", inventory.get("Printemps", 0), "set")
+        await Cf.update_trophe_data(ctx.author.id, "Valentin", inventory.get("St-Valentin", 0), "set")
         await Cf.update_trophe_data(ctx.author.id, "Paques", inventory.get("Pâques", 0), "set")
         await Cf.update_trophe_data(ctx.author.id, "Estival", inventory.get("Estival", 0), "set")
 

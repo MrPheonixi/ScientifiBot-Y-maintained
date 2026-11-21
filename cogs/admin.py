@@ -825,41 +825,37 @@ class Admin_command(commands.Cog):
         """
         Permet de commencer l'évènement spécifié
         """
-        data.current_event = event
+        data.current_event.append(event)
         current_event = data.open_json("./files/current_event.json")
-        current_event["current_event"] = event
+        current_event["current_event"].append(event)
         data.save_json("./files/current_event.json", current_event)
         embed = discord.Embed(
             title = f"Évènement {event} commencé."
         )
-        yokai_list = data.open_json("./files/yokai_list.json")
-        for yokai in data.yokai_event_data[event]["yokai_list"]:
-            yokai_list["SpecialS"]["yokai_list"].append(yokai)
-            data.yokai_data["SpecialS"]["yokai_list"].append(yokai)
-        data.save_json("./files/yokai_list.json", yokai_list)
+        base_proba = [0.4165, 0.2, 0.12, 0.12, 0.08, 0.04, 0.0075, 0.0075, 0.0075, 0.005, 0.0025, 0.0010, 0, 0, 0, 0, 0, 0, 0, 0]
+        index_event = {"Halloween":12,"Noël":13,"St-Valentin":14,"Printemps":15,"Pâques":16,"Estival":17,"Automne":18}
+        if current_event["current_event"] != []:
+            base_proba[8] -= 0.0025
+            for event in current_event["current_event"]:
+                base_proba[index_event[event]] += 0.0025/len(current_event["current_event"])
+        data.proba_list=base_proba
         
         return await ctx.send(embed=embed)
     
     @commands.hybrid_command(name="end_event")
     @Check.is_in_dev_team()
-    async def end_event(self, ctx:commands.Context):
+    @app_commands.autocomplete(event=event_autcomplete)
+    async def end_event(self, ctx:commands.Context, event: str):
         """
-        Permet de terminer l'évènement en cour.
+        Permet de terminer l'évènement sélectionné.
         """
-        event = data.current_event
-        data.current_event = None
+        data.current_event.remove(event)
         current_event = data.open_json("./files/current_event.json")
-        current_event["current_event"] = None
+        current_event["current_event"] = data.current_event
         data.save_json("./files/current_event.json",current_event)
         embed = discord.Embed(
             title = f"Évènement {event} terminé."
         )
-        yokai_list = data.open_json("./files/yokai_list.json")
-        for yokai in data.yokai_event_data[event]["yokai_list"]:
-            yokai_list["SpecialS"]["yokai_list"].remove(yokai)
-            data.yokai_data["SpecialS"]["yokai_list"].remove(yokai)
-        data.save_json("./files/yokai_list.json", yokai_list)
-
         return await ctx.send(embed=embed)
     
     @commands.hybrid_command(name="event")
@@ -868,7 +864,11 @@ class Admin_command(commands.Cog):
         """
         Permet de savoir quel évènement est en cours
         """
-        embed = discord.Embed(title = f"Event: {data.current_event}")
+        current_event = data.current_event
+        events=""
+        for event in current_event:
+            events+=f"{event} "
+        embed = discord.Embed(title = f"Event: {events}")
         return await ctx.send(embed=embed)
 
 async def setup(bot : commands.Bot ) -> None:

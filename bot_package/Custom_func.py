@@ -88,10 +88,10 @@ async def classid_to_class(id:str, reverse : bool = False)->str:
         try:
             return data.yokai_data[id]["class_name"]
         except KeyError:
-            try:
-                return data.yokai_event_data[id]["class_name"]
-            except KeyError:
-                return asset_for_class_id_to_class[id]
+            #try:
+            #    return data.yokai_event_data[id]["class_name"]
+            #except KeyError:
+            return asset_for_class_id_to_class[id]
         
     else :
         for classes in data.yokai_data :
@@ -101,9 +101,9 @@ async def classid_to_class(id:str, reverse : bool = False)->str:
         for item in asset_for_class_id_to_class :
             if asset_for_class_id_to_class[item] == id :
                 return item
-        for classes in data.yokai_event_data :
-            if data.yokai_event_data[classes]["class_name"] == id:
-                return classes
+        #for classes in data.yokai_event_data :
+        #    if data.yokai_event_data[classes]["class_name"] == id:
+        #        return classes
     #return nothing if the id or the name was not fund    
     return ""
 
@@ -258,7 +258,7 @@ async def generateRandomYokai(ctx, proba: list, treasure: bool = False):
     treasure : If treasure should count for the probabilities
     return (in this order): The yo-kai, the class name and the class id
     """
-    
+    print(proba)
     classlist = data.class_list
 
     if treasure == True:
@@ -297,10 +297,10 @@ async def generateRandomYokai(ctx, proba: list, treasure: bool = False):
         Yokai_choice = random.choice(class_choice["yokai_list"])
     Yokai_choice = Yokai_choice
 
-    if Yokai_choice in data.yokai_event_list:
+    """if Yokai_choice in data.yokai_event_list:
         class_id = data.yokai_event_list[Yokai_choice]
         class_name = data.yokai_event_list[Yokai_choice]
-
+    """
     return Yokai_choice, class_name, class_id
 
 

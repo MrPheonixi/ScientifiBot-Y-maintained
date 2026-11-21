@@ -9,76 +9,6 @@ from datetime import datetime
 
 
 
-
-
-async def give(self, input_id : str, yokai : str, rang : str, where : str, number : str = '1'):
-
-        
-        if where == "bag":
-            inv = await Cf.get_bag(input_id)
-            default_inv = data.default_bag.copy()
-            async def save_inv(data, id):
-                await Cf.save_bag(data=data, id=id)
-            
-        elif where == "medallium":
-            inv = await Cf.get_inv(input_id)
-            default_inv = data.default_medaillum.copy()
-            async def save_inv(data, id):
-                await Cf.save_inv(data=data, id=id)
-
-        try :
-            number = int(number)
-        except :
-            pass
-        
-        if rang == "json-mod" :
-            return # Prevent using json-mod in the calendar
-        
-        
-        if rang == "claim":
-            #In case they are trying to give claims
-            
-            inv = await Cf.get_inv(input_id)
-            
-            if inv == {}:
-                inv = data.default_medaillum.copy()
-
-            inv["claim"] = number
-            await save_inv(inv, input_id)
-            return
-        
-        
-        class_name = rang
-        class_id = await Cf.classid_to_class(class_name, True)
-
-        if inv == {}:
-            inv = default_inv
-            inv[yokai] = [class_id]
-            inv[class_id] = 1
-            if not number == 1 :
-                inv[yokai].append(int(number))
-            await save_inv(data=inv, id=input_id)
-            
-        else :
-            for _ in range(number) :
-                try:
-                    inv[yokai]
-                    try:
-                        inv[yokai][1] += 1
-                    except :
-                        inv[yokai].append(2)
-                except KeyError:
-                    inv[yokai] = [class_id]
-                    try:
-                        inv[class_id] += 1
-                    except:
-                        inv[class_id] = 1 
-                await save_inv(data=inv, id=input_id)
-
-
-
-
-
 class event(commands.Cog):
 
     def __init__(self, bot):
@@ -122,9 +52,10 @@ class event(commands.Cog):
             rang = gift[1]
             where = gift[2]
             amount = gift[3] if len(gift) > 3 else 1
+            amount=int(amount)
 
             if where in ["medallium","bag"]:
-                await give(self, str(ctx.author.id), yokai, rang, where, str(amount))
+                await Cf.add(ctx.author.id, yokai, rang, where, number=amount)
                 avent_data["user_day"][str(days)] += 1
                 data.save_json(str("./files/avent.json"), avent_data)
                 

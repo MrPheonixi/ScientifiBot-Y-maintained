@@ -35,6 +35,7 @@ async def add(user_id: int, amount: int) -> None:
     if amount > 0:
         data.MONEY_DATA[f"{user_id}_tt"] += amount
     data.save_json("./files/monnaie.json", data.MONEY_DATA)
+    await Cf.update_trophe_data(user_id, "orbes", amount, "add")
 
 # used in the code to get the balance of a specific user
 async def get_balance(user_id: int) -> int:

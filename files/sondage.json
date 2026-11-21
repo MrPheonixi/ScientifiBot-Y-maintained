@@ -1,12 +1,13 @@
 {
   "today_user": [
-    "1363485177279414455"
+    "910567125654048799",
+    "1305497828788928544"
   ],
-  "last_day": "2026-10-05",
-  "last_selection1": "Moqua glacé",
-  "last_selection2": "Ebisu",
-  "choice1": 0,
-  "choice2": 1,
+  "last_day": "2026-11-10",
+  "last_selection1": "Paradoxa",
+  "last_selection2": "Nonjuan",
+  "choice1": 2,
+  "choice2": 0,
   "current_stage": 1,
   "1": [
     "Amoiz",
@@ -503,7 +504,6 @@
     "Méphito",
     "Nihilo",
     "Nimpégase",
-    "Nonjuan",
     "Nuiroir",
     "Nyansès II",
     "Nénunoko",
@@ -513,7 +513,6 @@
     "Padelou",
     "Pain Surprise",
     "Pandanoko",
-    "Paradoxa",
     "Parantonn",
     "Pardomino",
     "Passpa",
@@ -1012,6 +1011,7 @@
     "Rouminet",
     "Feulion",
     "Dragô Printanier",
-    "Gargaros (Forme amicale)"
+    "Gargaros (Forme amicale)",
+    "Ebisu"
   ]
 }
