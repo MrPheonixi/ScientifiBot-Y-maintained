@@ -119,7 +119,7 @@ class Terrheure():
                 # if reward is yokail (yokai list)
                 # choose a random yokai in this list and give him
                 # use a shorter version of give in admin cog
-                elif reward["type"] == "yokail":
+                elif reward["type"] == "yokair":
                     gifted_yokai = random.choice(reward["yokai_list"])
                     phrase = f"le yokai {gifted_yokai} de rang {reward["rang"]}"
                     for id in view.users_in:
