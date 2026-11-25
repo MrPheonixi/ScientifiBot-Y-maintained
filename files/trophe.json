@@ -150,11 +150,11 @@
         "condition" : "fusion",
         "value" : 10,
         "type" : "argent",
-        "obtention" : "Faire 10 fusions.",
+        "obtention" : "Faire 10 fusions différentes.",
         "categorie" : "Fusion"
     },
     "Trophée fous des fusion" : {
-        "condition" : "fusion différentes.",
+        "condition" : "fusion",
         "value" : 31,
         "type" : "or",
         "obtention" : "Faire 31 fusions différentes.",

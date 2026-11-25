@@ -173,7 +173,7 @@ index_event = {"Halloween":12,"Noël":13,"St-Valentin":14,"Printemps":15,"Pâque
 if current_event != []:
     proba_list[8] -= 0.0025
     for event in current_event:
-        proba_list[index_event[event]] += 10.0025/len(current_event)
+        proba_list[index_event[event]] += 0.0025/len(current_event)
 
 
 trophe_data = open_json("./files/trophe.json")

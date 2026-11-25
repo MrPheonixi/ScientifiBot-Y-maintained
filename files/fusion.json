@@ -438,7 +438,7 @@
         }
     },
     "Sale de bain,Essence maléfique":{
-        "Sale de bain " : ["yokai","D"],
+        "Sale de bain" : ["yokai","D"],
         "Essence maléfique" : ["obj"],
         "Result" : {
             "Gale de bain" : ["yokai","C"]
